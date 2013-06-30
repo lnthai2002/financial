@@ -1,3 +1,9 @@
+#actions 
+  = link_to_unless_current('List', expenses_path)
+  = link_to_unless_current('Add', new_expense_path)
+  = link_to_unless_current('Edit', edit_expense_path(@expense)) if (@expense && !@expense.new_record?)
+  = link_to_unless_current('Detail', expense_path(@expense)) if (@expense && !@expense.new_record?)
+
 = form_tag(:id=>'select_month') do
   %table
     %tr
