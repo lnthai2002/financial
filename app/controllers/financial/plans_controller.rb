@@ -2,6 +2,8 @@ require_dependency "financial/application_controller"
 
 module Financial
   class PlansController < ApplicationController
+    set_tab :planning
+
     def index
       person = Person.where(:email=>session[:cas_user]).first
       @plan = Plan.new

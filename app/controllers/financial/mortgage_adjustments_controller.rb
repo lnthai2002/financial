@@ -2,6 +2,7 @@ require_dependency "financial/application_controller"
 
 module Financial
   class MortgageAdjustmentsController < ApplicationController
+    set_tab :planning
     #update or create a new adjustment if an adjustment already exist for the given month, update it
     def create
       @adjustment = MortgageAdj.where(:mortgage_id=>params[:adjustment][:mortgage_id],:month=>params[:adjustment][:month]).first
