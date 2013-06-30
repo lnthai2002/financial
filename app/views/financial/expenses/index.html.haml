@@ -11,7 +11,7 @@
     - @summaries.each_pair do |category,total|
       %tr{:class=>cycle('even', 'odd')}
         %th=ExpType.get_desc(category)
-        %td{:align=>'right'}= number_to_currency(total)
+        %td{:align=>'right'}= number_to_currency(Money.new(total))
 
 %fieldset
   %legend Curent month

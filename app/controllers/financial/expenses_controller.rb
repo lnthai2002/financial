@@ -21,7 +21,7 @@ module Financial
       #inclusive search
       @expenses = Expense.find(:all, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date, end_date], :order=>:exp_date)
       @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date, end_date]))
-      @summaries = Money.new(Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month, end_date.prev_month], :group=>:exp_type_id))
+      @summaries = Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month, end_date.prev_month], :group=>:exp_type_id)
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @expenses }
