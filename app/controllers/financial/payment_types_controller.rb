@@ -2,6 +2,8 @@ require_dependency "financial/application_controller"
 
 module Financial
   class PaymentTypesController < ApplicationController
+    #usecase tab
+    set_tab :daily_tracking
     #Service tab
     set_tab :payment_type
     #Resource tab: payment_type

@@ -2,6 +2,8 @@ require_dependency "financial/application_controller"
 
 module Financial
   class ExpensesController < ApplicationController
+    #usecase tab
+    set_tab :daily_tracking
     #Service tab
     set_tab :expense
     #Resource tab
