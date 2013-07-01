@@ -1,8 +1,3 @@
-  = link_to_unless_current('List', payment_types_path)
-  = link_to_unless_current('Add', new_payment_type_path)
-  = link_to_unless_current('Edit', edit_payment_type_path(@payment_type)) if (@payment_type && !@payment_type.new_record?)
-  = link_to_unless_current('Detail', payment_type_path(@payment_type)) if (@payment_type && !@payment_type.new_record?)
-
 %table
   -@payment_types.each do |payment_type| %>
     %tr

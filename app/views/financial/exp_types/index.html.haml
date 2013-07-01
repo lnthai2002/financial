@@ -1,7 +1,3 @@
-  = link_to_unless_current('List', exp_types_path)
-  = link_to_unless_current('Add', new_exp_type_path)
-  = link_to_unless_current('Edit', edit_exp_type_path(@exp_type)) if (@exp_type && !@exp_type.new_record?)
-  = link_to_unless_current('Detail', exp_type_path(@exp_type)) if (@exp_type && !@exp_type.new_record?)
 %table
   %tr
   	%th Description
