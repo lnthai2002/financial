@@ -1,0 +1,13 @@
+#actions_nav
+  -if current_tab?(:expenses,:daily_resources)
+    = tabs_tag :namespace => :expense do |tab|
+      = tab.list 'List', expenses_path
+      = tab.add 'Add', new_expense_path
+  -elsif current_tab?(:expense_types,:daily_resources)
+    = tabs_tag :namespace => :expense_type do |tab|
+      = tab.list 'List', exp_types_path
+      = tab.add 'Add', new_exp_type_path
+  -elsif current_tab?(:payment_types,:daily_resources)
+    = tabs_tag :namespace => :payment_type do |tab|
+      = tab.list 'List', payment_types_path
+      = tab.add 'Add', new_payment_type_path

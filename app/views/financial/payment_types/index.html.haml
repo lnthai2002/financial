@@ -1,0 +1,5 @@
+%table
+  -@payment_types.each do |payment_type|
+    %tr
+      %td= link_to 'Show', payment_type
+      %td= link_to 'Destroy', payment_type, confirm: 'Are you sure?', method: :delete

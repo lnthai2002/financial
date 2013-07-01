@@ -1,0 +1,13 @@
+%table
+  %tr
+    %th Description
+    %th &nbsp;
+  -@exp_types.each do |e|
+    %tr
+      %td= e.description
+      %td
+        = link_to 'Show', e
+        |
+        = link_to 'Edit', edit_exp_type_path(e)
+        |
+        = link_to 'Destroy', e, :confirm => 'Are you sure?', :method => :delete

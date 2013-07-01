@@ -2,6 +2,16 @@ require_dependency "financial/application_controller"
 
 module Financial
   class ExpensesController < ApplicationController
+    #usecase tabs
+    set_tab :daily_tracking, :usecases, :only => %w(index show new edit)
+    #resource tabs
+    set_tab :expenses, :daily_resources, :only => %w(index show new edit)
+    #action tabs
+    set_tab :list, :expense, :only => %w(index)
+    set_tab :show, :expense, :only => %w(show)
+    set_tab :new, :expense, :only => %w(new)
+    set_tab :edit, :expense, :only => %w(edit)
+=begin
     #Service tab
     set_tab :expense
     #Resource tab
@@ -9,7 +19,7 @@ module Financial
     #sub-tab, each sub-tab coresponse to one action, they belong to the namespace 'expense_actions'
     set_tab :list, :expense_actions, :only => %w(index)
     set_tab :add, :expense_actions, :only => %w(new)
-    
+=end
     # GET /expenses
     # GET /expenses.json
     def index
@@ -20,8 +30,8 @@ module Financial
       end_date = begin_date.end_of_month
       #inclusive search
       @expenses = Expense.find(:all, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date, end_date], :order=>:exp_date)
-      @monthly_total = Expense.sum(:amount, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date, end_date])
-      @summaries = Expense.sum(:amount, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month, end_date.prev_month], :group=>:exp_type_id)
+      @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date, end_date]))
+      @summaries = Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month, end_date.prev_month], :group=>:exp_type_id)
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @expenses }
