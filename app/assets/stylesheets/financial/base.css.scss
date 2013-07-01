@@ -9,13 +9,7 @@ td {text-align:right}
 #errorExplanation{
   h2{background-color:#D80000; color:White}
 }
-#usecases{
-  li{display: inline;list-style-type: none;padding-right: 10px}
-}
-#resources{
-  li{display: inline;list-style-type: none;padding-right: 10px}
-}
-#actions{
+#usecases_nav,#resources_nav,#actions_nav{
   li{display: inline;list-style-type: none;padding-right: 10px}
 }
 .current {color:orange; font-weight:bold; font-style:italic;}

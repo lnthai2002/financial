@@ -1,4 +1,4 @@
-#resources
+#resources_nav
   -if current_tab?(:planning,:usecases)
     = tabs_tag :namespace => :plans do |tab|
       = tab.list 'List', plans_path
@@ -8,4 +8,4 @@
       = tab.expense_types 'Categories', exp_types_path
       = tab.payment_types 'Payment methods', payment_types_path
 
-=render :partial=>"actions"
+=render :partial=>"actions_nav"
