@@ -1,15 +1,8 @@
-legend{color:orange; font-weight:bold}
 .info {background-color:LightGray}
 th {text-align:left}
 td {text-align:right}
 .close-button{text-align:right}
-.odd {background-color:LightGray}
-.even{background-color:White}
 .field_with_errors{border-style:solid; border-color:Red}
 #errorExplanation{
   h2{background-color:#D80000; color:White}
 }
-#usecases_nav,#resources_nav,#actions_nav{
-  li{display: inline;list-style-type: none;padding-right: 10px}
-}
-.current {color:orange; font-weight:bold; font-style:italic;}
