@@ -2,11 +2,15 @@ require_dependency "financial/application_controller"
 
 module Financial
   class ExpensesController < ApplicationController
-    #usecase tab
+    #usecase tabs
     set_tab :daily_tracking, :usecases, :only => %w(index show new edit)
-    
-    #resources tab
+    #resource tabs
     set_tab :expenses, :daily_resources, :only => %w(index show new edit)
+    #action tabs
+    set_tab :list, :expense, :only => %w(index)
+    set_tab :show, :expense, :only => %w(show)
+    set_tab :new, :expense, :only => %w(new)
+    set_tab :edit, :expense, :only => %w(edit)
 =begin
     #Service tab
     set_tab :expense
