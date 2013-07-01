@@ -3,7 +3,10 @@ require_dependency "financial/application_controller"
 module Financial
   class ExpTypesController < ApplicationController
     #usecase tab
-    set_tab :daily_tracking
+    set_tab :daily_tracking, :usecases, :only => %w(index show new edit)
+    #resources tab
+    set_tab :expense_types, :daily_resources, :only => %w(index show new edit)
+=begin
     #Service tab
     set_tab :expense_type
     #resource tab
@@ -11,6 +14,7 @@ module Financial
     #action tab, each action tab correspond to one action, they belong to the namespace 'expense_type_acrtions'
     set_tab :list, :expense_type_actions, :only => %w(index)
     set_tab :add, :expense_type_actions, :only => %w(new)
+=end
     # GET /exp_types
     # GET /exp_types.json
     def index

@@ -1,7 +1,6 @@
 #usecases
-  = tabs_tag do |tab|
+  = tabs_tag :namespace => :usecases do |tab|
     = tab.daily_tracking 'Daily tracking', expenses_path
-  
     = tab.planning 'Planning', plans_path
 
 =render :partial=>"actions"

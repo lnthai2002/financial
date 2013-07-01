@@ -1,8 +1,9 @@
 #actions
   %ul
-    -if current_tab == 'planning'
+    -if current_tab?(:planning,:usecases)
       %li= link_to_unless_current('List', expenses_path)
-    -elsif current_tab == 'daily_tracking'
-      = tabs_tag :namespace => :expense_actions do |tab|
-        = tab.list 'List', expenses_path
-        = tab.add 'Add', new_expense_path
+    -elsif current_tab?(:daily_tracking, :usecases)
+      = tabs_tag :namespace => :daily_resources do |tab|
+        = tab.expenses 'Expenses', expenses_path
+        = tab.expense_types 'Categories', exp_types_path
+        = tab.payment_types 'Payment methods', payment_types_path

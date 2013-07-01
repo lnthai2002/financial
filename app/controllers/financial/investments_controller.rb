@@ -2,8 +2,6 @@ require_dependency "financial/application_controller"
 
 module Financial
   class InvestmentsController < ApplicationController
-    set_tab :planning
-
     #load the investment, set the virtual attributes: alt_rate, alt_monthly_dep, alt_length
     def update
       @investment = Investment.find(params[:id])

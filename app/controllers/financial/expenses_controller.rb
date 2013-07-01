@@ -3,7 +3,11 @@ require_dependency "financial/application_controller"
 module Financial
   class ExpensesController < ApplicationController
     #usecase tab
-    set_tab :daily_tracking
+    set_tab :daily_tracking, :usecases, :only => %w(index show new edit)
+    
+    #resources tab
+    set_tab :expenses, :daily_resources, :only => %w(index show new edit)
+=begin
     #Service tab
     set_tab :expense
     #Resource tab
@@ -11,7 +15,7 @@ module Financial
     #sub-tab, each sub-tab coresponse to one action, they belong to the namespace 'expense_actions'
     set_tab :list, :expense_actions, :only => %w(index)
     set_tab :add, :expense_actions, :only => %w(new)
-    
+=end
     # GET /expenses
     # GET /expenses.json
     def index

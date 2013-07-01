@@ -4,7 +4,8 @@ module Financial
   class FinancesController < ApplicationController
     skip_before_filter :check_user_finance, :only => [:new, :create]
 
-    set_tab :planning
+    #usecase tab
+    set_tab :planning, :usecases, :only => %w(new)
 
     def new
       person = Person.where(:email=>session[:cas_user]).first
