@@ -9,17 +9,9 @@ module Financial
     #action tabs
     set_tab :list, :expense, :only => %w(index)
     set_tab :show, :expense, :only => %w(show)
-    set_tab :new, :expense, :only => %w(new)
+    set_tab :add, :expense, :only => %w(new)
     set_tab :edit, :expense, :only => %w(edit)
-=begin
-    #Service tab
-    set_tab :expense
-    #Resource tab
-    set_tab :all, :expenses
-    #sub-tab, each sub-tab coresponse to one action, they belong to the namespace 'expense_actions'
-    set_tab :list, :expense_actions, :only => %w(index)
-    set_tab :add, :expense_actions, :only => %w(new)
-=end
+
     # GET /expenses
     # GET /expenses.json
     def index
@@ -35,17 +27,6 @@ module Financial
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @expenses }
-      end
-    end
-  
-    # GET /expenses/1
-    # GET /expenses/1.json
-    def show
-      @expense = Expense.find(params[:id])
-  
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @expense }
       end
     end
   
