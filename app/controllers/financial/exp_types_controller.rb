@@ -9,17 +9,9 @@ module Financial
     #action tabs
     set_tab :list, :expense_type, :only => %w(index)
     set_tab :show, :expense_type, :only => %w(show)
-    set_tab :new, :expense_type, :only => %w(new)
+    set_tab :add, :expense_type, :only => %w(new)
     set_tab :edit, :expense_type, :only => %w(edit)
-=begin
-    #Service tab
-    set_tab :expense_type
-    #resource tab
-    set_tab :all, :expense_types
-    #action tab, each action tab correspond to one action, they belong to the namespace 'expense_type_acrtions'
-    set_tab :list, :expense_type_actions, :only => %w(index)
-    set_tab :add, :expense_type_actions, :only => %w(new)
-=end
+
     # GET /exp_types
     # GET /exp_types.json
     def index
