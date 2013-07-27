@@ -31,17 +31,6 @@ module Financial
       end
     end
   
-    # GET /exp_types/1
-    # GET /exp_types/1.json
-    def show
-      @exp_type = ExpType.find(params[:id])
-  
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @exp_type }
-      end
-    end
-  
     # GET /exp_types/new
     # GET /exp_types/new.json
     def new
@@ -65,7 +54,7 @@ module Financial
   
       respond_to do |format|
         if @exp_type.save
-          format.html { redirect_to exp_types_path, notice: 'Exp type was successfully created.' }
+          format.html { redirect_to exp_types_path, notice: 'Category was successfully added.' }
           format.json { render json: @exp_type, status: :created, location: @exp_type }
         else
           format.html { render action: "new" }
@@ -81,7 +70,7 @@ module Financial
   
       respond_to do |format|
         if @exp_type.update_attributes(params[:exp_type])
-          format.html { redirect_to @exp_type, notice: 'Exp type was successfully updated.' }
+          format.html { redirect_to exp_types_path, notice: 'Category was successfully updated.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }

@@ -1,0 +1,10 @@
+= form_for(@exp_type) do |f|
+  = f.error_messages
+  %fieldset
+    %legend.exp-type-form Category
+    %table
+      %tr
+        %th=f.label "Description"
+        %td=f.text_field :description, :placeholder=>"Short description"
+      %tr
+        %th=f.submit "Add"
