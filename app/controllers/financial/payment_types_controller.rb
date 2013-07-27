@@ -46,7 +46,7 @@ module Financial
   
       respond_to do |format|
         if @payment_type.save
-          format.html { redirect_to @payment_type, notice: 'Payment method was successfully created.' }
+          format.html { redirect_to payment_types_path, notice: 'Payment method was successfully created.' }
           format.json { render json: @payment_type, status: :created, location: @payment_type }
         else
           format.html { render action: "new" }
@@ -62,7 +62,7 @@ module Financial
   
       respond_to do |format|
         if @payment_type.update_attributes(params[:payment_type])
-          format.html { redirect_to @payment_type, notice: 'Payment method was successfully updated.' }
+          format.html { redirect_to payment_types_path, notice: 'Payment method was successfully updated.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }
