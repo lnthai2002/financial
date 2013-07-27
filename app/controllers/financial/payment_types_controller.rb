@@ -11,15 +11,7 @@ module Financial
     set_tab :show, :payment_type, :only => %w(show)
     set_tab :add, :payment_type, :only => %w(new)
     set_tab :edit, :payment_type, :only => %w(edit)
-=begin
-    #Service tab
-    set_tab :payment_type
-    #Resource tab: payment_type
-    set_tab :all, :payment_types
-    #Action tab, each action tab correspond to one action, they belong to the namespace 'payment_type_actions'
-    set_tab :list, :payment_type_actions, :only => %w(index)
-    set_tab :add, :payment_type_actions, :only => %w(new)
-=end
+
     # GET /payment_types
     # GET /payment_types.json
     def index
