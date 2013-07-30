@@ -1,0 +1,29 @@
+:javascript
+  $(document).ready(function(){
+    $(function() {
+      $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
+    });
+  });
+
+= form_for(@income) do |f|
+  = f.error_messages
+  %table
+    %tr
+      %th= f.label :Date
+      %td= f.text_field :inc_date, :class=>'datepicker', :size=>10
+    %tr
+      %th Category
+      %td= f.select :income_category_id, @income_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+    %tr
+      %th= f.label :Amount
+      %td= f.text_field :amount, :size=>10
+    %tr
+      %th Payment method
+      %td= f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+    %tr
+      %th Note
+      %td= f.text_area :note, :cols => 25, :rows=>2
+    %tr
+      %td{:colspan=>'2'} &nbsp;
+    %tr
+      %td{:colspan=>"2"}= f.submit 'Done'
