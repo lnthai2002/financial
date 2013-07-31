@@ -41,7 +41,14 @@ module Financial
     # POST /categories
     # POST /categories.json
     def create
-      @category = Category.new(params[:category])
+      type = params[:category][:type]
+      params[:category].delete(:type)
+      case type
+        when 'Income'
+          @category = IncomeCategory.new(params[:category])
+        when 'Expense'
+          @category = ExpenseCategory.new(params[:category])
+      end
   
       respond_to do |format|
         if @category.save

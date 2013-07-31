@@ -4,7 +4,8 @@
     %legend Category
     %table
       %tr
-        %th=f.label "Description"
-        %td=f.text_field :description, :placeholder=>"Short description"
+        %th= f.select :type, [['Expense','Expense'],['Income','Income']], {:include_blank => false}
       %tr
-        %th=f.submit "OK"
+        %th= f.text_field :description, :placeholder=>"Short description"
+      %tr
+        %td= f.submit "OK"
