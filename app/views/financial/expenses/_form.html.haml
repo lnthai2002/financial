@@ -13,7 +13,7 @@
       %td= f.text_field :exp_date, :class=>'datepicker', :size=>10
     %tr
       %th Category
-      %td= f.select :exp_type_id, @exp_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+      %td= f.select :expense_category_id, @expense_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
     %tr
       %th= f.label :Amount
       %td= f.text_field :amount, :size=>10

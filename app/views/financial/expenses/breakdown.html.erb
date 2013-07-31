@@ -5,7 +5,7 @@
 	</tr>
 	<tr>
 		<th>Type</th>
-		<td><%=@parent_expense.exp_type.description%></td>
+		<td><%=@parent_expense.expense_category.description%></td>
 	</tr>
 	<tr>
 		<th>Amount</th>
@@ -33,7 +33,7 @@
 	</tr>
 	<tr>
 		<th align="left">Type</th>
-		<td><%=f.select :exp_type_id, @exp_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}%></td>
+		<td><%=f.select :expense_category_id, @expense_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}%></td>
 	</tr>
 	<tr>
   		<th align="left"><%=f.label :Amount%></th>

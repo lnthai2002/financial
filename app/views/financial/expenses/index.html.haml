@@ -9,7 +9,7 @@
   %table
     - @summaries.each_pair do |category,total|
       %tr{:class=>cycle('even', 'odd')}
-        %th=ExpType.get_desc(category)
+        %th=ExpenseCategory.get_desc(category)
         %td{:align=>'right'}= number_to_currency(Money.new(total))
 
 %fieldset
@@ -32,7 +32,7 @@
       - @expenses.each do |e|
         %tr{:class=>cycle('even', 'odd')}
           %td= e.exp_date
-          %td= e.exp_type.description
+          %td= e.expense_category.description
           %td= number_to_currency(e.amount)
           %td= e.payment_type.description
           %td= link_to e.note, edit_expense_path(e)
