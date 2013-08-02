@@ -3,6 +3,10 @@
     = tabs_tag :namespace => :expense do |tab|
       = tab.list 'List', expenses_path
       = tab.add 'Add', new_expense_path
+  -if current_tab?(:incomes,:daily_resources)
+    = tabs_tag :namespace => :income do |tab|
+      = tab.list 'List', incomes_path
+      = tab.add 'Add', new_income_path
   -elsif current_tab?(:categories,:daily_resources)
     = tabs_tag :namespace => :category do |tab|
       = tab.list 'List', categories_path
