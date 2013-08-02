@@ -9,17 +9,9 @@ module Financial
     #action tabs
     set_tab :list, :expense_type, :only => %w(index)
     set_tab :show, :expense_type, :only => %w(show)
-    set_tab :new, :expense_type, :only => %w(new)
+    set_tab :add, :expense_type, :only => %w(new)
     set_tab :edit, :expense_type, :only => %w(edit)
-=begin
-    #Service tab
-    set_tab :expense_type
-    #resource tab
-    set_tab :all, :expense_types
-    #action tab, each action tab correspond to one action, they belong to the namespace 'expense_type_acrtions'
-    set_tab :list, :expense_type_actions, :only => %w(index)
-    set_tab :add, :expense_type_actions, :only => %w(new)
-=end
+
     # GET /exp_types
     # GET /exp_types.json
     def index
@@ -28,17 +20,6 @@ module Financial
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @exp_types }
-      end
-    end
-  
-    # GET /exp_types/1
-    # GET /exp_types/1.json
-    def show
-      @exp_type = ExpType.find(params[:id])
-  
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @exp_type }
       end
     end
   
@@ -65,7 +46,7 @@ module Financial
   
       respond_to do |format|
         if @exp_type.save
-          format.html { redirect_to exp_types_path, notice: 'Exp type was successfully created.' }
+          format.html { redirect_to exp_types_path, notice: 'Category was successfully added.' }
           format.json { render json: @exp_type, status: :created, location: @exp_type }
         else
           format.html { render action: "new" }
@@ -81,7 +62,7 @@ module Financial
   
       respond_to do |format|
         if @exp_type.update_attributes(params[:exp_type])
-          format.html { redirect_to @exp_type, notice: 'Exp type was successfully updated.' }
+          format.html { redirect_to exp_types_path, notice: 'Category was successfully updated.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }
