@@ -9,17 +9,9 @@ module Financial
     #action tabs
     set_tab :list, :payment_type, :only => %w(index)
     set_tab :show, :payment_type, :only => %w(show)
-    set_tab :new, :payment_type, :only => %w(new)
+    set_tab :add, :payment_type, :only => %w(new)
     set_tab :edit, :payment_type, :only => %w(edit)
-=begin
-    #Service tab
-    set_tab :payment_type
-    #Resource tab: payment_type
-    set_tab :all, :payment_types
-    #Action tab, each action tab correspond to one action, they belong to the namespace 'payment_type_actions'
-    set_tab :list, :payment_type_actions, :only => %w(index)
-    set_tab :add, :payment_type_actions, :only => %w(new)
-=end
+
     # GET /payment_types
     # GET /payment_types.json
     def index
@@ -30,18 +22,7 @@ module Financial
         format.json { render json: @payment_types }
       end
     end
-  
-    # GET /payment_types/1
-    # GET /payment_types/1.json
-    def show
-      @payment_type = PaymentType.find(params[:id])
-  
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @payment_type }
-      end
-    end
-  
+
     # GET /payment_types/new
     # GET /payment_types/new.json
     def new
@@ -65,7 +46,7 @@ module Financial
   
       respond_to do |format|
         if @payment_type.save
-          format.html { redirect_to @payment_type, notice: 'Payment type was successfully created.' }
+          format.html { redirect_to payment_types_path, notice: 'Payment method was successfully created.' }
           format.json { render json: @payment_type, status: :created, location: @payment_type }
         else
           format.html { render action: "new" }
@@ -81,7 +62,7 @@ module Financial
   
       respond_to do |format|
         if @payment_type.update_attributes(params[:payment_type])
-          format.html { redirect_to @payment_type, notice: 'Payment type was successfully updated.' }
+          format.html { redirect_to payment_types_path, notice: 'Payment method was successfully updated.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }
