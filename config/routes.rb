@@ -6,11 +6,13 @@ Financial::Engine.routes.draw do
   resources :finances
 
   resources :payment_types
-
-  match 'expenses/:year/:month' => 'expenses#index', :defaults=>{:year=>nil,:month=>nil}, :conditions=>{:method=>:get}
   resources :exp_types
-
-  resources :expenses
+  resources :expenses do
+    member do
+      get :breakdown
+    end
+  end
+  match 'expenses/:year/:month' => 'expenses#index', :defaults=>{:year=>nil,:month=>nil}, :conditions=>{:method=>:get}
 
   root :to => 'plans#index'
 end

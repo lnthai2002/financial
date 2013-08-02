@@ -3,23 +3,14 @@ require_dependency "financial/application_controller"
 module Financial
   class ExpensesController < ApplicationController
     #usecase tabs
-    set_tab :daily_tracking, :usecases, :only => %w(index show new edit)
+    set_tab :daily_tracking, :usecases, :only => %w(index new edit)
     #resource tabs
-    set_tab :expenses, :daily_resources, :only => %w(index show new edit)
+    set_tab :expenses, :daily_resources, :only => %w(index new edit)
     #action tabs
     set_tab :list, :expense, :only => %w(index)
-    set_tab :show, :expense, :only => %w(show)
-    set_tab :new, :expense, :only => %w(new)
+    set_tab :add, :expense, :only => %w(new)
     set_tab :edit, :expense, :only => %w(edit)
-=begin
-    #Service tab
-    set_tab :expense
-    #Resource tab
-    set_tab :all, :expenses
-    #sub-tab, each sub-tab coresponse to one action, they belong to the namespace 'expense_actions'
-    set_tab :list, :expense_actions, :only => %w(index)
-    set_tab :add, :expense_actions, :only => %w(new)
-=end
+
     # GET /expenses
     # GET /expenses.json
     def index
@@ -29,23 +20,12 @@ module Financial
       begin_date = Date.parse("#{@year}-#{@month}-01")
       end_date = begin_date.end_of_month
       #inclusive search
-      @expenses = Expense.find(:all, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date, end_date], :order=>:exp_date)
-      @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date, end_date]))
-      @summaries = Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month, end_date.prev_month], :group=>:exp_type_id)
+      @expenses = Expense.find(:all, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:exp_date)
+      @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
+      @summaries = Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:exp_type_id)
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @expenses }
-      end
-    end
-  
-    # GET /expenses/1
-    # GET /expenses/1.json
-    def show
-      @expense = Expense.find(params[:id])
-  
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @expense }
       end
     end
   
@@ -82,7 +62,7 @@ module Financial
   
       respond_to do |format|
         if @expense.save
-          format.html { redirect_to @expense, notice: 'Expense was successfully created.' }
+          format.html { redirect_to expenses_path, notice: 'Expense was successfully created.' }
           format.json { render json: @expense, status: :created, location: @expense }
         else
           format.html { render action: "new" }
@@ -98,7 +78,7 @@ module Financial
   
       respond_to do |format|
         if @expense.update_attributes(params[:expense])
-          format.html { redirect_to @expense, notice: 'Expense was successfully updated.' }
+          format.html { redirect_to expenses_path, notice: 'Expense was successfully updated.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }
