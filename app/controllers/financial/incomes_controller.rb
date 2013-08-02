@@ -35,6 +35,11 @@ module Financial
 
     def create
       @income = Income.new(params[:income])
+      if @income.save
+        redirect_to incomes_path
+      else
+        render action: "new"
+      end
     end
 
     def update
