@@ -1,8 +1,8 @@
 module Financial
-  class ExpType < ActiveRecord::Base
+  class ExpenseCategory < Category
     has_many :expenses
     
-    def ExpType.get_desc(type_id)
+    def ExpenseCategory.get_desc(type_id)
       d = find_as_hashes(:first, :select=>:description, :conditions=>{:id=>type_id})
       if !d.blank?
         return d[0]['description']

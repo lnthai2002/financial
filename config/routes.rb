@@ -6,7 +6,7 @@ Financial::Engine.routes.draw do
   resources :finances
 
   resources :payment_types
-  resources :exp_types
+  resources :categories
   resources :expenses do
     member do
       get :breakdown

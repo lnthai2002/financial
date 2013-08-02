@@ -1,0 +1,9 @@
+%table
+  %tr
+    %th Description
+  -@categories.each do |e|
+    %tr
+      %td
+        = link_to e.description, edit_category_path(e)
+        |
+        = link_to 'Destroy', category_path(e), :confirm => 'Are you sure?', :method => :delete

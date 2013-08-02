@@ -1,9 +1,0 @@
-%table
-  %tr
-    %th Description
-  -@exp_types.each do |e|
-    %tr
-      %td
-        = link_to e.description, edit_exp_type_path(e)
-        |
-        = link_to 'Destroy', e, :confirm => 'Are you sure?', :method => :delete

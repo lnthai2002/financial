@@ -22,7 +22,7 @@ module Financial
       #inclusive search
       @expenses = Expense.find(:all, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:exp_date)
       @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
-      @summaries = Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:exp_type_id)
+      @summaries = Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:expense_category_id)
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @expenses }
@@ -43,7 +43,7 @@ module Financial
   
     # Ajax called to render additional fields depending on the expense type selected
     def select_type
-      type = ExpType.find(:first, :select=>'description', :conditions=>{:id=>params[:expense][:exp_type_id]})
+      type = ExpenseCategory.find(:first, :select=>'description', :conditions=>{:id=>params[:expense][:expense_category_id]})
       if type != nil && type == 'Anual bill'
         render :partial => 'date_range', :layout => false
       end
@@ -145,7 +145,7 @@ module Financial
   
   private
     def load_selections
-      @exp_types = ExpType.all
+      @expense_categories = ExpenseCategory.all
       @payment_types = PaymentType.all
     end
   end
