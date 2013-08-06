@@ -1,0 +1,32 @@
+:javascript
+  $(document).ready(function(){
+    $(function() {
+      $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
+    });
+  });
+
+= form_for(@recurring_payment) do |f|
+  = f.error_messages
+  %table
+    %tr
+      %th Frequency
+      %td= f.select :frequency, [['Bi-weekly', 'Bi-weekly'],['Monthly','Monthly'],['Annually','Annually']], {:include_blank => false}
+    %tr
+      %th First date
+      %td= f.text_field :inc_date, :class=>'datepicker', :size=>10
+    %tr
+      %th Category
+      %td= f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+    %tr
+      %th= f.label :Amount
+      %td= f.text_field :amount, :size=>10
+    %tr
+      %th Payment method
+      %td= f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+    %tr
+      %th Note
+      %td= f.text_area :note, :cols => 25, :rows=>2
+    %tr
+      %td{:colspan=>'2'} &nbsp;
+    %tr
+      %td{:colspan=>"2"}= f.submit 'Done'
