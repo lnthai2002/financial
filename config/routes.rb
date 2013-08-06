@@ -12,9 +12,9 @@ Financial::Engine.routes.draw do
   resources :payment_types
   resources :people
   resources :plans
-  resources :recurring_payments do
-    get :reload_categories
-  end
+  resources :recurring_payments
+
+  get 'recurring_payments/reload_categories', :to=>'recurring_payments#reload_categories', :as=>:recurring_payment_reload_categories
 
   match 'expenses/:year/:month' => 'expenses#index', :defaults=>{:year=>nil,:month=>nil}, :conditions=>{:method=>:get}
 
