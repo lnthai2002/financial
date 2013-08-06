@@ -3,6 +3,19 @@
     $(function() {
       $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
     });
+    
+    $("#recurring_payment_type").change(function () {
+      var recurring_type = $("#recurring_payment_type option:selected").val();
+      var update_url = '#{recurring_payment_reload_categories_url}';
+      $.ajax({
+        url: update_url,
+        type: "GET",
+        data: ({recurring_payment_type: recurring_type}),
+        success: function(data){
+            $("#recurring_categories").html(data);
+        }
+      });
+    })
   });
 
 = form_for(@recurring_payment) do |f|

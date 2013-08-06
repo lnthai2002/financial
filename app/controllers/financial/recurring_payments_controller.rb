@@ -55,7 +55,7 @@ module Financial
         when "Financial::RecurringIncome"
           @categories = IncomeCategory.all
       end
-      render "reload_categories"
+      render "categories"
     end
   end
 end
