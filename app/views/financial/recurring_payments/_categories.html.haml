@@ -1,0 +1,1 @@
+= f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}

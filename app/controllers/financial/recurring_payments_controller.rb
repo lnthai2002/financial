@@ -17,6 +17,8 @@ module Financial
 
     def new
       @recurring_payment = RecurringPayment.new
+      @payment_types = PaymentType.all
+      @categories = IncomeCategory.all  #first recurring type selection is Income, thus prepopulate with income cat
     end
 
     def create
@@ -46,6 +48,14 @@ module Financial
       @recurring_payment = RecuringPayment.find(params[:id])
       @recurring_payment.destroy
       redirect_to recurring_payments_path
+    end
+
+    def reload_categories
+      case params[:recurring_payment][:type]
+        when "Financial::RecurringIncome"
+          @categories = IncomeCategory.all
+      end
+      render "reload_categories"
     end
   end
 end
