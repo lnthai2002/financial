@@ -7,6 +7,10 @@
     = tabs_tag :namespace => :income do |tab|
       = tab.list 'List', incomes_path
       = tab.add 'Add', new_income_path
+  -if current_tab?(:recurring_payments,:daily_resources)
+    = tabs_tag :namespace => :recurring_payment do |tab|
+      = tab.list 'List', recurring_payments_path
+      = tab.add 'Add', new_recurring_payment_path
   -elsif current_tab?(:categories,:daily_resources)
     = tabs_tag :namespace => :category do |tab|
       = tab.list 'List', categories_path
