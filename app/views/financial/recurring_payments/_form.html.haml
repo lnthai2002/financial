@@ -13,7 +13,7 @@
       %td= f.select :frequency, [['Bi-weekly', 'Bi-weekly'],['Monthly','Monthly'],['Annually','Annually']], {:include_blank => false}
     %tr
       %th First date
-      %td= f.text_field :inc_date, :class=>'datepicker', :size=>10
+      %td= f.text_field :first_date, :class=>'datepicker', :size=>10
     %tr
       %th Category
       %td= f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}

@@ -16,7 +16,7 @@ module Financial
     end
 
     def new
-      @recurring = RecurringPayment.new
+      @recurring_payment = RecurringPayment.new
     end
 
     def create
