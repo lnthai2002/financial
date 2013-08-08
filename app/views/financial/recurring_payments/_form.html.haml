@@ -15,8 +15,8 @@
         success: function(data){
           var selection = $("#recurring_categories select");
           selection.empty();
-          $.each(data, function(option) {
-            selection.append($("<option></option>").attr("value", option['id']).text(option['description']));
+          $.each(data, function(index,option) {
+            selection.append($("<option></option>").attr("value", option.id).text(option.description));
           });
         }
       });
