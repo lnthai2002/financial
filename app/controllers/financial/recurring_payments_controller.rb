@@ -55,7 +55,9 @@ module Financial
         when "Financial::RecurringIncome"
           @categories = IncomeCategory.all
       end
-      render "categories"
+      respond_to do |format|
+        format.json { render json: @categories }
+      end
     end
   end
 end

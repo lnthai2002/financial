@@ -8,6 +8,7 @@
       var recurring_type = $("#recurring_payment_type option:selected").val();
       var update_url = '#{recurring_payment_reload_categories_url}';
       $.ajax({
+        dataType: "json",
         url: update_url,
         type: "GET",
         data: ({recurring_payment_type: recurring_type}),
@@ -32,9 +33,8 @@
       %td= f.text_field :first_date, :class=>'datepicker', :size=>10
     %tr
       %th Category
-      %td
-        #recurring_categories
-          = render :partial=>"categories", :locals=>{:f=>f}
+      %td#recurring_categories
+        = f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
     %tr
       %th= f.label :Amount
       %td= f.text_field :amount, :size=>10
