@@ -28,7 +28,7 @@
   %table
     %tr
       %th &nbsp;
-      %td= f.select :type, [['Income', 'Financial::RecurringIncome']], {:include_blank => false}
+      %td= f.select :type, [['Income', 'Financial::RecurringIncome'],['Expense', 'Financial::RecurringExpense']], {:include_blank => false}
     %tr
       %th Frequency
       %td= f.select :frequency, [['Bi-weekly', 'Bi-weekly'],['Monthly','Monthly'],['Annually','Annually']], {:include_blank => false}
