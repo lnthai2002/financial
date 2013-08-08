@@ -51,7 +51,7 @@ module Financial
     end
 
     def reload_categories
-      case params[:recurring_payment][:type]
+      case params[:recurring_payment_type]
         when "Financial::RecurringIncome"
           @categories = IncomeCategory.all
       end
