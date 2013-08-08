@@ -13,7 +13,11 @@
         type: "GET",
         data: ({recurring_payment_type: recurring_type}),
         success: function(data){
-            $("#recurring_categories").html(data);
+          var selection = $("#recurring_categories select");
+          selection.empty();
+          $.each(data, function(option) {
+            selection.append($("<option></option>").attr("value", option['id']).text(option['description']));
+          });
         }
       });
     })
