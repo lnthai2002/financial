@@ -54,6 +54,8 @@ module Financial
       case params[:recurring_payment_type]
         when "Financial::RecurringIncome"
           @categories = IncomeCategory.all
+        when "Financial::RecurringExpense"
+          @categories = ExpenseCategory.all
       end
       respond_to do |format|
         format.json { render json: @categories }
