@@ -13,6 +13,7 @@ module Financial
 
     def index
       @recurring_incomes = RecurringIncome.find(:all)
+      @recurring_expenses = RecurringExpense.find(:all)
     end
 
     def new
@@ -27,6 +28,8 @@ module Financial
       case recurring_type
         when "Financial::RecurringIncome"
           @recurring_payment = RecurringIncome.new(params[:recurring_payment])
+        when "Financial::RecurringExpense"
+          @recurring_payment = RecurringExpense.new(params[:recurring_payment])
       end
       
       if @recurring_payment.save
