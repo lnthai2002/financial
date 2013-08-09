@@ -45,7 +45,7 @@ module Financial
     end
 
     def destroy
-      @recurring_payment = RecuringPayment.find(params[:id])
+      @recurring_payment = RecurringPayment.find(params[:id])
       @recurring_payment.destroy
       redirect_to recurring_payments_path
     end
