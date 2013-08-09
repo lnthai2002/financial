@@ -18,5 +18,5 @@
           %td= i.income_category.description
           %td= number_to_currency(i.amount)
           %td= i.payment_type.description
-          %td= link_to i.note, edit_income_path(i)
-          %td= link_to 'Destroy', i, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to i.note, edit_recurring_payment_path(i)
+          %td= link_to 'Destroy', recurring_payment_path(i), :confirm => 'Are you sure?', :method => :delete
