@@ -23,15 +23,7 @@ module Financial
     end
 
     def create
-      recurring_type = params[:recurring_payment][:type]
-      params[:recurring_payment].delete(:type)
-      case recurring_type
-        when "Financial::RecurringIncome"
-          @recurring_payment = RecurringIncome.new(params[:recurring_payment])
-        when "Financial::RecurringExpense"
-          @recurring_payment = RecurringExpense.new(params[:recurring_payment])
-      end
-      
+      @recurring_payment = RecurringPayment.new(params[:recurring_payment])
       if @recurring_payment.save
         redirect_to recurring_payments_path
       else
@@ -40,11 +32,22 @@ module Financial
     end
 
     def edit
-      
+      @recurring_payment = RecurringPayment.find(params[:id])
+      @payment_types = PaymentType.all
+      if @recurring_payment.class == Financial::RecurringIncome
+        @categories = IncomeCategory.all
+      elsif @recurring_payment.class == Financial::RecurringExpense
+        @categories = ExpenseCategory.all
+      end
     end
 
     def update
-      
+      @recurring_payment = RecurringPayment.find(params[:id])
+      if @recurring_payment.update_attributes(params[:recurring_payment])
+        redirect_to recurring_payments_path
+      else
+        redirect_to edit_recurring_payment_path(params[:id])
+      end
     end
 
     def destroy

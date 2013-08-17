@@ -23,7 +23,8 @@
     })
   });
 
-= form_for(@recurring_payment) do |f|
+= form_for(@recurring_payment.becomes(Financial::RecurringPayment)) do |f|
+  - f.object = @recurring_payment.becomes(@recurring_payment.class)
   = f.error_messages
   %table
     %tr
