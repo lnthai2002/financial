@@ -20,9 +20,9 @@ module Financial
       begin_date = Date.parse("#{@year}-#{@month}-01")
       end_date = begin_date.end_of_month
       #inclusive search
-      @expenses = Expense.find(:all, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:exp_date)
-      @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
-      @summaries = Expense.sum(:amount_cents, :conditions=>["exp_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:expense_category_id)
+      @expenses = Expense.find(:all, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:pmt_date)
+      @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
+      @summaries = Expense.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:category_id)
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @expenses }
@@ -43,7 +43,7 @@ module Financial
   
     # Ajax called to render additional fields depending on the expense type selected
     def select_type
-      type = ExpenseCategory.find(:first, :select=>'description', :conditions=>{:id=>params[:expense][:expense_category_id]})
+      type = ExpenseCategory.find(:first, :select=>'description', :conditions=>{:id=>params[:expense][:category_id]})
       if type != nil && type == 'Anual bill'
         render :partial => 'date_range', :layout => false
       end

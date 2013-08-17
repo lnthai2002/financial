@@ -18,9 +18,9 @@ module Financial
       begin_date = Date.parse("#{year}-#{month}-01")
       end_date = begin_date.end_of_month
       #inclusive search
-      @incomes = Income.find(:all, :conditions=>["inc_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:inc_date)
-      @monthly_total = Money.new(Income.sum(:amount_cents, :conditions=>["inc_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
-      @summaries = Income.sum(:amount_cents, :conditions=>["inc_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:income_category_id)
+      @incomes = Income.find(:all, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:pmt_date)
+      @monthly_total = Money.new(Income.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
+      @summaries = Income.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:category_id)
     end
 
     def new
