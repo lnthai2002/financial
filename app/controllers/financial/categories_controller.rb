@@ -41,15 +41,8 @@ module Financial
     # POST /categories
     # POST /categories.json
     def create
-      type = params[:category][:type]
-      params[:category].delete(:type)
-      case type
-        when 'Income'
-          @category = IncomeCategory.new(params[:category])
-        when 'Expense'
-          @category = ExpenseCategory.new(params[:category])
-      end
-  
+      @category = Category.new(params[:category])
+
       respond_to do |format|
         if @category.save
           format.html { redirect_to categories_path, notice: 'Category was successfully added.' }
@@ -65,7 +58,6 @@ module Financial
     # PUT /categories/1.json
     def update
       @category = Category.find(params[:id])
-  
       respond_to do |format|
         if @category.update_attributes(params[:category])
           format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }

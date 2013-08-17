@@ -5,7 +5,7 @@
     %legend Category
     %table
       %tr
-        %th= f.select :type, [['Expense','Expense'],['Income','Income']], {:include_blank => false}
+        %th= f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {:include_blank => false}
       %tr
         %th= f.text_field :description, :placeholder=>"Short description"
       %tr
