@@ -68,6 +68,18 @@ module Financial
       end
     end
 
+    # DELETE /incomes/1
+    # DELETE /incomes/1.json
+    def destroy
+      @income = Income.find(params[:id])
+      @income.destroy
+  
+      respond_to do |format|
+        format.html { redirect_to incomes_url }
+        format.json { head :ok }
+      end
+    end
+
     private
 
     def load_selections

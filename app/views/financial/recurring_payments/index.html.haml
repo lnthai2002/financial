@@ -18,5 +18,28 @@
           %td= i.income_category.description
           %td= number_to_currency(i.amount)
           %td= i.payment_type.description
-          %td= link_to i.note, edit_income_path(i)
-          %td= link_to 'Destroy', i, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to i.note, edit_recurring_payment_path(i)
+          %td= link_to 'Destroy', recurring_payment_path(i), :confirm => 'Are you sure?', :method => :delete
+
+%fieldset
+  %legend Recurring expenses
+  %table{:width=>'90%'}
+    %thead
+      %tr
+        %th Frequency
+        %th First date
+        %th Category
+        %th Amount
+        %th Method of payment
+        %th Note
+        %th &nbsp;
+    %tbody
+      - @recurring_expenses.each do |e|
+        %tr{:class=>cycle('even', 'odd')}
+          %td= e.frequency
+          %td= e.first_date
+          %td= e.expense_category.description
+          %td= number_to_currency(e.amount)
+          %td= e.payment_type.description
+          %td= link_to e.note, edit_recurring_payment_path(e)
+          %td= link_to 'Destroy', recurring_payment_path(e), :confirm => 'Are you sure?', :method => :delete
