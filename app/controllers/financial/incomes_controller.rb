@@ -18,9 +18,9 @@ module Financial
       begin_date = Date.parse("#{year}-#{month}-01")
       end_date = begin_date.end_of_month
       #inclusive search
-      @incomes = Income.find(:all, :conditions=>["inc_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:inc_date)
-      @monthly_total = Money.new(Income.sum(:amount_cents, :conditions=>["inc_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
-      @summaries = Income.sum(:amount_cents, :conditions=>["inc_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:income_category_id)
+      @incomes = Income.find(:all, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:pmt_date)
+      @monthly_total = Money.new(Income.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
+      @summaries = Income.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:category_id)
     end
 
     def new
@@ -53,6 +53,18 @@ module Financial
           format.html { render action: "edit" }
           format.json { render json: @income.errors, status: :unprocessable_entity }
         end
+      end
+    end
+
+    # DELETE /incomes/1
+    # DELETE /incomes/1.json
+    def destroy
+      @income = Income.find(params[:id])
+      @income.destroy
+  
+      respond_to do |format|
+        format.html { redirect_to incomes_url }
+        format.json { head :ok }
       end
     end
 
