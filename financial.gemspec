@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   # s.add_dependency "jquery-rails"
 
   s.add_dependency 'tabs_on_rails'
+  s.add_dependency 'ice_cube'
   s.add_dependency 'haml'
   s.add_development_dependency "mysql2"
   s.add_development_dependency 'rspec-rails'
