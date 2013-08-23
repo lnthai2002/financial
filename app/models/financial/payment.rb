@@ -10,9 +10,9 @@ module Financial
       new_payment = Payment.new(:category_id=>recurring.category_id,
                                 :amount=>recurring.amount, :note=>recurring.note,
                                 :payment_type_id=>recurring.payment_type_id)
-      if recurring.is_a(Financial::RecurringExpense)
+      if recurring.class == Financial::RecurringExpense
         new_payment.type = "Financial::Expense"
-      elsif recurring.is_a(Financial::RecurringIncome)
+      elsif recurring.class == Financial::RecurringIncome
         new_payment.type = "Financial::Income"
       else
         new_payment = nil
