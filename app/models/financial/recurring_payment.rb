@@ -37,6 +37,12 @@ module Financial
               }
             end
           when 'Anually'
+            schedule.add_recurrence_rule Rule.yearly #every year
+            if schedule.occurs_on?(Date.today)
+              post_routine(r, Date.today){ |recurring, potential_posting_date|
+                yield post_routine(recurring, potential_posting_date.years_ago(1))
+              }
+            end
         end
       end
     end
