@@ -6,6 +6,8 @@ module Financial
 
     belongs_to :recurring_payment, :foreign_key => :recurring_id
 
+    validate :not_belong_to_recurring_event, on: :update
+
     def self.from_recurring_payment(recurring)
       new_payment = Payment.new(:category_id=>recurring.category_id,
                                 :amount=>recurring.amount, :note=>recurring.note,
@@ -18,6 +20,14 @@ module Financial
         new_payment = nil
       end
       return new_payment
+    end
+
+    protected
+
+    def not_belong_to_recurring_event
+      if self.pmt_date_changed? && !self.recurring_payment.blank? #changing posting date of a recurring payment
+        errors[:base] << "This payment came from a recurring event, you cannot change its posting date."
+      end
     end
   end
 end
