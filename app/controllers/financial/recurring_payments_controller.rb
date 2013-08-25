@@ -50,9 +50,21 @@ module Financial
       end
     end
 
+    def terminate
+      @recurring_payment = RecurringPayment.find(params[:id])
+      @recurring_payment.end_date = Date.today
+      if @recurring_payment.save
+        redirect_to recurring_payments_path
+      end
+    end
+
     def destroy
       @recurring_payment = RecurringPayment.find(params[:id])
-      @recurring_payment.destroy
+      ActiveRecord::Base.transaction do
+        #should we really allow delete if there are payments?
+        @recurring_payment.payments.destroy
+        @recurring_payment.destroy
+      end
       redirect_to recurring_payments_path
     end
 
