@@ -3,7 +3,7 @@ module Financial
     monetize :principal_cents
     monetize :monthly_dep_cents
 
-    attr_accessible :principal, :rate, :monthly_dep, :months, :alt_rate, :alt_monthly_dep, :alt_length
+    attr_accessible :principal, :rate, :monthly_dep, :months, :alt_rate, :alt_monthly_dep, :alt_length, :person_id
 
     #virtual attributes
     attr_reader :alt_rate, :alt_monthly_dep, :alt_length
@@ -14,6 +14,7 @@ module Financial
     validates :alt_length, :numericality => { :only_integer => true }, :allow_blank=>true
 
     belongs_to :plan
+    belongs_to :person
 
     before_create :set_values
 

@@ -2,8 +2,9 @@ module Financial
   class Payment < ActiveRecord::Base
     monetize :amount_cents
     
-    attr_accessible :amount, :pmt_date, :note, :category_id, :payment_type_id, :recurring_id
+    attr_accessible :amount, :pmt_date, :note, :category_id, :payment_type_id, :recurring_id, :person_id
 
+    belongs_to :person
     belongs_to :recurring_payment, :foreign_key => :recurring_id
 
     validate :not_belong_to_recurring_event_when_update, on: :update

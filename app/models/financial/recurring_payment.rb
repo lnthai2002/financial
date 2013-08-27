@@ -4,8 +4,9 @@ module Financial
 
     monetize :amount_cents
 
-    attr_accessible :frequency, :first_date, :category_id, :amount, :note, :payment_type_id, :type, :end_date, :finished
+    attr_accessible :frequency, :first_date, :category_id, :amount, :note, :payment_type_id, :type, :end_date, :finished, :person_id
 
+    belongs_to :person
     has_many :payments, :foreign_key => :recurring_id
 
     validate :no_payments_when_update, on: :update
