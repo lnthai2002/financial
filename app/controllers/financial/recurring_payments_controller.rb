@@ -62,6 +62,9 @@ module Financial
       @recurring_payment = RecurringPayment.find(params[:id])
       ActiveRecord::Base.transaction do
         #should we really allow delete if there are payments?
+        @recurring_payment.payments.each do |payment| #break the association first, otherwise will fail to delete
+          payment.recurring_payment = nil
+        end
         @recurring_payment.payments.destroy
         @recurring_payment.destroy
       end

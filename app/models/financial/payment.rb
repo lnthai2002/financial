@@ -6,7 +6,8 @@ module Financial
 
     belongs_to :recurring_payment, :foreign_key => :recurring_id
 
-    validate :not_belong_to_recurring_event, on: :update
+    validate :not_belong_to_recurring_event_when_update, on: :update
+    validate :not_belong_to_recurring_event_when_edit, on: :destroy
 
     def self.from_recurring_payment(recurring)
       new_payment = Payment.new(:category_id=>recurring.category_id,
@@ -24,9 +25,16 @@ module Financial
 
     protected
 
-    def not_belong_to_recurring_event
+    def not_belong_to_recurring_event_when_update
       if self.pmt_date_changed? && !self.recurring_payment.blank? #changing posting date of a recurring payment
         errors[:base] << "This payment came from a recurring event, you cannot change its posting date."
+      end
+    end
+
+    def not_belong_to_recurring_event_when_edit
+      #check if this is when user try to destroy recurring event
+      if !self.recurring_payment.blank?
+        errors[:base] << "This payment came from a recurring event, you can not remove it"
       end
     end
   end
