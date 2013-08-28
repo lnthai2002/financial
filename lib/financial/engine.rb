@@ -15,6 +15,7 @@ module Financial
     require 'rubygems'
     require 'tabs_on_rails'
     require 'ice_cube'
+    require 'cancan'
     config.generators do |g|
       g.test_framework      :rspec,        :fixture => false
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
