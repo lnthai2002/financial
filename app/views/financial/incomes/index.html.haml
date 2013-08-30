@@ -9,7 +9,7 @@
   %table
     - @summaries.each_pair do |category,total|
       %tr{:class=>cycle('even', 'odd')}
-        %th=IncomeCategory.get_desc(category)
+        %th=Financial::IncomeCategory.get_desc(category)
         %td{:align=>'right'}= number_to_currency(Money.new(total))
 
 %fieldset

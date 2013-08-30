@@ -1,92 +1,82 @@
 module Financial
   class RecurringPayment < ActiveRecord::Base
-    require 'ice_cube'
+    include IceCube
 
     monetize :amount_cents
 
-    attr_accessible :frequency, :first_date, :last_posted_date, :category_id, :amount, :note, :payment_type_id, :type
+    attr_accessible :frequency, :first_date, :category_id, :amount, :note, :payment_type_id, :type, :end_date, :finished
 
-    has_many :payments
+    has_many :payments, :foreign_key => :recurring_id
+
+    validate :no_payments_when_update, on: :update
 
     #Post Expense/Income
     def self.post
-      RecurringPayment.all.each do |r|
-        schedule = Schedule.new(recurring.first_date)
+      RecurringPayment.where(:finished=>false).all.each do |r|#if recurring payment is marked finished, no need to process them
+        schedule = Schedule.new(r.first_date)
         case r.frequency
-          when 'daily'
+          when 'Daily'
             schedule.add_recurrence_rule Rule.daily #every day
             if schedule.occurs_on?(Date.today)
-              post_daily(r, Date.today)
+              post_routine(r, Date.today){ |recurring, potential_posting_date|
+                yield post_routine(recurring, potential_posting_date.yesterday)
+              }
             end
-          when 'bi-weekly'
-            schedule.add_recurrence_rule Rule.weekly.count(2) #every 2 weeks
+          when 'Bi-weekly'
+            schedule.add_recurrence_rule Rule.weekly(2) #every 2 weeks
             if schedule.occurs_on?(Date.today)
-              post_biweekly(r, Date.today)
+              post_routine(r, Date.today){ |recurring, potential_posting_date|
+                yield post_routine(recurring, potential_posting_date.weeks_ago(2))
+              }
             end          
-          when 'monthly'
+          when 'Monthly'
             schedule.add_recurrence_rule Rule.monthly #every month
             if schedule.occurs_on?(Date.today)
-              post_monthly(r, Date.today)
+              post_routine(r, Date.today){ |recurring, potential_posting_date|
+                yield post_routine(recurring, potential_posting_date.months_ago(1))
+              }
             end
-          when 'anually'
+          when 'Anually'
+            schedule.add_recurrence_rule Rule.yearly #every year
+            if schedule.occurs_on?(Date.today)
+              post_routine(r, Date.today){ |recurring, potential_posting_date|
+                yield post_routine(recurring, potential_posting_date.years_ago(1))
+              }
+            end
         end
+      end
+    end
+
+    protected
+
+    def no_payments_when_update
+      #do not allow update if changing first_date or amount and there are payment posted  
+      if (self.first_date_changed? || self.amount_changed?) && self.payments.blank?
+        errors[:base] << "You can not change first date or amount when this recurring event already triggered."
       end
     end
 
     private
-    def post_daily(recurring, potential_posting_date)
-      if recurring.payments.where(:pmt_date=>potential_posting_date).all.blank? #no payment exist on this date yet
-        if recurring.first_date == potential_posting_date #arrive at the starting date
-          payment = Payment.from_recurring_payment(recurring)
-          payment.pmt_date = expected_posting_date
-          return payment.save
-        else#just another date scheduled for payment, check and create payment for earlier date if needed
-          if post_biweekly(recurring, potential_posting_date.yesterday)#only create payment on this date if previous date has been created successfully
-            payment = Payment.from_recurring_payment(recurring)
-            payment.pmt_date = expected_posting_date
-            return payment.save
-          else#fail to create payment for previous pay term
-            return false
-          end
-        end
-      else#oops, payment exists, go back
-        return true
-      end
-    end
 
-    def post_biweekly(recurring, potential_posting_date)
+    def self.post_routine(recurring, potential_posting_date)
       if recurring.payments.where(:pmt_date=>potential_posting_date).all.blank? #no payment exist on this date yet
         if recurring.first_date == potential_posting_date #arrive at the starting date
           payment = Payment.from_recurring_payment(recurring)
-          payment.pmt_date = expected_posting_date
+          payment.pmt_date = potential_posting_date
           return payment.save
         else#just another date scheduled for payment, check and create payment for earlier date if needed
-          if post_biweekly(recurring, potential_posting_date.weeks_ago(2))#only create payment on this date if previous date has been created successfully
-            payment = Payment.from_recurring_payment(recurring)
-            payment.pmt_date = expected_posting_date
-            return payment.save
-          else#fail to create payment for previous pay term
-            return false
-          end
-        end
-      else#oops, payment exists, go back
-        return true
-      end
-    end
-
-    def post_monthly(recurring, potential_posting_date)
-      if recurring.payments.where(:pmt_date=>potential_posting_date).all.blank? #no payment exist on this date yet
-        if recurring.first_date == potential_posting_date #arrive at the starting date
-          payment = Payment.from_recurring_payment(recurring)
-          payment.pmt_date = expected_posting_date
-          return payment.save
-        else#just another date scheduled for payment, check and create payment for earlier date if needed
-          if post_biweekly(recurring, potential_posting_date.months_ago(1))#only create payment on this date if previous date has been created successfully
-            payment = Payment.from_recurring_payment(recurring)
-            payment.pmt_date = expected_posting_date
-            return payment.save
-          else#fail to create payment for previous pay term
-            return false
+          if potential_posting_date <= recurring.end_date
+            previously_posted_successfully = yield recurring, potential_posting_date
+            if previously_posted_successfully#only create payment on this date if previous date has been created successfully
+              payment = Payment.from_recurring_payment(recurring)
+              payment.pmt_date = potential_posting_date
+              return payment.save
+            else#fail to create payment for previous pay term
+              return false
+            end
+          else#after end date of the recurring payment
+            recurring.finished = true
+            return recurring.save
           end
         end
       else#oops, payment exists, go back

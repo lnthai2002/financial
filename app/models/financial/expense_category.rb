@@ -3,9 +3,9 @@ module Financial
     has_many :expenses
     
     def ExpenseCategory.get_desc(type_id)
-      d = find_as_hashes(:first, :select=>:description, :conditions=>{:id=>type_id})
+      d = ExpenseCategory.select("description").where(:id=>5).first
       if !d.blank?
-        return d[0]['description']
+        return d.description
       else
         return 'unknown'
       end

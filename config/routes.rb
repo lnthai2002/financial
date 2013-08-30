@@ -12,7 +12,11 @@ Financial::Engine.routes.draw do
   resources :payment_types
   resources :people
   resources :plans
-  resources :recurring_payments
+  resources :recurring_payments do
+    member do
+      put :terminate
+    end
+  end
 
   get 'recurring_payment_categories', :to=>'recurring_payments#reload_categories', :as=>:recurring_payment_reload_categories
 
