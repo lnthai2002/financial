@@ -13,8 +13,8 @@
       = tab.add 'Add', new_recurring_payment_path
       -if (@recurring_payment && !@recurring_payment.new_record?)
         = tab.edit 'Edit', edit_recurring_payment_path(@recurring_payment)
-        = tab.show 'Terminate', terminate_recurring_payment_path(@recurring_payment), confirm: 'Terminating this recurring event, no future payment will be made, are you sure?', method: :put
-        = link_to('Destroy', @recurring_payment, confirm: 'Removing all payments posted by this recurring event in the pass ?', method: :delete)
+        %li= link_to('Terminate', terminate_recurring_payment_path(@recurring_payment), confirm: 'Terminating this recurring event, no future payment will be made, are you sure?', method: :put)
+        %li= link_to('Destroy', recurring_payment_path(@recurring_payment), confirm: 'Removing all payments posted by this recurring event in the past ?', method: :delete)
   -elsif current_tab?(:categories,:daily_resources)
     = tabs_tag :namespace => :category do |tab|
       = tab.list 'List', categories_path
