@@ -1,7 +1,7 @@
 require_dependency "financial/application_controller"
 
 module Financial
-  class RecurringPaymentsController < ApplicationController
+  class RecurringPaymentsController < AuthorizableController
     #usecase tabs
     set_tab :daily_tracking, :usecases, :only => %w(index new edit)
     #resource tabs
@@ -12,8 +12,8 @@ module Financial
     set_tab :edit, :recurring_payment, :only => %w(edit)
 
     def index
-      @recurring_incomes = RecurringIncome.find(:all)
-      @recurring_expenses = RecurringExpense.find(:all)
+      @recurring_incomes = RecurringIncome.accessible_by(current_ability).find(:all)
+      @recurring_expenses = RecurringExpense.accessible_by(current_ability).find(:all)
     end
 
     def new
@@ -24,6 +24,7 @@ module Financial
 
     def create
       @recurring_payment = RecurringPayment.new(params[:recurring_payment])
+      @recurring_payment.person = @person
       if @recurring_payment.save
         redirect_to recurring_payments_path
       else
@@ -32,7 +33,7 @@ module Financial
     end
 
     def edit
-      @recurring_payment = RecurringPayment.find(params[:id])
+      @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
       @payment_types = PaymentType.all
       if @recurring_payment.class == Financial::RecurringIncome
         @categories = IncomeCategory.all
@@ -42,7 +43,7 @@ module Financial
     end
 
     def update
-      @recurring_payment = RecurringPayment.find(params[:id])
+      @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
       if @recurring_payment.update_attributes(params[:recurring_payment])
         redirect_to recurring_payments_path
       else
@@ -51,7 +52,7 @@ module Financial
     end
 
     def terminate
-      @recurring_payment = RecurringPayment.find(params[:id])
+      @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
       @recurring_payment.end_date = Date.today
       if @recurring_payment.save
         redirect_to recurring_payments_path
@@ -59,7 +60,7 @@ module Financial
     end
 
     def destroy
-      @recurring_payment = RecurringPayment.find(params[:id])
+      @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
       ActiveRecord::Base.transaction do
         #should we really allow delete if there are payments?
         @recurring_payment.payments.each do |payment| #break the association first, otherwise will fail to delete

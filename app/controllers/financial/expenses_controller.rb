@@ -1,7 +1,7 @@
 require_dependency "financial/application_controller"
 
 module Financial
-  class ExpensesController < ApplicationController
+  class ExpensesController < AuthorizableController
     #usecase tabs
     set_tab :daily_tracking, :usecases, :only => %w(index new edit)
     #resource tabs
@@ -20,7 +20,12 @@ module Financial
       begin_date = Date.parse("#{@year}-#{@month}-01")
       end_date = begin_date.end_of_month
       #inclusive search
-      @expenses = Expense.find(:all, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")], :order=>:pmt_date)
+      @expenses = Expense.accessible_by(current_ability).where("pmt_date BETWEEN DATE(?) AND DATE(?)",
+                                                                begin_date.strftime("%Y-%m-%d"),
+                                                                end_date.strftime("%Y-%m-%d")
+                                                               )
+                                                        .order(:pmt_date)
+                                                        .all
       @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
       @summaries = Expense.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:category_id)
       respond_to do |format|
@@ -52,14 +57,14 @@ module Financial
     # GET /expenses/1/edit
     def edit
       load_selections
-      @expense = Expense.find(params[:id])
+      @expense = Expense.accessible_by(current_ability).find(params[:id])
     end
   
     # POST /expenses
     # POST /expenses.json
     def create
       @expense = Expense.new(params[:expense])
-  
+      @expense.person = @person
       respond_to do |format|
         if @expense.save
           format.html { redirect_to expenses_path, notice: 'Expense was successfully created.' }
@@ -74,7 +79,7 @@ module Financial
     # PUT /expenses/1
     # PUT /expenses/1.json
     def update
-      @expense = Expense.find(params[:id])
+      @expense = Expense.accessible_by(current_ability).find(params[:id])
   
       respond_to do |format|
         if @expense.update_attributes(params[:expense])
@@ -90,7 +95,7 @@ module Financial
     # DELETE /expenses/1
     # DELETE /expenses/1.json
     def destroy
-      @expense = Expense.find(params[:id])
+      @expense = Expense.accessible_by(current_ability).find(params[:id])
       @expense.destroy
   
       respond_to do |format|
@@ -103,13 +108,13 @@ module Financial
     def breakdown
       load_selections
       
-      @parent_expense = Expense.find(params[:id])
+      @parent_expense = Expense.accessible_by(current_ability).find(params[:id])
       @expense = Expense.new
     end
     
     # PUT /expenses/1/update_breakdown
     def update_breakdown
-      @parent_expense = Expense.find(params[:id])
+      @parent_expense = Expense.accessible_by(current_ability).find(params[:id])
       @expense = Expense.new(params[:expense])
       error = false
   #    flash[:error] = nil

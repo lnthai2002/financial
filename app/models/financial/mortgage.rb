@@ -2,7 +2,7 @@ module Financial
   class Amortization
     #interest_rate is already in float, not percentage
     #loan term in year
-    attr_accessor :loan, :interest_rate, :loan_term, :adjustments
+    attr_accessor :loan, :interest_rate, :loan_term, :adjustments, :person_id
 
     def initialize(loan, interest_rate, loan_term, adjustments)
       @loan = loan
@@ -83,6 +83,7 @@ module Financial
     attr_accessible :purchased_price, :down_payment, :interest, :loan_term, :municipal_tax, :school_tax, :heating, :house_insurance, :mortgage_insurance, :revenue
 
     belongs_to :plan
+    belongs_to :person
     has_many :mortgage_adjs, :dependent => :destroy
 
     validates :interest, :numericality => true
