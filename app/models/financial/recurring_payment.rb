@@ -66,7 +66,7 @@ module Financial
           payment.pmt_date = potential_posting_date
           return payment.save
         else#just another date scheduled for payment, check and create payment for earlier date if needed
-          if potential_posting_date <= recurring.end_date
+          if recurring.end_date.nil? || potential_posting_date <= recurring.end_date
             previously_posted_successfully = yield recurring, potential_posting_date
             if previously_posted_successfully#only create payment on this date if previous date has been created successfully
               payment = Payment.from_recurring_payment(recurring)
