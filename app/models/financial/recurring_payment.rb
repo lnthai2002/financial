@@ -19,29 +19,29 @@ module Financial
           when 'Daily'
             schedule.add_recurrence_rule Rule.daily #every day
             if schedule.occurs_on?(Date.today)
-              post_routine(r, Date.today){ |recurring, potential_posting_date|
-                yield post_routine(recurring, potential_posting_date.yesterday)
+              post_routine(r, Date.today){ |potential_posting_date|
+                potential_posting_date.yesterday
               }
             end
           when 'Bi-weekly'
             schedule.add_recurrence_rule Rule.weekly(2) #every 2 weeks
             if schedule.occurs_on?(Date.today)
-              post_routine(r, Date.today){ |recurring, potential_posting_date|
-                yield post_routine(recurring, potential_posting_date.weeks_ago(2))
+              post_routine(r, Date.today){ |potential_posting_date|
+                potential_posting_date.weeks_ago(2)
               }
             end          
           when 'Monthly'
             schedule.add_recurrence_rule Rule.monthly #every month
             if schedule.occurs_on?(Date.today)
-              post_routine(r, Date.today){ |recurring, potential_posting_date|
-                yield post_routine(recurring, potential_posting_date.months_ago(1))
+              post_routine(r, Date.today){ |potential_posting_date|
+                potential_posting_date.months_ago(1)
               }
             end
           when 'Anually'
             schedule.add_recurrence_rule Rule.yearly #every year
             if schedule.occurs_on?(Date.today)
-              post_routine(r, Date.today){ |recurring, potential_posting_date|
-                yield post_routine(recurring, potential_posting_date.years_ago(1))
+              post_routine(r, Date.today){ |potential_posting_date|
+                potential_posting_date.years_ago(1)
               }
             end
         end
@@ -59,7 +59,7 @@ module Financial
 
     private
 
-    def self.post_routine(recurring, potential_posting_date)
+    def self.post_routine(recurring, potential_posting_date, &block)
       if recurring.payments.where(:pmt_date=>potential_posting_date).all.blank? #no payment exist on this date yet
         if recurring.first_date == potential_posting_date #arrive at the starting date
           payment = Payment.from_recurring_payment(recurring)
@@ -67,7 +67,8 @@ module Financial
           return payment.save
         else#just another date scheduled for payment, check and create payment for earlier date if needed
           if recurring.end_date.nil? || potential_posting_date <= recurring.end_date
-            previously_posted_successfully = yield recurring, potential_posting_date
+            previous_potential_posting_date = block.call(potential_posting_date) #run the block passed by the caller
+            previously_posted_successfully = post_routine(recurring, previous_potential_posting_date, &block)#yield &block #post_routine(recurring, potential_posting_date, &block)
             if previously_posted_successfully#only create payment on this date if previous date has been created successfully
               payment = Payment.from_recurring_payment(recurring)
               payment.pmt_date = potential_posting_date
