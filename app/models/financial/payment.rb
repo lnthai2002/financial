@@ -14,6 +14,7 @@ module Financial
       new_payment = Payment.new(:category_id=>recurring.category_id,
                                 :amount=>recurring.amount, :note=>recurring.note,
                                 :payment_type_id=>recurring.payment_type_id,
+                                :recurring_id=>recurring.id,
                                 :person_id=>recurring.person_id)
       if recurring.class == Financial::RecurringExpense
         new_payment.type = "Financial::Expense"
