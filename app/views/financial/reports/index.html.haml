@@ -1,0 +1,14 @@
+%table
+  %thead
+    %tr
+      %th=@date.strftime("%Y-%m")
+  %tbody
+    %tr
+      %th Income
+      %td=@month_summary['total_income']
+    %tr
+      %th Expense
+      %td=@month_summary['total_expense']
+    %tr
+      %th Balance
+      %td=@month_summary['total_balance']
