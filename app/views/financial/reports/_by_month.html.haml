@@ -1,0 +1,26 @@
+:javascript
+  $(document).ready(function(){
+    $("#month").change(function () {
+      var selectedDate = $("#month option:selected").val();
+      var update_url = '#{by_month_reports_url}';
+      $.ajax({
+        dataType: "json",
+        url: update_url,
+        type: "GET",
+        data: ({date: selectedDate})
+      });
+    })
+  });
+%fieldset
+  %legend=select_tag('month', options_for_select(months_from_2_years_ago))
+  %table
+    %tbody
+      %tr{:class=>cycle('even', 'odd')}
+        %th Income
+        %td=@report.month_summary['total_income']
+      %tr{:class=>cycle('even', 'odd')}
+        %th Expense
+        %td=@report.month_summary['total_expense']
+      %tr{:class=>cycle('even', 'odd')}
+        %th Balance
+        %td=@report.month_summary['total_balance']

@@ -1,0 +1,13 @@
+%fieldset
+  %legend=text_field_tag('date', Date.today, :class=>'datepicker')
+  %table
+    %tbody
+      %tr{:class=>cycle('even', 'odd')}
+        %th Income
+        %td=@report.date_summary['total_income']
+      %tr{:class=>cycle('even', 'odd')}
+        %th Expense
+        %td=@report.date_summary['total_expense']
+      %tr{:class=>cycle('even', 'odd')}
+        %th Balance
+        %td=@report.date_summary['total_balance']

@@ -1,14 +1,10 @@
-%table
-  %thead
-    %tr
-      %th=@date.strftime("%Y-%m")
-  %tbody
-    %tr
-      %th Income
-      %td=@month_summary['total_income']
-    %tr
-      %th Expense
-      %td=@month_summary['total_expense']
-    %tr
-      %th Balance
-      %td=@month_summary['total_balance']
+:javascript
+  $(document).ready(function(){
+    $(function() {
+      $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
+    });
+  });
+
+#bymonth=render :partial=>'by_month'
+#byweek=render :partial=>'by_week'
+#bydate=render :partial=>'by_date'

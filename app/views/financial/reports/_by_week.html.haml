@@ -1,0 +1,13 @@
+%fieldset
+  %legend=select_tag('week', options_for_select(last_12_weeks)) 
+  %table
+    %tbody
+      %tr{:class=>cycle('even', 'odd')}
+        %th Income
+        %td=@report.week_summary['total_income']
+      %tr{:class=>cycle('even', 'odd')}
+        %th Expense
+        %td=@report.week_summary['total_expense']
+      %tr{:class=>cycle('even', 'odd')}
+        %th Balance
+        %td=@report.week_summary['total_balance']
