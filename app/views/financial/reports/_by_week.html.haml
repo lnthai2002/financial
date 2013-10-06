@@ -1,13 +1,21 @@
-%fieldset
-  %legend=select_tag('week', options_for_select(last_12_weeks)) 
-  %table
-    %tbody
-      %tr{:class=>cycle('even', 'odd')}
-        %th Income
-        %td=@report.week_summary['total_income']
-      %tr{:class=>cycle('even', 'odd')}
-        %th Expense
-        %td=@report.week_summary['total_expense']
-      %tr{:class=>cycle('even', 'odd')}
-        %th Balance
-        %td=@report.week_summary['total_balance']
+:javascript
+  $(document).ready(function(){
+    $("#by_week_form #date").change(function () {
+      $('#by_week_form').submit();
+    })
+  });
+
+=form_tag by_week_reports_url, :id=>'by_week_form', :method=>'get', :remote=>true do
+  %fieldset
+    %legend=select_tag('date', options_for_select(last_12_weeks))
+    %table
+      %tbody
+        %tr{:class=>cycle('even', 'odd')}
+          %th Income
+          %td=@report.week_summary['total_income']
+        %tr{:class=>cycle('even', 'odd')}
+          %th Expense
+          %td=@report.week_summary['total_expense']
+        %tr{:class=>cycle('even', 'odd')}
+          %th Balance
+          %td=@report.week_summary['total_balance']

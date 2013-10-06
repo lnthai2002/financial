@@ -33,25 +33,20 @@ module Financial
 
     def summary_in_range(start_date, end_date)
       #inclusive search
-      conditions = ["pmt_date BETWEEN DATE(?) AND DATE(?)",
-                    start_date.strftime("%Y-%m-%d"),
-                    end_date.strftime("%Y-%m-%d")]
+      date_range_conditions = ["pmt_date BETWEEN DATE(?) AND DATE(?)",
+                                start_date.strftime("%Y-%m-%d"),
+                                end_date.strftime("%Y-%m-%d")]
 
       summary = {'start'=>start_date, 'end'=>end_date,
-                 'expense'=>Expense.sum(:amount_cents, :conditions=>conditions, :group=>:category_id),
-                 'income'=>Income.sum(:amount_cents, :conditions=>conditions, :group=>:category_id)}
+                 'expense'=>Expense.joins(:expense_category)
+                                   .select("description, SUM(amount_cents) AS amount_cents")
+                                   .where(date_range_conditions).group('category_id').all,
+                 'income'=>Income.joins(:income_category)
+                                 .select("description, SUM(amount_cents) AS amount_cents")
+                                 .where(date_range_conditions).group('category_id').all}
 
-      summary['total_expense'] = Money.new(0)
-      summary['expense'].each do |category_id, amount|
-        summary['expense'][category_id] = Money.new(amount)
-        summary['total_expense'] = summary['total_expense'] + summary['expense'][category_id]
-      end
-
-      summary['total_income'] = Money.new(0)
-      summary['income'].each do |category_id, amount|
-        summary['income'][category_id] = Money.new(amount)
-        summary['total_income'] = summary['total_income'] + summary['income'][category_id]
-      end
+      summary['total_expense'] = summary['expense'].inject(Money.new(0)){|total, summ| total + summ.amount}
+      summary['total_income'] = summary['income'].inject(Money.new(0)){|total, summ| total + summ.amount}
       summary['total_balance'] = summary['total_income'] - summary['total_expense']
 
       return summary

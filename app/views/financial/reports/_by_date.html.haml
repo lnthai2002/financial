@@ -1,13 +1,23 @@
-%fieldset
-  %legend=text_field_tag('date', Date.today, :class=>'datepicker')
-  %table
-    %tbody
-      %tr{:class=>cycle('even', 'odd')}
-        %th Income
-        %td=@report.date_summary['total_income']
-      %tr{:class=>cycle('even', 'odd')}
-        %th Expense
-        %td=@report.date_summary['total_expense']
-      %tr{:class=>cycle('even', 'odd')}
-        %th Balance
-        %td=@report.date_summary['total_balance']
+:javascript
+  $(document).ready(function(){
+    $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
+
+    $("#by_date_form #date").change(function () {
+      $('#by_date_form').submit();
+    })
+  });
+
+=form_tag by_date_reports_url, :id=>'by_date_form',:method=>'get', :remote=>true do
+  %fieldset
+    %legend=text_field_tag('date', @report.date, :class=>'datepicker')
+    %table
+      %tbody
+        %tr{:class=>cycle('even', 'odd')}
+          %th Income
+          %td=@report.date_summary['total_income']
+        %tr{:class=>cycle('even', 'odd')}
+          %th Expense
+          %td=@report.date_summary['total_expense']
+        %tr{:class=>cycle('even', 'odd')}
+          %th Balance
+          %td=@report.date_summary['total_balance']

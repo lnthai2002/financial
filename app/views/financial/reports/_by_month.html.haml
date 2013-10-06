@@ -1,26 +1,39 @@
 :javascript
+  function drawChart() {
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Categories');
+    data.addColumn('number', 'Amount');
+    data.addRows([#{json_table_for_google_chart(@report.month_summary['expense'])}])
+    // Set chart options
+    var options = {'title':'#{@report.date.strftime("%Y %b")} Expense','width':300,'height':300};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('month_chart_div'));
+    chart.draw(data, options);
+  }
+
   $(document).ready(function(){
-    $("#month").change(function () {
-      var selectedDate = $("#month option:selected").val();
-      var update_url = '#{by_month_reports_url}';
-      $.ajax({
-        dataType: "json",
-        url: update_url,
-        type: "GET",
-        data: ({date: selectedDate})
-      });
+    $("#by_month_form #date").change(function () {
+      $('#by_month_form').submit();
     })
+    drawChart();
   });
-%fieldset
-  %legend=select_tag('month', options_for_select(months_from_2_years_ago))
-  %table
-    %tbody
-      %tr{:class=>cycle('even', 'odd')}
-        %th Income
-        %td=@report.month_summary['total_income']
-      %tr{:class=>cycle('even', 'odd')}
-        %th Expense
-        %td=@report.month_summary['total_expense']
-      %tr{:class=>cycle('even', 'odd')}
-        %th Balance
-        %td=@report.month_summary['total_balance']
+
+=form_tag by_month_reports_url, :id=>'by_month_form',:method=>'get', :remote=>true do
+  %fieldset
+    %legend=select_tag('date', options_for_select(months_from_2_years_ago, date_for_select(@report.date)))
+    .horizontal
+      %table
+        %tbody
+          %tr{:class=>cycle('even', 'odd')}
+            %th Income
+            %td=@report.month_summary['total_income']
+          %tr{:class=>cycle('even', 'odd')}
+            %th Expense
+            %td=@report.month_summary['total_expense']
+          %tr{:class=>cycle('even', 'odd')}
+            %th Balance
+            %td=@report.month_summary['total_balance']
+
+      #month_chart_div

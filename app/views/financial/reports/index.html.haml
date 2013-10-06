@@ -1,9 +1,9 @@
+- content_for :specific_view_js do
+  %script{:src=>'http://www.google.com/jsapi', :type=>'text/javascript', :charset=>'utf-8'}
+
 :javascript
-  $(document).ready(function(){
-    $(function() {
-      $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
-    });
-  });
+  // Load the Visualization API and the piechart package.
+  google.load('visualization', '1.0', {'packages':['corechart']});
 
 #bymonth=render :partial=>'by_month'
 #byweek=render :partial=>'by_week'
