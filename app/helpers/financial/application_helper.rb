@@ -37,7 +37,7 @@ module Financial
     def gc_table_for_monthly_balance(summaries)
       table = ["['Month','Income','Expense','Balance']"]
       summaries.each do |month, val|
-        table << "['#{month}', #{val['Financial::Income']}, #{val['Financial::Expense']}, #{val['balance']}]"
+        table << "['#{month}', #{val['Financial::Income']}, #{val['Financial::Expense']}, #{val['Balance']}]"
       end
       return "[#{table.join(',')}]"
     end
