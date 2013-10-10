@@ -52,8 +52,14 @@ module Financial
 
     def date_summary
       if !@date_summary
-        @date_summary={'total_expense'=>Money.new(Expense.accessible_by(@current_ability).sum(:amount_cents, :conditions=>["pmt_date = DATE(?)", @date])),
-                       'total_income'=>Money.new(Income.accessible_by(@current_ability).sum(:amount_cents, :conditions=>["pmt_date = DATE(?)", @date]))}
+        date_condition = ["pmt_date = DATE(?)", @date]
+        @date_summary={'total_expense'=>Money.new(Expense.accessible_by(@current_ability)
+                                                         .where(date_condition)
+                                                         .sum(:amount_cents)),
+                       'total_income'=>Money.new(Income.accessible_by(@current_ability)
+                                                       .where(date_condition)
+                                                       .sum(:amount_cents))
+                      }
         @date_summary['total_balance']= @date_summary['total_income'] - @date_summary['total_expense']
       end
       return @date_summary
