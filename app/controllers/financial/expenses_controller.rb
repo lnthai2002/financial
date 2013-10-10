@@ -15,19 +15,23 @@ module Financial
     # GET /expenses.json
     def index
       #default is the current month
-      !params[:year] ? @year = Date.today.year : @year = params[:year]
-      !params[:month] ? @month = Date.today.month : @month = params[:month]
-      begin_date = Date.parse("#{@year}-#{@month}-01")
-      end_date = begin_date.end_of_month
+      begin
+        begin_date = Date.parse(params[:start_date])
+      rescue
+        begin_date = Date.today.beginning_of_month
+      end
+      begin
+        end_date = Date.parse(params[:end_date])
+      rescue
+        end_date = Date.today.end_of_month
+      end
       #inclusive search
-      @expenses = Expense.accessible_by(current_ability).where("pmt_date BETWEEN DATE(?) AND DATE(?)",
-                                                                begin_date.strftime("%Y-%m-%d"),
-                                                                end_date.strftime("%Y-%m-%d")
-                                                               )
-                                                        .order(:pmt_date)
-                                                        .all
-      @monthly_total = Money.new(Expense.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
-      @summaries = Expense.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:category_id)
+      range_condition = ["pmt_date BETWEEN DATE(?) AND DATE(?)",
+                         begin_date.strftime("%Y-%m-%d"),
+                         end_date.strftime("%Y-%m-%d"]
+      @expenses = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
+      @monthly_total = Money.new(Expense.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
+
       respond_to do |format|
         format.html # index.html.erb
         format.xml  { render :xml => @expenses }
@@ -148,7 +152,8 @@ module Financial
       end
     end
   
-  private
+  protected
+
     def load_selections
       @expense_categories = ExpenseCategory.all
       @payment_types = PaymentType.all
