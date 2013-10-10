@@ -26,22 +26,18 @@ module Financial
     end
 
     #take the hash and turn it into DataTable json object to be used for google chart
-    def json_table_for_google_chart(data)
-      table = [['Categories','Amount'].to_json]
+    def gc_table_for_summary(data)
+      table = ["['Categories','Amount']"]
       data.each do |summary|
         table << "['#{summary.description}',#{summary.amount.to_d}]"
       end
       return "[#{table.join(',')}]"
     end
 
-    def json_table_for_GC(summaries)
-      table = [['Month','Income','Expense','Balance'].to_json]
-      data = Hash.new({'Financial::Income'=>BigDecimal.new(0), 'Financial::Expense'=>BigDecimal.new(0)})
-      summaries.each do |summary|
-        data["#{summary.year}/#{summary.month}"] = data["#{summary.year}/#{summary.month}"].merge({summary.type=>summary.amount.to_d})
-      end
-      data.each do |month, val|
-        table << "['#{month}', #{val['Financial::Income']}, #{val['Financial::Expense']}, #{val['Financial::Income'] - val['Financial::Expense']}]"
+    def gc_table_for_monthly_balance(summaries)
+      table = ["['Month','Income','Expense','Balance']"]
+      summaries.each do |month, val|
+        table << "['#{month}', #{val['Financial::Income']}, #{val['Financial::Expense']}, #{val['balance']}]"
       end
       return "[#{table.join(',')}]"
     end

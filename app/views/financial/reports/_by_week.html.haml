@@ -1,8 +1,8 @@
 :javascript
   function drawWeekChart() {
-    var data = new google.visualization.arrayToDataTable(#{json_table_for_google_chart(@report.week_summary['expense'])});
-    var options = {'title':'#{@report.week_summary.start.strftime("%Y/%m/%d")} - #{@report.week_summary.end.strftime("%Y/%m/%d")} Expense','width':300,'height':300};
-    var chart = new google.visualization.PieChart(document.getElementById('week_chart_div'));
+    var options = {'title':'#{@report.week_summary.start.strftime("%Y/%m/%d")} - #{@report.week_summary.end.strftime("%Y/%m/%d")} Expense'};
+    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.week_summary['expense'])});
+    var chart = new google.visualization.PieChart(document.getElementById('week_chart'));
     chart.draw(data, options);
   }
 
@@ -17,14 +17,18 @@
   %fieldset
     %legend=select_tag('date', options_for_select(last_12_weeks))
     %table
-      %tbody
-        %tr{:class=>cycle('even', 'odd')}
-          %th Income
-          %td=@report.week_summary['total_income']
-        %tr{:class=>cycle('even', 'odd')}
-          %th Expense
-          %td=@report.week_summary['total_expense']
-        %tr{:class=>cycle('even', 'odd')}
-          %th Balance
-          %td=@report.week_summary['total_balance']
-    #week_chart_div
+      %tr
+        %td
+          %table
+            %tbody
+              %tr{:class=>cycle('even', 'odd')}
+                %th Income
+                %td=@report.week_summary['total_income']
+              %tr{:class=>cycle('even', 'odd')}
+                %th Expense
+                %td=@report.week_summary['total_expense']
+              %tr{:class=>cycle('even', 'odd')}
+                %th Balance
+                %td=@report.week_summary['total_balance']
+        %td
+          #week_chart

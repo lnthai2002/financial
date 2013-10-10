@@ -27,6 +27,7 @@ module Financial
     def by_date
       prepare_report
     end
+
     protected
 
     def prepare_report
@@ -35,7 +36,7 @@ module Financial
       rescue
         @date = Date.today
       end
-      @report = Report.new(@date)
+      @report = Report.new(@date, current_ability)
     end
   end
 end
