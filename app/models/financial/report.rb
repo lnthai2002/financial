@@ -6,6 +6,13 @@ module Financial
       #inclusive search
     end
 
+    def balance_by_month
+      if !@balance_summary
+        @balance_summary = Payment.select('YEAR(pmt_date) AS year, MONTH(pmt_date) AS month, type, SUM(amount_cents) AS amount_cents').group("YEAR(pmt_date), MONTH(pmt_date), type")
+      end
+      return @balance_summary
+    end
+
     def month_summary
       if !@month_summary
         @month_summary = summary_in_range(@date.beginning_of_month, @date.end_of_month)  
@@ -23,7 +30,7 @@ module Financial
     def date_summary
       if !@date_summary
         @date_summary={'total_expense'=>Money.new(Expense.sum(:amount_cents, :conditions=>["pmt_date = DATE(?)", @date])),
-                     'total_income'=>Money.new(Income.sum(:amount_cents, :conditions=>["pmt_date = DATE(?)", @date]))}
+                       'total_income'=>Money.new(Income.sum(:amount_cents, :conditions=>["pmt_date = DATE(?)", @date]))}
         @date_summary['total_balance']= @date_summary['total_income'] - @date_summary['total_expense']
       end
       return @date_summary

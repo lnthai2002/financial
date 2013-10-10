@@ -1,8 +1,16 @@
 :javascript
+  function drawWeekChart() {
+    var data = new google.visualization.arrayToDataTable(#{json_table_for_google_chart(@report.week_summary['expense'])});
+    var options = {'title':'#{@report.week_summary.start.strftime("%Y/%m/%d")} - #{@report.week_summary.end.strftime("%Y/%m/%d")} Expense','width':300,'height':300};
+    var chart = new google.visualization.PieChart(document.getElementById('week_chart_div'));
+    chart.draw(data, options);
+  }
+
   $(document).ready(function(){
     $("#by_week_form #date").change(function () {
       $('#by_week_form').submit();
     })
+    drawWeekChart();
   });
 
 =form_tag by_week_reports_url, :id=>'by_week_form', :method=>'get', :remote=>true do
@@ -19,3 +27,4 @@
         %tr{:class=>cycle('even', 'odd')}
           %th Balance
           %td=@report.week_summary['total_balance']
+    #week_chart_div
