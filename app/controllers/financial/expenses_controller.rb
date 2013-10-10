@@ -28,7 +28,7 @@ module Financial
       #inclusive search
       range_condition = ["pmt_date BETWEEN DATE(?) AND DATE(?)",
                          begin_date.strftime("%Y-%m-%d"),
-                         end_date.strftime("%Y-%m-%d"]
+                         end_date.strftime("%Y-%m-%d")]
       @expenses = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
       @monthly_total = Money.new(Expense.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
 
