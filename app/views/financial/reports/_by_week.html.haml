@@ -25,7 +25,7 @@
                 %th Income
                 %td=@report.week_summary['total_income']
               %tr{:class=>cycle('even', 'odd')}
-                %th Expense
+                %th= link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.week_summary['start']), 'end_date'=>date_for_select(@report.week_summary['end']))
                 %td=@report.week_summary['total_expense']
               %tr{:class=>cycle('even', 'odd')}
                 %th Balance
