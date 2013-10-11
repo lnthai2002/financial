@@ -4,6 +4,7 @@
       = tab.list 'List', plans_path
   -elsif current_tab?(:daily_tracking, :usecases)
     = tabs_tag :namespace => :daily_resources do |tab|
+      = tab.reports 'Reports', reports_path
       = tab.expenses 'Expenses', expenses_path
       = tab.incomes 'Incomes', incomes_path
       = tab.recurring_payments 'Recurring', recurring_payments_path

@@ -1,0 +1,34 @@
+:javascript
+  function drawWeekChart() {
+    var options = {'title':'#{@report.week_summary.start.strftime("%Y/%m/%d")} - #{@report.week_summary.end.strftime("%Y/%m/%d")} Expense'};
+    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.week_summary['expense'])});
+    var chart = new google.visualization.PieChart(document.getElementById('week_chart'));
+    chart.draw(data, options);
+  }
+
+  $(document).ready(function(){
+    $("#by_week_form #date").change(function () {
+      $('#by_week_form').submit();
+    })
+    drawWeekChart();
+  });
+
+=form_tag by_week_reports_url, :id=>'by_week_form', :method=>'get', :remote=>true do
+  %fieldset
+    %legend=select_tag('date', options_for_select(last_12_weeks))
+    %table
+      %tr
+        %td
+          %table
+            %tbody
+              %tr{:class=>cycle('even', 'odd')}
+                %th Income
+                %td=@report.week_summary['total_income']
+              %tr{:class=>cycle('even', 'odd')}
+                %th Expense
+                %td=@report.week_summary['total_expense']
+              %tr{:class=>cycle('even', 'odd')}
+                %th Balance
+                %td=@report.week_summary['total_balance']
+        %td
+          #week_chart

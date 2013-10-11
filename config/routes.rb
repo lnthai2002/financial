@@ -17,6 +17,14 @@ Financial::Engine.routes.draw do
       put :terminate
     end
   end
+  resources :reports do
+    collection do
+      get :by_date
+      get :by_month
+      get :by_week
+    end
+  end
+  
 
   get 'recurring_payment_categories', :to=>'recurring_payments#reload_categories', :as=>:recurring_payment_reload_categories
 

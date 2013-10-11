@@ -1,0 +1,50 @@
+:javascript
+  function drawBalanceByMonthChart(){
+    var options = {
+      title: 'Balance by month',
+      vAxis: {title: "Amount"},
+      hAxis: {title: "Month"},
+      seriesType: "bars",
+      series: {2: {type: "line"}}
+    };
+    var data = google.visualization.arrayToDataTable(#{gc_table_for_monthly_balance(@report.balance_by_month)});
+    var chart = new google.visualization.ComboChart(document.getElementById('balance_by_month_chart'));
+    chart.draw(data, options);
+  }
+
+  function drawMonthChart() {
+    var options = {'title':'#{@report.date.strftime("%Y %b")} Expense'};
+    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.month_summary['expense'])});
+    var chart = new google.visualization.PieChart(document.getElementById('month_chart'));
+    chart.draw(data, options);
+  }
+
+  $(document).ready(function(){
+    $("#by_month_form #date").change(function () {
+      $('#by_month_form').submit();
+    })
+    drawBalanceByMonthChart();
+    drawMonthChart();
+  });
+
+#balance_by_month_chart
+
+=form_tag by_month_reports_url, :id=>'by_month_form',:method=>'get', :remote=>true do
+  %fieldset
+    %legend=select_tag('date', options_for_select(months_from_2_years_ago, date_for_select(@report.date)))
+    %table
+      %tr
+        %td
+          %table
+            %tbody
+              %tr{:class=>cycle('even', 'odd')}
+                %th Income
+                %td=@report.month_summary['total_income']
+              %tr{:class=>cycle('even', 'odd')}
+                %th Expense
+                %td=@report.month_summary['total_expense']
+              %tr{:class=>cycle('even', 'odd')}
+                %th Balance
+                %td=@report.month_summary['total_balance']
+        %td
+          #month_chart
