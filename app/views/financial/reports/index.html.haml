@@ -5,6 +5,25 @@
   // Load the Visualization API and the piechart package.
   google.load('visualization', '1.0', {'packages':['corechart']});
 
+  function drawBalanceByMonthChart(){
+    var options = {
+      title: 'Balance by month',
+      vAxis: {title: "Amount"},
+      hAxis: {title: "Month"},
+      seriesType: "bars",
+      series: {2: {type: "line"}}
+    };
+    var data = google.visualization.arrayToDataTable(#{gc_table_for_monthly_balance(@report.balance_by_month)});
+    var chart = new google.visualization.ComboChart(document.getElementById('balance_by_month_chart'));
+    chart.draw(data, options);
+  }
+
+  $(document).ready(function(){
+    drawBalanceByMonthChart();
+  });
+
+#balance_by_month_chart
+
 #bymonth=render :partial=>'by_month'
 #byweek=render :partial=>'by_week'
 #bydate=render :partial=>'by_date'
