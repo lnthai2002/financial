@@ -16,9 +16,9 @@ module Financial
     def index
       #default is the current month
       begin
-        begin_date = Date.parse(params[:start_date])
+        start_date = Date.parse(params[:start_date])
       rescue
-        begin_date = Date.today.beginning_of_month
+        start_date = Date.today.beginning_of_month
       end
       begin
         end_date = Date.parse(params[:end_date])
@@ -27,7 +27,7 @@ module Financial
       end
       #inclusive search
       range_condition = ["pmt_date BETWEEN DATE(?) AND DATE(?)",
-                         begin_date.strftime("%Y-%m-%d"),
+                         start_date.strftime("%Y-%m-%d"),
                          end_date.strftime("%Y-%m-%d")]
       @expenses = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
       @monthly_total = Money.new(Expense.accessible_by(current_ability).where(range_condition).sum(:amount_cents))

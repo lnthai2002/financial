@@ -53,7 +53,8 @@ module Financial
     def date_summary
       if !@date_summary
         date_condition = ["pmt_date = DATE(?)", @date]
-        @date_summary={'total_expense'=>Money.new(Expense.accessible_by(@current_ability)
+        @date_summary={'date'=>@date,
+                       'total_expense'=>Money.new(Expense.accessible_by(@current_ability)
                                                          .where(date_condition)
                                                          .sum(:amount_cents)),
                        'total_income'=>Money.new(Income.accessible_by(@current_ability)

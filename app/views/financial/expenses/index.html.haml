@@ -1,4 +1,10 @@
+- content_for :specific_view_js do
+  %script{:src=>'http://www.google.com/jsapi', :type=>'text/javascript', :charset=>'utf-8'}
+
 :javascript
+  // Load the Visualization API and the piechart package.
+  google.load('visualization', '1.0', {'packages':['corechart']});
+
   function drawSummaryChart() {
     var options = {'title':'#{@summary.start.strftime("%Y/%m/%d")} - #{@summary.end.strftime("%Y/%m/%d")}'};
     var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@summary['expense'])});
@@ -7,7 +13,7 @@
   }
 
   $(document).ready(function(){
-    drawWeekChart();
+    drawSummaryChart();
   });
 
 #summary_chart
