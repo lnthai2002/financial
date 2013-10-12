@@ -15,7 +15,7 @@
 
 =form_tag by_week_reports_url, :id=>'by_week_form', :method=>'get', :remote=>true do
   %fieldset
-    %legend=select_tag('date', options_for_select(last_12_weeks))
+    %legend=select_tag('date', options_for_select(last_12_weeks, date_for_select(@report.date)))
     %table
       %tr
         %td
