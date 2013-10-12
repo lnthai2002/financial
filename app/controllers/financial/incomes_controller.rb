@@ -13,14 +13,28 @@ module Financial
 
     def index
       #default is the current month
-      !params[:year] ? year = Date.today.year : @year = params[:year]
-      !params[:month] ? month = Date.today.month : @month = params[:month]
-      begin_date = Date.parse("#{year}-#{month}-01")
-      end_date = begin_date.end_of_month
+      begin
+        start_date = Date.parse(params[:start_date])
+      rescue
+        start_date = Date.today.beginning_of_month
+      end
+      begin
+        end_date = Date.parse(params[:end_date])
+      rescue
+        end_date = Date.today.end_of_month
+      end
       #inclusive search
-      @incomes = Income.accessible_by(current_ability).where("pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")).order(:pmt_date).all
-      @monthly_total = Money.new(Income.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")]))
-      @summaries = Income.sum(:amount_cents, :conditions=>["pmt_date BETWEEN DATE(?) AND DATE(?)", begin_date.prev_month.strftime("%Y-%m-%d"), end_date.prev_month.strftime("%Y-%m-%d")], :group=>:category_id)
+      range_condition = ["pmt_date BETWEEN DATE(?) AND DATE(?)",
+                         start_date.strftime("%Y-%m-%d"),
+                         end_date.strftime("%Y-%m-%d")]
+      @incomes = Income.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
+      @monthly_total = Money.new(Income.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
+      @summary = Summary.by_date_range(current_ability, start_date, end_date)
+      
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @expenses }
+      end
     end
 
     def new
@@ -48,7 +62,7 @@ module Financial
   
       respond_to do |format|
         if @income.update_attributes(params[:income])
-          format.html { redirect_to reports_path, notice: 'Income was successfully updated.' }
+          format.html { redirect_to reports_path, notice: 'Income was successfully changed.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }

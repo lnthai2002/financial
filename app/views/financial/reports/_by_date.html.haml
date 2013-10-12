@@ -15,7 +15,7 @@
     %table
       %tbody
         %tr{:class=>cycle('even', 'odd')}
-          %th Income
+          %th=link_to 'Income', incomes_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
           %td=@report.date_summary['total_income']
         %tr{:class=>cycle('even', 'odd')}
           %th=link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
