@@ -19,7 +19,7 @@
 #summary_chart
 
 %fieldset
-  %legend= '@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}'
+  %legend="#{@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}"
   %table{:width=>'90%'}
     %thead
       %tr
