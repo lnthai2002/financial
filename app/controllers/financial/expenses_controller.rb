@@ -72,7 +72,7 @@ module Financial
       @expense.person = @person
       respond_to do |format|
         if @expense.save
-          format.html { redirect_to expenses_path, notice: 'Expense was successfully created.' }
+          format.html { redirect_to reports_path, notice: 'Expense was successfully recorded.' }
           format.json { render json: @expense, status: :created, location: @expense }
         else
           format.html { render action: "new" }
@@ -88,7 +88,7 @@ module Financial
   
       respond_to do |format|
         if @expense.update_attributes(params[:expense])
-          format.html { redirect_to expenses_path, notice: 'Expense was successfully updated.' }
+          format.html { redirect_to reports_path, notice: 'Expense was successfully changed.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }
@@ -104,7 +104,7 @@ module Financial
       @expense.destroy
   
       respond_to do |format|
-        format.html { redirect_to expenses_url }
+        format.html { redirect_to reports_url }
         format.json { head :ok }
       end
     end

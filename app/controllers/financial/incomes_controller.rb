@@ -37,7 +37,7 @@ module Financial
       @income = Income.new(params[:income])
       @income.person = @person
       if @income.save
-        redirect_to incomes_path
+        redirect_to reports_path
       else
         render action: "new"
       end
@@ -48,7 +48,7 @@ module Financial
   
       respond_to do |format|
         if @income.update_attributes(params[:income])
-          format.html { redirect_to incomes_path, notice: 'Income was successfully updated.' }
+          format.html { redirect_to reports_path, notice: 'Income was successfully updated.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }
@@ -64,7 +64,7 @@ module Financial
       @income.destroy
   
       respond_to do |format|
-        format.html { redirect_to incomes_url }
+        format.html { redirect_to reports_url }
         format.json { head :ok }
       end
     end
