@@ -6,8 +6,8 @@
   google.load('visualization', '1.0', {'packages':['corechart']});
 
   function drawSummaryChart() {
-    var options = {'title':'#{@summary.start.strftime("%Y/%m/%d")} - #{@summary.end.strftime("%Y/%m/%d")}'};
-    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@summary['expense'])});
+    var options = {'title':'#{@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}'};
+    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@expenses['summary'])});
     var chart = new google.visualization.PieChart(document.getElementById('summary_chart'));
     chart.draw(data, options);
   }
@@ -19,7 +19,7 @@
 #summary_chart
 
 %fieldset
-  %legend Curent month
+  %legend= '@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}'
   %table{:width=>'90%'}
     %thead
       %tr
@@ -32,10 +32,10 @@
     %tfoot
       %tr
         %th{:colspan=>'2'} TOTAL
-        %th= number_to_currency(@monthly_total)
+        %th= number_to_currency(@expenses['total'])
         %th{:colspan=>'3'} &nbsp;
     %tbody
-      - @expenses.each do |e|
+      - @expenses['list'].each do |e|
         %tr{:class=>cycle('even', 'odd')}
           %td= e.pmt_date
           %td= e.expense_category.description

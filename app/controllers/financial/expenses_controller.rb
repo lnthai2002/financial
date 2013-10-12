@@ -29,9 +29,10 @@ module Financial
       range_condition = ["pmt_date BETWEEN DATE(?) AND DATE(?)",
                          start_date.strftime("%Y-%m-%d"),
                          end_date.strftime("%Y-%m-%d")]
-      @expenses = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
-      @monthly_total = Money.new(Expense.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
-      @summary = Summary.by_date_range(current_ability, start_date, end_date)
+      @expenses = {'start_date'=>start_date, 'end_date'=>end_date}
+      @expenses['list'] = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
+      @expenses['total'] = Money.new(Expense.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
+      @expenses['summary'] = Summary.expenses_by_date_range(current_ability, start_date, end_date)
 
       respond_to do |format|
         format.html # index.html.erb
