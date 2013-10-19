@@ -4,7 +4,7 @@ module Financial
 
     monetize :amount_cents
 
-    attr_accessible :frequency, :first_date, :category_id, :amount, :note, :payment_type_id, :type, :end_date, :finished, :person_id
+    attr_accessible :frequency, :first_date, :category_id, :amount, :note, :payment_type_id, :type, :end_date, :finished, :person_id, :payee_payer
 
     belongs_to :person
     has_many :payments, :foreign_key => :recurring_id
