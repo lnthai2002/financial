@@ -44,6 +44,9 @@
       %th= f.label :Amount
       %td= f.text_field :amount, :size=>10
     %tr
+      %th= f.label "Payee/Payer"
+      %td= f.text_field :payee_payer
+    %tr
       %th Payment method
       %td= f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
     %tr

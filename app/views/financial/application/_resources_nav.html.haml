@@ -5,8 +5,8 @@
   -elsif current_tab?(:daily_tracking, :usecases)
     = tabs_tag :namespace => :daily_resources do |tab|
       = tab.reports 'Reports', reports_path
-      = tab.expenses 'Expenses', expenses_path
-      = tab.incomes 'Incomes', incomes_path
+      = tab.expenses 'Expenses', new_expense_path
+      = tab.incomes 'Incomes', new_income_path
       = tab.recurring_payments 'Recurring', recurring_payments_path
       = tab.categories 'Categories', categories_path
       = tab.payment_types 'Payment methods', payment_types_path

@@ -9,14 +9,16 @@
 
 =form_tag by_date_reports_url, :id=>'by_date_form',:method=>'get', :remote=>true do
   %fieldset
-    %legend=text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker')
+    %legend
+      Date
+      =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker')
     %table
       %tbody
         %tr{:class=>cycle('even', 'odd')}
-          %th Income
+          %th=link_to 'Income', incomes_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
           %td=@report.date_summary['total_income']
         %tr{:class=>cycle('even', 'odd')}
-          %th Expense
+          %th=link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
           %td=@report.date_summary['total_expense']
         %tr{:class=>cycle('even', 'odd')}
           %th Balance

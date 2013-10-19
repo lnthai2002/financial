@@ -24,11 +24,8 @@ Financial::Engine.routes.draw do
       get :by_week
     end
   end
-  
 
   get 'recurring_payment_categories', :to=>'recurring_payments#reload_categories', :as=>:recurring_payment_reload_categories
 
-  match 'expenses/:year/:month' => 'expenses#index', :defaults=>{:year=>nil,:month=>nil}, :conditions=>{:method=>:get}
-
-  root :to => 'plans#index'
+  root :to => 'expenses#new'
 end

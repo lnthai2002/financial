@@ -16,9 +16,9 @@ module Financial
     def index
       #default is the current month
       begin
-        begin_date = Date.parse(params[:start_date])
+        start_date = Date.parse(params[:start_date])
       rescue
-        begin_date = Date.today.beginning_of_month
+        start_date = Date.today.beginning_of_month
       end
       begin
         end_date = Date.parse(params[:end_date])
@@ -27,10 +27,12 @@ module Financial
       end
       #inclusive search
       range_condition = ["pmt_date BETWEEN DATE(?) AND DATE(?)",
-                         begin_date.strftime("%Y-%m-%d"),
+                         start_date.strftime("%Y-%m-%d"),
                          end_date.strftime("%Y-%m-%d")]
-      @expenses = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
-      @monthly_total = Money.new(Expense.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
+      @expenses = {'start_date'=>start_date, 'end_date'=>end_date}
+      @expenses['list'] = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
+      @expenses['total'] = Money.new(Expense.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
+      @expenses['summary'] = Summary.expenses_by_date_range(current_ability, start_date, end_date)
 
       respond_to do |format|
         format.html # index.html.erb
@@ -71,7 +73,7 @@ module Financial
       @expense.person = @person
       respond_to do |format|
         if @expense.save
-          format.html { redirect_to expenses_path, notice: 'Expense was successfully created.' }
+          format.html { redirect_to reports_path, notice: 'Expense was successfully recorded.' }
           format.json { render json: @expense, status: :created, location: @expense }
         else
           format.html { render action: "new" }
@@ -87,7 +89,7 @@ module Financial
   
       respond_to do |format|
         if @expense.update_attributes(params[:expense])
-          format.html { redirect_to expenses_path, notice: 'Expense was successfully updated.' }
+          format.html { redirect_to reports_path, notice: 'Expense was successfully changed.' }
           format.json { head :ok }
         else
           format.html { render action: "edit" }
@@ -103,7 +105,7 @@ module Financial
       @expense.destroy
   
       respond_to do |format|
-        format.html { redirect_to expenses_url }
+        format.html { redirect_to reports_url }
         format.json { head :ok }
       end
     end

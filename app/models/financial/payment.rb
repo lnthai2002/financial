@@ -2,7 +2,7 @@ module Financial
   class Payment < ActiveRecord::Base
     monetize :amount_cents
     
-    attr_accessible :amount, :pmt_date, :note, :category_id, :payment_type_id, :recurring_id, :person_id
+    attr_accessible :amount, :pmt_date, :note, :category_id, :payment_type_id, :recurring_id, :person_id, :payee_payer
 
     belongs_to :person
     belongs_to :recurring_payment, :foreign_key => :recurring_id
@@ -15,7 +15,8 @@ module Financial
                                 :amount=>recurring.amount, :note=>recurring.note,
                                 :payment_type_id=>recurring.payment_type_id,
                                 :recurring_id=>recurring.id,
-                                :person_id=>recurring.person_id)
+                                :person_id=>recurring.person_id,
+                                :payee_payer=>recurring.payee_payer)
       if recurring.class == Financial::RecurringExpense
         new_payment.type = "Financial::Expense"
       elsif recurring.class == Financial::RecurringIncome

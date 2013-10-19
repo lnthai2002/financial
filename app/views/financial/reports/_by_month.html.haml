@@ -1,17 +1,4 @@
 :javascript
-  function drawBalanceByMonthChart(){
-    var options = {
-      title: 'Balance by month',
-      vAxis: {title: "Amount"},
-      hAxis: {title: "Month"},
-      seriesType: "bars",
-      series: {2: {type: "line"}}
-    };
-    var data = google.visualization.arrayToDataTable(#{gc_table_for_monthly_balance(@report.balance_by_month)});
-    var chart = new google.visualization.ComboChart(document.getElementById('balance_by_month_chart'));
-    chart.draw(data, options);
-  }
-
   function drawMonthChart() {
     var options = {'title':'#{@report.date.strftime("%Y %b")} Expense'};
     var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.month_summary['expense'])});
@@ -27,21 +14,21 @@
     drawMonthChart();
   });
 
-#balance_by_month_chart
-
 =form_tag by_month_reports_url, :id=>'by_month_form',:method=>'get', :remote=>true do
   %fieldset
-    %legend=select_tag('date', options_for_select(months_from_2_years_ago, date_for_select(@report.date)))
+    %legend
+      Month
+      =select_tag('date', options_for_select(months_from_2_years_ago, date_for_select(@report.date)))
     %table
       %tr
         %td
           %table
             %tbody
               %tr{:class=>cycle('even', 'odd')}
-                %th Income
+                %th= link_to 'Income', incomes_path('start_date'=>date_for_select(@report.month_summary['start']), 'end_date'=>date_for_select(@report.month_summary['end']))
                 %td=@report.month_summary['total_income']
               %tr{:class=>cycle('even', 'odd')}
-                %th Expense
+                %th= link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.month_summary['start']), 'end_date'=>date_for_select(@report.month_summary['end']))
                 %td=@report.month_summary['total_expense']
               %tr{:class=>cycle('even', 'odd')}
                 %th Balance

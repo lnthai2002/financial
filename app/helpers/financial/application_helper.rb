@@ -19,7 +19,7 @@ module Financial
       date = Date.today
       weeks = []
       12.times do
-        weeks << ["#{date.beginning_of_week.strftime("%Y-%m-%d")} - #{date.end_of_week.strftime("%Y-%m-%d")}", date_for_select(date.beginning_of_week)]
+        weeks << ["#{date.beginning_of_week.strftime("%Y/%m/%d")} - #{date.end_of_week.strftime("%Y/%m/%d")}", date_for_select(date.beginning_of_week)]
         date = date.prev_week
       end
       return weeks
