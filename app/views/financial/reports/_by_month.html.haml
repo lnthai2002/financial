@@ -20,18 +20,14 @@
       Month
       =select_tag('date', options_for_select(months_from_2_years_ago, date_for_select(@report.date)))
     %table
-      %tr
-        %td
-          %table
-            %tbody
-              %tr{:class=>cycle('even', 'odd')}
-                %th= link_to 'Income', incomes_path('start_date'=>date_for_select(@report.month_summary['start']), 'end_date'=>date_for_select(@report.month_summary['end']))
-                %td=@report.month_summary['total_income']
-              %tr{:class=>cycle('even', 'odd')}
-                %th= link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.month_summary['start']), 'end_date'=>date_for_select(@report.month_summary['end']))
-                %td=@report.month_summary['total_expense']
-              %tr{:class=>cycle('even', 'odd')}
-                %th Balance
-                %td=@report.month_summary['total_balance']
-        %td
-          #month_chart
+      %tbody
+        %tr{:class=>cycle('even', 'odd')}
+          %th= link_to 'Income', incomes_path('start_date'=>date_for_select(@report.month_summary['start']), 'end_date'=>date_for_select(@report.month_summary['end']))
+          %td=@report.month_summary['total_income']
+        %tr{:class=>cycle('even', 'odd')}
+          %th= link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.month_summary['start']), 'end_date'=>date_for_select(@report.month_summary['end']))
+          %td=@report.month_summary['total_expense']
+        %tr{:class=>cycle('even', 'odd')}
+          %th Balance
+          %td=@report.month_summary['total_balance']
+    #month_chart

@@ -7,26 +7,17 @@
 
 = form_for(@income) do |f|
   = f.error_messages
-  %table
-    %tr
-      %th= f.label :Date
-      %td= f.text_field :pmt_date, :class=>'datepicker', :size=>10
-    %tr
-      %th Category
-      %td= f.select :category_id, @income_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
-    %tr
-      %th= f.label :Amount
-      %td= f.text_field :amount, :size=>10
-    %tr
-      %th= f.label "Payee/Payer"
-      %td= f.text_field :payee_payer
-    %tr
-      %th Payment method
-      %td= f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
-    %tr
-      %th Note
-      %td= f.text_area :note, :cols => 25, :rows=>2
-    %tr
-      %td{:colspan=>'2'} &nbsp;
-    %tr
-      %td{:colspan=>"2"}= f.submit 'Done'
+  %br
+  = f.text_field :pmt_date, :placeholder=>'date', :class=>'datepicker', :size=>10
+  %br
+  = f.select :category_id, @income_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+  %br
+  = f.text_field :amount, :placeholder=>'amount', :size=>10
+  %br
+  = f.text_field :payee_payer, :placeholder=>'payee/payer'
+  %br
+  = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+  %br
+  = f.text_area :note, :placeholder=>'note', :cols => 25, :rows=>2
+  %br
+  = f.submit 'Done'

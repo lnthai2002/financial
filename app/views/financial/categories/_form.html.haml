@@ -3,10 +3,8 @@
   = f.error_messages
   %fieldset
     %legend Category
-    %table
-      %tr
-        %th= f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {:include_blank => false}
-      %tr
-        %th= f.text_field :description, :placeholder=>"Short description"
-      %tr
-        %td= f.submit "OK"
+    = f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {:include_blank => false}
+    %br
+    = f.text_field :description, :placeholder=>"Short description"
+    %br
+    = f.submit "OK"

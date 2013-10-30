@@ -1,62 +1,39 @@
 =form_for @plan, :remote=>true do |b|
-  %table
-    %tr
-      %th=b.label "Name"
-      %td=b.text_field :name, :placeholder=>"Friendly name for this plan"
-    %tr
-      %td
-        =b.fields_for :mortgage do |m|
-          = m.error_messages
-          %fieldset
-            %legend.mortgage-form Mortgage
-            %table
-              %tr
-                %th=m.label "Purchased price"
-                %td=m.text_field :purchased_price, :placeholder=>"Purchased price"
-              %tr
-                %th=m.label "Down payment"
-                %td=m.text_field :down_payment, :"data-bind"=>"value: down_payment"
-              %tr
-                %th=m.label "Interest"
-                %td=m.text_field :interest, :placeholder=>"Annual interest"
-              %tr
-                %th=m.label "Loan term"
-                %td=m.text_field :loan_term, :placeholder=>"Loan term in year"
-              %tr
-                %th=m.label "Municipal tax"
-                %td=m.text_field :municipal_tax, :placeholder=>"Annual municipal tax (Canada)"
-              %tr
-                %th=m.label "School tax"
-                %td=m.text_field :school_tax, :placeholder=>"Annual school tax (Canada)"
-              %tr
-                %th=m.label "Heating cost"
-                %td=m.text_field :heating, :placeholder=>"Annual heating cost"
-              %tr
-                %th=m.label "House insurance"
-                %td=m.text_field :house_insurance, :placeholder=>"Annual house insurance"
-              %tr
-                %th=m.label "Mortgage insurance"
-                %td=m.text_field :mortgage_insurance, :placeholder=>"Annualy, not taken into account in this calculator"
-              %tr
-                %th=m.label "Revenue"
-                %td=m.text_field :revenue, :placeholder=>"Annual revenue from leasing"
-      %td
-        =b.fields_for :investment do |i|
-          = i.error_messages
-          %fieldset
-            %legend.invesment-form Investment
-            %table
-              %tr
-                %th=i.label "Principal"
-                %td=i.text_field :principal, :placeholder=>"Initial value of investment", :"data-bind"=>"value: principal"
-              %tr
-                %th=i.label "Rate"
-                %td=i.text_field :rate, :placeholder=>"Annual rate of return"
-              %tr
-                %th=i.label "Monthly deposit"
-                %td=i.text_field :monthly_dep, :placeholder=>"Monthly saving for investment"
-              %tr
-                %th=i.label "Length"
-                %td=i.text_field :months, :placeholder=>"Number of month until maturity"
-    %tr
-      %td=b.submit "Calculate"
+  =b.text_field :name, :placeholder=>"Friendly name for this plan"
+  =b.fields_for :mortgage do |m|
+    = m.error_messages
+    %fieldset
+      %legend.mortgage-form Mortgage
+      =m.text_field :purchased_price, :placeholder=>"purchased price"
+      %br
+      =m.text_field :down_payment, :placeholder=>"down payment", :"data-bind"=>"value: down_payment"
+      %br
+      =m.text_field :interest, :placeholder=>"Annual interest rate"
+      %br
+      =m.text_field :loan_term, :placeholder=>"Loan term in year"
+      %br
+      =m.text_field :municipal_tax, :placeholder=>"Annual municipal tax (Canada)"
+      %br
+      =m.text_field :school_tax, :placeholder=>"Annual school tax (Canada)"
+      %br
+      =m.text_field :heating, :placeholder=>"Annual heating cost"
+      %br
+      =m.text_field :house_insurance, :placeholder=>"Annual house insurance"
+      %br
+      =m.text_field :mortgage_insurance, :placeholder=>"Annualy, not taken into account in this calculator"
+      %br
+      =m.text_field :revenue, :placeholder=>"Annual revenue from leasing"
+      %br
+      =b.fields_for :investment do |i|
+        = i.error_messages
+        %fieldset
+          %legend.invesment-form Investment
+          =i.text_field :principal, :placeholder=>"Initial value of investment", :"data-bind"=>"value: principal"
+          %br
+          =i.text_field :rate, :placeholder=>"Annual rate of return"
+          %br
+          =i.text_field :monthly_dep, :placeholder=>"Monthly saving for investment"
+          %br
+          =i.text_field :months, :placeholder=>"Number of month until maturity"
+      %br
+      =b.submit "Calculate"

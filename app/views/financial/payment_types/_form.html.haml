@@ -2,10 +2,6 @@
   = p.error_messages
   %fieldset
     %legend Method of payment
-    %table
-      %tr
-        %th=p.label "Description"
-        %td=p.text_field :description, :placeholder=>"Short description"
-      %tr
-        %th
-          =p.submit "OK"
+    =p.text_field :description, :placeholder=>"Short description"
+    %br
+    =p.submit "OK"
