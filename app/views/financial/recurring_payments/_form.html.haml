@@ -31,17 +31,17 @@
   %br
   = f.select :frequency, [['Daily', 'Daily'],['Bi-weekly', 'Bi-weekly'],['Monthly','Monthly'],['Annually','Annually']], {:include_blank => false}
   %br
-  = f.text_field :first_date, :placeholder=>'first date', :class=>'datepicker', :size=>10
+  = f.text_field :first_date, :placeholder=>'first date', :class=>'datepicker', :readonly=>true
   %br
   #recurring_categories
     = f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
   %br
-  = f.text_field :amount, :placeholder=>'amount', :size=>10
+  = f.text_field :amount, :placeholder=>'amount'
   %br
   = f.text_field :payee_payer, :placeholder=>'payee/payer'
   %br
   = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
   %br
-  = f.text_area :note, :placeholder=>'note', :cols => 25, :rows=>2
+  = f.text_area :note, :placeholder=>'note'
   %br
   = f.submit 'Done'

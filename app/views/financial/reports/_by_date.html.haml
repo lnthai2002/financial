@@ -11,7 +11,7 @@
   %fieldset
     %legend
       Date
-      =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker')
+      =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker', :readonly=>true)
     %table
       %tbody
         %tr{:class=>cycle('even', 'odd')}
