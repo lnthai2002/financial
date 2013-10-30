@@ -6,6 +6,7 @@
         %th Date
         %th Category
         %th Amount
+        %th Payer
         %th Method of payment
         %th Note
         %th &nbsp;
@@ -13,13 +14,14 @@
       %tr
         %th{:colspan=>'2'} TOTAL
         %th= number_to_currency(@incomes['total'])
-        %th{:colspan=>'3'} &nbsp;
+        %th{:colspan=>'4'} &nbsp;
     %tbody
       - @incomes['list'].each do |i|
         %tr{:class=>cycle('even', 'odd')}
           %td= i.pmt_date
           %td= i.income_category.description
           %td= number_to_currency(i.amount)
+          %td= i.payee_payer
           %td= i.payment_type.description
           %td= link_to i.note, edit_income_path(i)
-          %td= link_to 'Destroy', i, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to 'Remove', i, :confirm => 'Are you sure?', :method => :delete

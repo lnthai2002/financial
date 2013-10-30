@@ -4,12 +4,12 @@
     %thead
       %tr
         %th Frequency
-        %th First date
+        %th Start date
         %th Category
         %th Amount
-        %th Method of payment
+        %th Payer
+        %th Payment method
         %th Note
-        %th &nbsp;
     %tbody
       - @recurring_incomes.each do |i|
         %tr{:class=>cycle('even', 'odd')}
@@ -17,9 +17,9 @@
           %td= i.first_date
           %td= i.income_category.description
           %td= number_to_currency(i.amount)
+          %td= i.payee_payer
           %td= i.payment_type.description
           %td= link_to i.note, edit_recurring_payment_path(i)
-          %td= link_to 'Destroy', recurring_payment_path(i), :confirm => 'Are you sure?', :method => :delete
 
 %fieldset
   %legend Recurring expenses
@@ -27,10 +27,11 @@
     %thead
       %tr
         %th Frequency
-        %th First date
+        %th Start date
         %th Category
         %th Amount
-        %th Method of payment
+        %th Payee
+        %th Payment method
         %th Note
         %th &nbsp;
     %tbody
@@ -40,6 +41,6 @@
           %td= e.first_date
           %td= e.expense_category.description
           %td= number_to_currency(e.amount)
+          %td= e.payee_payer
           %td= e.payment_type.description
           %td= link_to e.note, edit_recurring_payment_path(e)
-          %td= link_to 'Destroy', recurring_payment_path(e), :confirm => 'Are you sure?', :method => :delete
