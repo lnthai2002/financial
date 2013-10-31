@@ -1,7 +1,6 @@
 =form_for @payment_type do |p|
   = p.error_messages
-  %fieldset
-    %legend Method of payment
-    =p.text_field :description, :placeholder=>"Short description"
-    %br
-    =p.submit "OK"
+  %br
+  =p.text_field :description, :placeholder=>"Short description"
+  %br
+  =p.submit "OK"

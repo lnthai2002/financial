@@ -5,19 +5,24 @@
     });
   });
 
-= form_for(@expense) do |f|
+= form_for(@expense, :html=>{:role=>"form"}) do |f|
   = f.error_messages
-  %br
-  = f.text_field :pmt_date, :placeholder=>'date', :class=>'datepicker', :readonly=>true
-  %br
-  = f.select :category_id, @expense_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
-  %br
-  = f.text_field :amount, :placeholder=>'amount'
-  %br
-  = f.text_field :payee_payer, :placeholder=>'payee/payer'
-  %br
-  = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
-  %br
-  = f.text_area :note, :placeholder=>'note'
-  %br
+  .form-group
+    = f.label :pmt_date, :class=>'sr-only'
+    = f.text_field :pmt_date, :placeholder=>'date', :class=>'datepicker', :readonly=>true
+  .form-group
+    = f.label :category_id, :class=>'sr-only'
+    = f.select :category_id, @expense_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+  .form-group
+    = f.label :amount, :class=>'sr-only'
+    = f.text_field :amount, :placeholder=>'amount'
+  .form-group
+    = f.label :payee_payer, :class=>'sr-only'
+    = f.text_field :payee_payer, :placeholder=>'payee/payer'
+  .form-group
+    = f.label :payment_type_id, :class=>'sr-only'
+    = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+  .form-group
+    = f.label :note, :class=>'sr-only'
+    = f.text_area :note, :placeholder=>'note', :rows=>2
   = f.submit 'Done'

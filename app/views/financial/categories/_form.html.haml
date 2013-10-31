@@ -1,10 +1,9 @@
 = form_for(@category.becomes(Financial::Category)) do |f|
   - f.object = @category.becomes(@category.class)
   = f.error_messages
-  %fieldset
-    %legend Category
-    = f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {:include_blank => false}
-    %br
-    = f.text_field :description, :placeholder=>"Short description"
-    %br
-    = f.submit "OK"
+  %br
+  = f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {:include_blank => false}
+  %br
+  = f.text_field :description, :placeholder=>"Short description"
+  %br
+  = f.submit "OK"

@@ -12,14 +12,15 @@
     %legend
       Date
       =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker', :readonly=>true)
-    %table
-      %tbody
-        %tr{:class=>cycle('even', 'odd')}
-          %th=link_to 'Income', incomes_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
-          %td=@report.date_summary['total_income']
-        %tr{:class=>cycle('even', 'odd')}
-          %th=link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
-          %td=@report.date_summary['total_expense']
-        %tr{:class=>cycle('even', 'odd')}
-          %th Balance
-          %td=@report.date_summary['total_balance']
+    %div{:class=>"col-xs-12 col-md-2"}
+      %table.table.table-striped
+        %tbody
+          %tr
+            %th=link_to 'Income', incomes_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
+            %td=@report.date_summary['total_income']
+          %tr
+            %th=link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
+            %td=@report.date_summary['total_expense']
+          %tr
+            %th Balance
+            %td=@report.date_summary['total_balance']

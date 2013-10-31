@@ -35,13 +35,12 @@
   %br
   #recurring_categories
     = f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
-  %br
   = f.text_field :amount, :placeholder=>'amount'
   %br
   = f.text_field :payee_payer, :placeholder=>'payee/payer'
   %br
   = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
   %br
-  = f.text_area :note, :placeholder=>'note'
+  = f.text_area :note, :placeholder=>'note', :rows=>2
   %br
   = f.submit 'Done'

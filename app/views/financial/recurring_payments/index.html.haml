@@ -1,6 +1,6 @@
 %fieldset
   %legend Recurring incomes
-  %table{:width=>'90%'}
+  %table.table.table-striped
     %thead
       %tr
         %th Frequency
@@ -12,7 +12,7 @@
         %th Note
     %tbody
       - @recurring_incomes.each do |i|
-        %tr{:class=>cycle('even', 'odd')}
+        %tr
           %td= i.frequency
           %td= i.first_date
           %td= i.income_category.description
@@ -23,7 +23,7 @@
 
 %fieldset
   %legend Recurring expenses
-  %table{:width=>'90%'}
+  %table.table.table-striped
     %thead
       %tr
         %th Frequency
@@ -36,7 +36,7 @@
         %th &nbsp;
     %tbody
       - @recurring_expenses.each do |e|
-        %tr{:class=>cycle('even', 'odd')}
+        %tr
           %td= e.frequency
           %td= e.first_date
           %td= e.expense_category.description

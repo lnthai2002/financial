@@ -20,7 +20,7 @@
 
 %fieldset
   %legend="#{@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}"
-  %table{:width=>'90%'}
+  %table.table.table-striped
     %thead
       %tr
         %th Date
@@ -37,7 +37,7 @@
         %th{:colspan=>'4'} &nbsp;
     %tbody
       - @expenses['list'].each do |e|
-        %tr{:class=>cycle('even', 'odd')}
+        %tr
           %td= e.pmt_date
           %td= e.expense_category.description
           %td= number_to_currency(e.amount)

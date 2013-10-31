@@ -1,7 +1,10 @@
-%table
-  -@payment_types.each do |payment_type|
+%table.table.table-striped
+  %thead
     %tr
-      %td
-        = link_to payment_type.description, edit_payment_type_path(payment_type)
-        |
-        = link_to 'Remove', payment_type, confirm: 'Are you sure?', method: :delete
+      %th Method of payment
+      %th &nbsp;
+  %tbody
+    -@payment_types.each do |payment_type|
+      %tr
+        %td= link_to payment_type.description, edit_payment_type_path(payment_type)
+        %td= link_to 'Remove', payment_type, confirm: 'Are you sure?', method: :delete
