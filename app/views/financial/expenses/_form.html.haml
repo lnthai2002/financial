@@ -9,20 +9,20 @@
   = f.error_messages
   .form-group
     = f.label :pmt_date, :class=>'sr-only'
-    = f.text_field :pmt_date, :placeholder=>'date', :class=>'datepicker', :readonly=>true
+    = f.text_field :pmt_date, :placeholder=>'date', :class=>'datepicker form-control', :readonly=>true
   .form-group
     = f.label :category_id, :class=>'sr-only'
-    = f.select :category_id, @expense_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+    = f.select :category_id, @expense_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}, :class=>'form-control'
   .form-group
     = f.label :amount, :class=>'sr-only'
-    = f.text_field :amount, :placeholder=>'amount'
+    = f.number_field :amount, :step=>0.01, :placeholder=>'amount', :class=>'form-control'
   .form-group
     = f.label :payee_payer, :class=>'sr-only'
-    = f.text_field :payee_payer, :placeholder=>'payee/payer'
+    = f.text_field :payee_payer, :placeholder=>'payee/payer', :class=>'form-control'
   .form-group
     = f.label :payment_type_id, :class=>'sr-only'
-    = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
+    = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}, :class=>'form-control'
   .form-group
     = f.label :note, :class=>'sr-only'
-    = f.text_area :note, :placeholder=>'note', :rows=>2
-  = f.submit 'Done'
+    = f.text_area :note, :placeholder=>'note', :rows=>2, :class=>'form-control'
+  = f.submit 'Done', :class=>"btn btn-default"

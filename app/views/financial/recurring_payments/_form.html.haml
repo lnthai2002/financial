@@ -23,24 +23,33 @@
     })
   });
 
-= form_for(@recurring_payment.becomes(Financial::RecurringPayment)) do |f|
+= form_for(@recurring_payment.becomes(Financial::RecurringPayment), :html=>{:role=>"form"}) do |f|
   - f.object = @recurring_payment.becomes(@recurring_payment.class)
   = f.error_messages
-  %br
-  = f.select :type, [['Income', 'Financial::RecurringIncome'],['Expense', 'Financial::RecurringExpense']], {:include_blank => false}
-  %br
-  = f.select :frequency, [['Daily', 'Daily'],['Bi-weekly', 'Bi-weekly'],['Monthly','Monthly'],['Annually','Annually']], {:include_blank => false}
-  %br
-  = f.text_field :first_date, :placeholder=>'first date', :class=>'datepicker', :readonly=>true
-  %br
+  .form-group
+    = f.label :type, :class=>'sr-only'
+    = f.select :type, [['Income', 'Financial::RecurringIncome'],['Expense', 'Financial::RecurringExpense']], {:include_blank => false}, :class=>'form-control'
+  .form-group
+    = f.label :frequency, :class=>'sr-only'
+    = f.select :frequency, [['Daily', 'Daily'],['Bi-weekly', 'Bi-weekly'],['Monthly','Monthly'],['Annually','Annually']], {:include_blank => false}, :class=>'form-control'
+  .form-group
+    = f.label :first_date, :class=>'sr-only'
+    = f.text_field :first_date, :placeholder=>'first date', :class=>'datepicker form-control', :readonly=>true, :class=>'form-control'
   #recurring_categories
-    = f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
-  = f.text_field :amount, :placeholder=>'amount'
+    .form-group
+      = f.label :category_id, :class=>'sr-only'
+      = f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}, :class=>'form-control'
+  .form-group
+    = f.label :amount, :class=>'sr-only'
+    = f.number_field :amount, :step=>0.01, :placeholder=>'amount', :class=>'form-control'
+  .form-group
+    = f.label :payee_payer, :class=>'sr-only'
+    = f.text_field :payee_payer, :placeholder=>'payee/payer'
+  .form-group
+    = f.label :payment_type_id, :class=>'sr-only'
+    = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}, :class=>'form-control'
+  .form-group
+    = f.label :note, :class=>'sr-only'
+    = f.text_area :note, :placeholder=>'note', :rows=>2, :class=>'form-control'
   %br
-  = f.text_field :payee_payer, :placeholder=>'payee/payer'
-  %br
-  = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}
-  %br
-  = f.text_area :note, :placeholder=>'note', :rows=>2
-  %br
-  = f.submit 'Done'
+  = f.submit 'Done', :class=>"btn btn-default"

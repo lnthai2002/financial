@@ -7,11 +7,12 @@
     })
   });
 
-=form_tag by_date_reports_url, :id=>'by_date_form',:method=>'get', :remote=>true do
+=form_tag by_date_reports_url, :id=>'by_date_form',:method=>'get', :remote=>true, :html=>{:role=>"form"} do
   %fieldset
     %legend
-      Date
-      =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker', :readonly=>true)
+      .form-group
+        =label_tag 'date', "Date"
+        =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker form-control', :readonly=>true)
     %div{:class=>"col-xs-12 col-md-2"}
       %table.table.table-striped
         %tbody

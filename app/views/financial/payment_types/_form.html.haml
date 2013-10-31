@@ -1,6 +1,7 @@
-=form_for @payment_type do |p|
+=form_for @payment_type, :html=>{:role=>"form"} do |p|
   = p.error_messages
+  .form-group
+    =p.label :description, :class=>'sr-only'
+    =p.text_field :description, :placeholder=>"Short description", :class=>'form-control'
   %br
-  =p.text_field :description, :placeholder=>"Short description"
-  %br
-  =p.submit "OK"
+  =p.submit "OK", :class=>"btn btn-default"

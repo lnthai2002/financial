@@ -1,9 +1,12 @@
-=form_for @finance do |f|
+=form_for @finance, :html=>{:role=>"form"} do |f|
   = f.error_messages
   %fieldset
     %legend.finance-form This is your first time using financial app, please provide:
-    =f.text_field :net_monthly_income, :placeholder=>"net monthly income"
+    .form-group
+      =f.label :net_monthly_income, :class=>'sr-only'
+      =f.number_field :net_monthly_income, :step=>0.01, :placeholder=>"net monthly income", :class=>'form-control'
+    .form-group
+      =f.label :net_monthly_expense, :class=>'sr-only'
+      =f.number_field :net_monthly_expense, :step=>0.01, :placeholder=>"net monthly expense", :class=>'form-control'
     %br
-    =f.text_field :net_monthly_expense, :placeholder=>"net monthly expense"
-    %br
-    =f.submit "Done"
+    =f.submit "Done", :class=>"btn btn-default"
