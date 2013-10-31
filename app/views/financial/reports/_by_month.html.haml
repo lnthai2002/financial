@@ -14,12 +14,13 @@
     drawMonthChart();
   });
 
-=form_tag by_month_reports_url, :id=>'by_month_form',:method=>'get', :remote=>true, :html=>{:role=>"form"} do
-  %fieldset
-    %legend
+%div{:class=>"panel panel-primary"}
+  %div{:class=>"panel-heading"}
+    =form_tag by_month_reports_url, :id=>'by_month_form', :method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
       .form-group
         =label_tag 'date', "Month"
         =select_tag('date', options_for_select(months_from_2_years_ago, date_for_select(@report.date)), :class=>'form-control')
+  %div{:class=>"panel-body"}
     %div{:class=>"col-xs-12 col-md-2"}
       %table.table.table-striped
         %tbody
