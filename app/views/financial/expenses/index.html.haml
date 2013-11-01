@@ -18,33 +18,36 @@
 
 #summary_chart
 
-%fieldset
-  %legend="#{@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}"
-  %table.table.table-striped
-    %thead
-      %tr
-        %th Date
-        %th Category
-        %th Amount
-        %th Payee
-        %th Payment Method
-        %th Note
-        %th &nbsp;
-    %tfoot
-      %tr
-        %th{:colspan=>'2'} TOTAL
-        %th= number_to_currency(@expenses['total'])
-        %th{:colspan=>'4'} &nbsp;
-    %tbody
-      - @expenses['list'].each do |e|
-        %tr
-          %td= e.pmt_date
-          %td= e.expense_category.description
-          %td= number_to_currency(e.amount)
-          %td= e.payee_payer
-          %td= e.payment_type.description
-          %td= link_to e.note, edit_expense_path(e)
-          %td
-            = link_to 'Break', :controller=>:expenses, :action=>:breakdown, :id=>e.id
-            |
-            = link_to 'Remove', e, :confirm => 'Are you sure?', :method => :delete
+%div{:class=>"panel panel-primary"}
+  %div{:class=>"panel-heading"}
+    ="#{@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}"
+  %div{:class=>"panel-body"}
+    %div{:class=>"table-responsive"}
+      %table.table.table-striped.table-condensed
+        %thead
+          %tr
+            %th Date
+            %th Category
+            %th Amount
+            %th Payee
+            %th Payment Method
+            %th Note
+            %th &nbsp;
+        %tfoot
+          %tr
+            %th{:colspan=>'2'} TOTAL
+            %th= number_to_currency(@expenses['total'])
+            %th{:colspan=>'4'} &nbsp;
+        %tbody
+          - @expenses['list'].each do |e|
+            %tr
+              %td= e.pmt_date
+              %td= e.expense_category.description
+              %td= number_to_currency(e.amount)
+              %td= e.payee_payer
+              %td= e.payment_type.description
+              %td= link_to e.note, edit_expense_path(e)
+              %td
+                = link_to 'Break', :controller=>:expenses, :action=>:breakdown, :id=>e.id
+                |
+                = link_to 'Remove', e, :confirm => 'Are you sure?', :method => :delete

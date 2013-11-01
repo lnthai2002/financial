@@ -1,11 +1,12 @@
-= form_for(@category.becomes(Financial::Category), :html=>{:role=>"form"}) do |f|
-  - f.object = @category.becomes(@category.class)
-  = f.error_messages
-  .form-group
-    = f.label :type, :class=>'sr-only'
-    = f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {:include_blank => false}, :class=>'form-control'
-  .form-group
-    = f.label :description, :class=>'sr-only'
-    = f.text_field :description, :placeholder=>"Short description", :class=>'form-control'
-  %br
-  = f.submit "OK", :class=>"btn btn-default"
+%div{:class=>"col-xs-12 col-md-2"}
+  = form_for(@category.becomes(Financial::Category), :html=>{:role=>"form"}) do |f|
+    - f.object = @category.becomes(@category.class)
+    = f.error_messages
+    .form-group
+      = f.label :type, :class=>'sr-only'
+      = f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {:include_blank => false}, :class=>'form-control'
+    .form-group
+      = f.label :description, :class=>'sr-only'
+      = f.text_field :description, :placeholder=>"Short description", :class=>'form-control'
+    %br
+    = f.submit "OK", :class=>"btn btn-default"
