@@ -1,0 +1,6 @@
+#usecases_nav
+  = tabs_tag :namespace => :usecases do |tab|
+    = tab.daily_tracking 'Daily tracking', new_expense_path
+    = tab.planning 'Planning', plans_path
+
+=render :partial=>"resources_nav"
