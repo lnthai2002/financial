@@ -1,9 +1,10 @@
-%table
-  %tr
-    %th Description
-  -@categories.each do |e|
+%table.table.table-striped
+  %thead
     %tr
-      %td
-        = link_to e.description, edit_category_path(e)
-        |
-        = link_to 'Destroy', category_path(e), :confirm => 'Are you sure?', :method => :delete
+      %th Description
+      %th &nbsp
+  %tbody
+    -@categories.each do |e|
+      %tr
+        %td= link_to e.description, edit_category_path(e)
+        %td= link_to 'Remove', category_path(e), :confirm => 'Are you sure?', :method => :delete

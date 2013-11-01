@@ -1,14 +1,13 @@
-=form_for @finance do |f|
-  = f.error_messages
-  %fieldset
-    %legend.finance-form This is your first time using financial app, please provide:
-    %table
-      %tr
-        %th=f.label "Net Monthly Income"
-        %td=f.text_field :net_monthly_income, :placeholder=>"Total net monthly income"
-      %tr
-        %th=f.label "Net Monthly Expense"
-        %td=f.text_field :net_monthly_expense, :placeholder=>"Total net monthly expense"
-      %tr
-        %th{:colspan=>2}
-          =f.submit "Done"
+%div{:class=>"col-xs-12 col-md-2"}
+  =form_for @finance, :html=>{:role=>"form"} do |f|
+    = f.error_messages
+    %fieldset
+      %legend.finance-form This is your first time using financial app, please provide:
+      .form-group
+        =f.label :net_monthly_income, :class=>'sr-only'
+        =f.number_field :net_monthly_income, :step=>0.01, :placeholder=>"net monthly income", :class=>'form-control'
+      .form-group
+        =f.label :net_monthly_expense, :class=>'sr-only'
+        =f.number_field :net_monthly_expense, :step=>0.01, :placeholder=>"net monthly expense", :class=>'form-control'
+      %br
+      =f.submit "Done", :class=>"btn btn-default"

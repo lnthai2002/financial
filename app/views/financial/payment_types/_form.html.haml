@@ -1,11 +1,8 @@
-=form_for @payment_type do |p|
-  = p.error_messages
-  %fieldset
-    %legend Method of payment
-    %table
-      %tr
-        %th=p.label "Description"
-        %td=p.text_field :description, :placeholder=>"Short description"
-      %tr
-        %th
-          =p.submit "OK"
+%div{:class=>"col-xs-12 col-md-2"}
+  =form_for @payment_type, :html=>{:role=>"form"} do |p|
+    = p.error_messages
+    .form-group
+      =p.label :description, :class=>'sr-only'
+      =p.text_field :description, :placeholder=>"Short description", :class=>'form-control'
+    %br
+    =p.submit "OK", :class=>"btn btn-default"

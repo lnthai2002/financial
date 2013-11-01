@@ -1,10 +1,9 @@
 .info {background-color:LightGray}
-th {text-align:left}
-td {text-align:right}
+table{
+  width:98%;
+}
 .close-button{text-align:right}
 .field_with_errors{border-style:solid; border-color:Red}
 #errorExplanation{
   h2{background-color:#D80000; color:White}
 }
-table thead tr th{background-color:Bisque}
-table tfoot tr th{background-color:Bisque}

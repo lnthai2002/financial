@@ -7,19 +7,22 @@
     })
   });
 
-=form_tag by_date_reports_url, :id=>'by_date_form',:method=>'get', :remote=>true do
-  %fieldset
-    %legend
-      Date
-      =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker')
-    %table
-      %tbody
-        %tr{:class=>cycle('even', 'odd')}
-          %th=link_to 'Income', incomes_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
-          %td=@report.date_summary['total_income']
-        %tr{:class=>cycle('even', 'odd')}
-          %th=link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
-          %td=@report.date_summary['total_expense']
-        %tr{:class=>cycle('even', 'odd')}
-          %th Balance
-          %td=@report.date_summary['total_balance']
+%div{:class=>"panel panel-primary"}
+  %div{:class=>"panel-heading"}
+    =form_tag by_date_reports_url, :id=>'by_date_form',:method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
+      .form-group
+        =label_tag 'date', "Date"
+        =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker form-control', :readonly=>true)
+  %div{:class=>"panel-body"}
+    %div{:class=>"col-xs-12 col-md-2"}
+      %table.table.table-striped
+        %tbody
+          %tr
+            %th=link_to 'Income', incomes_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
+            %td=@report.date_summary['total_income']
+          %tr
+            %th=link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.date_summary['date']), 'end_date'=>date_for_select(@report.date_summary['date']))
+            %td=@report.date_summary['total_expense']
+          %tr
+            %th Balance
+            %td=@report.date_summary['total_balance']

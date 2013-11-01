@@ -3,21 +3,16 @@
   %fieldset
     %legend Adjustment
     = a.error_messages
-    %table
-      %tr
-        %th Month
-        %td=a.text_field :month, :placeholder=>"which month to add adjustment"
-      %tr
-        %th Amount
-        %td=a.text_field :amount, :placeholder=>"extra payment for this month"
-      %tr
-        %th Interest
-        %td=a.text_field :interest, :placeholder=>"rate from this month onward"
-      %tr
-        %th Term length
-        %td=a.text_field :duration, :placeholder=>"length of mortgage since this month"
-      %tr
-        %td{:colspan=>2,:align=>:right}=a.submit "Insert"
+    %br
+    =a.text_field :month, :placeholder=>"which month to add adjustment"
+    %br
+    =a.text_field :amount, :placeholder=>"extra payment for this month"
+    %br
+    =a.text_field :interest, :placeholder=>"interest rate from this month onward"
+    %br
+    =a.text_field :duration, :placeholder=>"length of mortgage since this month"
+    %br
+    =a.submit "Insert"
     
 %table
   %tr{:class=>cycle('even', 'odd')}

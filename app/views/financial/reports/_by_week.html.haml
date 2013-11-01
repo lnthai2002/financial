@@ -13,24 +13,24 @@
     drawWeekChart();
   });
 
-=form_tag by_week_reports_url, :id=>'by_week_form', :method=>'get', :remote=>true do
-  %fieldset
-    %legend
-      Week
-      =select_tag('date', options_for_select(last_12_weeks, date_for_select(@report.date)))
-    %table
-      %tr
-        %td
-          %table
-            %tbody
-              %tr{:class=>cycle('even', 'odd')}
-                %th= link_to 'Income', incomes_path('start_date'=>date_for_select(@report.week_summary['start']), 'end_date'=>date_for_select(@report.week_summary['end']))
-                %td=@report.week_summary['total_income']
-              %tr{:class=>cycle('even', 'odd')}
-                %th= link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.week_summary['start']), 'end_date'=>date_for_select(@report.week_summary['end']))
-                %td=@report.week_summary['total_expense']
-              %tr{:class=>cycle('even', 'odd')}
-                %th Balance
-                %td=@report.week_summary['total_balance']
-        %td
-          #week_chart
+%div{:class=>"panel panel-primary"}
+  %div{:class=>"panel-heading"}
+    =form_tag by_week_reports_url, :id=>'by_week_form', :method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
+      .form-group
+        =label_tag 'date', "Week"
+        =select_tag('date', options_for_select(last_12_weeks, date_for_select(@report.date)), :class=>'form-control')
+  %div{:class=>"panel-body"}
+    %div{:class=>"col-xs-12 col-md-2"}
+      %table.table.table-striped
+        %tbody
+          %tr
+            %th= link_to 'Income', incomes_path('start_date'=>date_for_select(@report.week_summary['start']), 'end_date'=>date_for_select(@report.week_summary['end']))
+            %td=@report.week_summary['total_income']
+          %tr
+            %th= link_to 'Expense', expenses_path('start_date'=>date_for_select(@report.week_summary['start']), 'end_date'=>date_for_select(@report.week_summary['end']))
+            %td=@report.week_summary['total_expense']
+          %tr
+            %th Balance
+            %td=@report.week_summary['total_balance']
+    %div{:class=>"col-xs-12 col-md-10"}
+      #week_chart
