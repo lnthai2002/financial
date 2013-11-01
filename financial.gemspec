@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.2.13"
   # s.add_dependency "jquery-rails"
 
-  s.add_dependency 'tabs_on_rails'
+  s.add_dependency 'tabulous'
   s.add_dependency 'ice_cube'
   s.add_dependency 'haml'
   s.add_dependency 'cancan'
