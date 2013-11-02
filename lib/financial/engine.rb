@@ -12,8 +12,11 @@ module Financial
       end
     end
 
+    config.autoload_paths += %W(#{config.root}/extras)
+
     require 'rubygems'
     require 'tabs_on_rails'
+    require 'financial/bootstrap_tab_builder.rb'
     config.generators do |g|
       g.test_framework      :rspec,        :fixture => false
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'

@@ -1,6 +1,68 @@
-#usecases_nav
-  = tabs_tag :namespace => :usecases do |tab|
-    = tab.daily_tracking 'Daily tracking', new_expense_path
-    = tab.planning 'Planning', plans_path
-
-=render :partial=>"resources_nav"
+%nav.navbar.navbar-default{:role=>"navigation"}
+  .navbar-header
+    %button.navbar-toggle{'data-toggle'=>"collapse", 'data-target'=>"#bs-example-navbar-collapse-1"}
+      %span.sr-only Toggle navigation
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+    %a.navbar-brand{'href'=>"#"} Financial
+  #bs-example-navbar-collapse-1.collapse.navbar-collapse
+    %ul.nav.navbar-nav
+      %li
+        %a{'href'=>reports_path} Report
+      %li
+        %a{'href'=>new_expense_path} Expense
+      %li
+        %a{'href'=>new_income_path} Income
+      %li.dropdown
+        %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          Recurring
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            %a{'href'=>new_recurring_payment_path} Add
+          %li
+            %a{'href'=>recurring_payments_path} List
+      %li.dropdown
+        %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          Categories
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            %a{'href'=>new_category_path} Add
+          %li
+            %a{'href'=>categories_path} List
+      %li.dropdown
+        %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          Payment methods
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            %a{'href'=>new_payment_type_path} Add
+          %li
+            %a{'href'=>payment_types_path} List
+      %li
+        %a{'href'=>plans_path} Planning
+    -#
+      = tabs_tag :builder=>Financial::BootstrapLinkTabBuilder, :active_class=>'active', :namespace=>:daily_resources do |tab|
+        = tab.reports 'Reports', reports_path
+        = tab.expenses 'Expenses', new_expense_path
+        = tab.incomes 'Incomes', new_income_path
+        = tabs_tag :builder=>Financial::BootstrapDropDownTabBuilder, :active_class=>'active', :namespace=>:daily_resources do |tab|
+          = tab.recurring_payments 'Recurring', recurring_payments_path, :class=>'dropdown' do |wtf|
+            = wtf.tabs_tag :active_class=>'active', :namespace=>:recurring_payment do |subtab|
+              = subtab.list 'List', recurring_payments_path
+              = subtab.add 'Add', new_recurring_payment_path
+          = tab.categories 'Categories', categories_path, :class=>'dropdown'
+          = tab.payment_types 'Payment methods', payment_types_path, :class=>'dropdown'
+    -#
+      %li
+        %a{'href'=>plans_path} Planning 
+      %li.active
+        %a{'href'=>"#"} LinkB
+      
+    -#
+      = tabs_tag :builder=>Financial::BootstrapTabBuilder, :active_class=>'active', :open_tabs=>{:class=>'nav navbar-nav'}, :namespace => :usecases do |tab|
+        =# tab.daily_tracking 'Daily tracking', new_expense_path
+        = tab.planning 'Planning', plans_path
+      
