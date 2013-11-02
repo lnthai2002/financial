@@ -43,26 +43,3 @@
             %a{'href'=>payment_types_path} List
       %li
         %a{'href'=>plans_path} Planning
-    -#
-      = tabs_tag :builder=>Financial::BootstrapLinkTabBuilder, :active_class=>'active', :namespace=>:daily_resources do |tab|
-        = tab.reports 'Reports', reports_path
-        = tab.expenses 'Expenses', new_expense_path
-        = tab.incomes 'Incomes', new_income_path
-        = tabs_tag :builder=>Financial::BootstrapDropDownTabBuilder, :active_class=>'active', :namespace=>:daily_resources do |tab|
-          = tab.recurring_payments 'Recurring', recurring_payments_path, :class=>'dropdown' do |wtf|
-            = wtf.tabs_tag :active_class=>'active', :namespace=>:recurring_payment do |subtab|
-              = subtab.list 'List', recurring_payments_path
-              = subtab.add 'Add', new_recurring_payment_path
-          = tab.categories 'Categories', categories_path, :class=>'dropdown'
-          = tab.payment_types 'Payment methods', payment_types_path, :class=>'dropdown'
-    -#
-      %li
-        %a{'href'=>plans_path} Planning 
-      %li.active
-        %a{'href'=>"#"} LinkB
-      
-    -#
-      = tabs_tag :builder=>Financial::BootstrapTabBuilder, :active_class=>'active', :open_tabs=>{:class=>'nav navbar-nav'}, :namespace => :usecases do |tab|
-        =# tab.daily_tracking 'Daily tracking', new_expense_path
-        = tab.planning 'Planning', plans_path
-      
