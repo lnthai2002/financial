@@ -2,15 +2,6 @@ require_dependency "financial/application_controller"
 
 module Financial
   class IncomesController < AuthorizableController
-    #usecase tabs
-    set_tab :daily_tracking, :usecases, :only => %w(index new edit)
-    #resource tabs
-    set_tab :incomes, :daily_resources, :only => %w(index new edit)
-    #action tabs
-    set_tab :list, :income, :only => %w(index)
-    set_tab :add, :income, :only => %w(new)
-    set_tab :edit, :income, :only => %w(edit)
-
     def index
       #default is the current month
       begin

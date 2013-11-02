@@ -2,15 +2,6 @@ require_dependency "financial/application_controller"
 
 module Financial
   class ExpensesController < AuthorizableController
-    #usecase tabs
-    set_tab :daily_tracking, :usecases, :only => %w(index new edit)
-    #resource tabs
-    set_tab :expenses, :daily_resources, :only => %w(index new edit)
-    #action tabs
-    set_tab :list, :expense, :only => %w(index)
-    set_tab :add, :expense, :only => %w(new)
-    set_tab :edit, :expense, :only => %w(edit)
-
     # GET /expenses
     # GET /expenses.json
     def index

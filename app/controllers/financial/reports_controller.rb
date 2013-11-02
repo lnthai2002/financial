@@ -2,13 +2,6 @@ require_dependency "financial/application_controller"
 
 module Financial
   class ReportsController < AuthorizableController
-    #usecase tabs
-    set_tab :daily_tracking, :usecases, :only => %w(index)
-    #resource tabs
-    set_tab :reports, :daily_resources, :only => %w(index)
-    #action tabs
-    set_tab :list, :expense, :only => %w(index)
-
     def index
       prepare_report
     end

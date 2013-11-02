@@ -2,11 +2,6 @@ require_dependency "financial/application_controller"
 
 module Financial
   class PlansController < AuthorizableController
-    #usecases
-    set_tab :planning, :usecases, :only => %w(index show)
-    #actions
-    set_tab :list, :plans, :only => %w(index)
-
     def index
       @plan = Plan.new
       #see http://stackoverflow.com/questions/4867880/nested-attributes-in-rails-3
