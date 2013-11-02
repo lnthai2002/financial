@@ -16,7 +16,7 @@
               =m.number_field :purchased_price, :step=>0.01, :placeholder=>"purchased price", :class=>'form-control'
             .form-group
               =m.label :down_payment, :class=>'sr-only'
-              =m.number_field :down_payment, :step=>0.01, :placeholder=>"down payment", :"data-bind"=>"value: down_payment", :class=>'form-control'
+              =m.number_field :down_payment, :step=>0.01, :placeholder=>"down payment", :class=>'form-control'
             .form-group
               =m.label :interest, :class=>'sr-only'
               =m.number_field :interest, :step=>'any', :placeholder=>"annual interest rate", :class=>'form-control'
@@ -50,7 +50,7 @@
             = i.error_messages
             .form-group
               =i.label :principal, :class=>'sr-only'
-              =i.number_field :principal, :step=>0.01, :placeholder=>"initial value of investment", :"data-bind"=>"value: principal", :class=>'form-control'
+              =i.number_field :principal, :step=>0.01, :placeholder=>"initial value of investment", :class=>'form-control'
             .form-group
               =i.label :rate, :class=>'sr-only'
               =i.number_field :rate, :step=>'any', :placeholder=>"annual rate of return", :class=>'form-control'
