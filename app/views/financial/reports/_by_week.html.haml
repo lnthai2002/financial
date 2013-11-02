@@ -1,6 +1,6 @@
 :javascript
   function drawWeekChart() {
-    var options = {'title':'#{@report.week_summary.start.strftime("%Y/%m/%d")} - #{@report.week_summary.end.strftime("%Y/%m/%d")} Expense'};
+    var options = {'title':'Expense'};
     var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.week_summary['expense'])});
     var chart = new google.visualization.PieChart(document.getElementById('week_chart'));
     chart.draw(data, options);

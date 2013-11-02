@@ -2,15 +2,6 @@ require_dependency "financial/application_controller"
 
 module Financial
   class RecurringPaymentsController < AuthorizableController
-    #usecase tabs
-    set_tab :daily_tracking, :usecases, :only => %w(index new edit)
-    #resource tabs
-    set_tab :recurring_payments, :daily_resources, :only => %w(index new edit)
-    #action tabs
-    set_tab :list, :recurring_payment, :only => %w(index)
-    set_tab :add, :recurring_payment, :only => %w(new)
-    set_tab :edit, :recurring_payment, :only => %w(edit)
-
     def index
       @recurring_incomes = RecurringIncome.accessible_by(current_ability).find(:all)
       @recurring_expenses = RecurringExpense.accessible_by(current_ability).find(:all)

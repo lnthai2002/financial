@@ -6,23 +6,23 @@
   google.load('visualization', '1.0', {'packages':['corechart']});
 
   function drawSummaryChart() {
-    var options = {'title':'#{@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}'};
     var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@expenses['summary'])});
     var chart = new google.visualization.PieChart(document.getElementById('summary_chart'));
-    chart.draw(data, options);
+    chart.draw(data);
   }
 
   $(document).ready(function(){
     drawSummaryChart();
   });
 
-#summary_chart
+.col-xs-12
+  #summary_chart
 
 %div{:class=>"panel panel-primary"}
   %div{:class=>"panel-heading"}
     ="#{@expenses["start_date"].strftime("%Y/%m/%d")} - #{@expenses["end_date"].strftime("%Y/%m/%d")}"
   %div{:class=>"panel-body"}
-    %div{:class=>"table-responsive"}
+    %div{:class=>"col-xs-12 table-responsive"}
       %table.table.table-striped.table-condensed
         %thead
           %tr
@@ -43,7 +43,7 @@
             %tr
               %td= e.pmt_date
               %td= e.expense_category.description
-              %td= number_to_currency(e.amount)
+              %td= link_to number_to_currency(e.amount), edit_expense_path(e)
               %td= e.payee_payer
               %td= e.payment_type.description
               %td= link_to e.note, edit_expense_path(e)

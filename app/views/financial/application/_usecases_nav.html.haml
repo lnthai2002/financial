@@ -1,6 +1,45 @@
-#usecases_nav
-  = tabs_tag :namespace => :usecases do |tab|
-    = tab.daily_tracking 'Daily tracking', new_expense_path
-    = tab.planning 'Planning', plans_path
-
-=render :partial=>"resources_nav"
+%nav.navbar.navbar-inverse{:role=>"navigation"}
+  .navbar-header
+    %button.navbar-toggle{'data-toggle'=>"collapse", 'data-target'=>"#bs-example-navbar-collapse-1"}
+      %span.sr-only Toggle navigation
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+    %a.navbar-brand{'href'=>"#"} Financial
+  #bs-example-navbar-collapse-1.collapse.navbar-collapse
+    %ul.nav.navbar-nav
+      %li
+        %a{'href'=>reports_path} Report
+      %li
+        %a{'href'=>new_expense_path} Expense
+      %li
+        %a{'href'=>new_income_path} Income
+      %li.dropdown
+        %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          Recurring
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            %a{'href'=>new_recurring_payment_path} Add
+          %li
+            %a{'href'=>recurring_payments_path} List
+      %li.dropdown
+        %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          Categories
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            %a{'href'=>new_category_path} Add
+          %li
+            %a{'href'=>categories_path} List
+      %li.dropdown
+        %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          Payment methods
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            %a{'href'=>new_payment_type_path} Add
+          %li
+            %a{'href'=>payment_types_path} List
+      %li
+        %a{'href'=>plans_path} Planning

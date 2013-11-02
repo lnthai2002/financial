@@ -2,15 +2,6 @@ require_dependency "financial/application_controller"
 
 module Financial
   class CategoriesController < ApplicationController
-    #usecase tabs
-    set_tab :daily_tracking, :usecases, :only => %w(index new edit)
-    #resource tabs
-    set_tab :categories, :daily_resources, :only => %w(index new edit)
-    #action tabs
-    set_tab :list, :category, :only => %w(index)
-    set_tab :add, :category, :only => %w(new)
-    set_tab :edit, :category, :only => %w(edit)
-
     # GET /categories
     # GET /categories.json
     def index

@@ -2,16 +2,6 @@ require_dependency "financial/application_controller"
 
 module Financial
   class PaymentTypesController < ApplicationController
-    #usecase tabs
-    set_tab :daily_tracking, :usecases, :only => %w(index show new edit)
-    #resource tabs
-    set_tab :payment_types, :daily_resources, :only => %w(index show new edit)
-    #action tabs
-    set_tab :list, :payment_type, :only => %w(index)
-    set_tab :show, :payment_type, :only => %w(show)
-    set_tab :add, :payment_type, :only => %w(new)
-    set_tab :edit, :payment_type, :only => %w(edit)
-
     # GET /payment_types
     # GET /payment_types.json
     def index
