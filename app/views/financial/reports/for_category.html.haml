@@ -1,0 +1,29 @@
+- content_for :specific_view_js do
+  %script{:src=>'http://www.google.com/jsapi', :type=>'text/javascript', :charset=>'utf-8'}
+
+:javascript
+  // Load the Visualization API and the piechart package.
+  google.load('visualization', '1.0', {'packages':['corechart']});
+
+  function drawCategoryByMonthChart(){
+    var options = {
+      title: "#{@category_report.category.description} by month",
+      vAxis: {title: "Amount"},
+      hAxis: {title: "Month"},
+      seriesType: "bars",
+    };
+    var data = google.visualization.arrayToDataTable(#{gc_table_for_monthly_balance(@report.balance_by_month)});
+    var chart = new google.visualization.ComboChart(document.getElementById('balance_by_month_chart'));
+    chart.draw(data, options);
+  }
+
+  $(document).ready(function(){
+    drawBalanceByMonthChart();
+  });
+
+%div{:class=>"col-xs-12"}
+  #balance_by_month_chart
+
+#bymonth.col-xs-12=render :partial=>'by_month'
+#byweek.col-xs-12=render :partial=>'by_week'
+#bydate.col-xs-12=render :partial=>'by_date'
