@@ -6,6 +6,10 @@ module Financial
       prepare_report
     end
 
+    def by_category
+      @categories = Category.all
+    end
+
     def for_category
       if params[:category]
         begin

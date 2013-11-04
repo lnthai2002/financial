@@ -8,8 +8,15 @@
     %a.navbar-brand{'href'=>"#"} Financial
   #bs-example-navbar-collapse-1.collapse.navbar-collapse
     %ul.nav.navbar-nav
-      %li
-        %a{'href'=>reports_path} Report
+      %li.dropdown
+        %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          Reports
+          %b.caret
+        %ul.dropdown-menu
+          %li
+            %a{'href'=>reports_path} Balance
+          %li
+            %a{'href'=>by_category_report_path} By Category
       %li
         %a{'href'=>new_expense_path} Expense
       %li

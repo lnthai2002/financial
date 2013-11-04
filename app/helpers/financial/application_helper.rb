@@ -41,5 +41,9 @@ module Financial
       end
       return "[#{table.join(',')}]"
     end
+
+    def gc_table_for_category(summary)
+      return ((summary.to_a).unshift(['Month','Amount'])).to_s
+    end
   end
 end

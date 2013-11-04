@@ -12,18 +12,17 @@
       hAxis: {title: "Month"},
       seriesType: "bars",
     };
-    var data = google.visualization.arrayToDataTable(#{gc_table_for_monthly_balance(@report.balance_by_month)});
-    var chart = new google.visualization.ComboChart(document.getElementById('balance_by_month_chart'));
+    var data = google.visualization.arrayToDataTable(#{gc_table_for_category(@category_report.category_by_month)});
+    var chart = new google.visualization.ComboChart(document.getElementById('category_by_month_chart'));
     chart.draw(data, options);
   }
 
   $(document).ready(function(){
-    drawBalanceByMonthChart();
+    drawCategoryByMonthChart();
   });
 
 %div{:class=>"col-xs-12"}
-  #balance_by_month_chart
-
-#bymonth.col-xs-12=render :partial=>'by_month'
-#byweek.col-xs-12=render :partial=>'by_week'
-#bydate.col-xs-12=render :partial=>'by_date'
+  #category_by_month_chart
+-#
+  #byweek.col-xs-12=render :partial=>'by_week'
+  #bydate.col-xs-12=render :partial=>'by_date'

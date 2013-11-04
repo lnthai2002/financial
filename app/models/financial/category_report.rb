@@ -25,15 +25,14 @@ module Financial
     def category_by_month
       if !@category_by_month
         @category_by_month = Hash.new(BigDecimal.new(0))
-        summary_by_month = Payment.accessible_by(@current_ability)
+        summary_by_month = Expense.accessible_by(@current_ability)
                                   .select("YEAR(pmt_date) AS year,
                                            MONTH(pmt_date) AS month,
-                                           type,
                                            SUM(amount_cents) AS amount_cents")
                                   .where(:category_id=>@category.id)
-                                  .group("YEAR(pmt_date), MONTH(pmt_date), type")
+                                  .group("YEAR(pmt_date), MONTH(pmt_date)")
         summary_by_month.each do |summary|
-          @category_by_month["#{summary.year}/#{summary.month}"] = @category_by_month["#{summary.year}/#{summary.month}"].merge({summary.type=>summary.amount.to_d})
+          @category_by_month["#{summary.year}/#{summary.month}"] = @category_by_month["#{summary.year}/#{summary.month}"].merge({"#{summary.year}/#{summary.month}"=>summary.amount.to_d})
         end
       end
       return @category_by_month

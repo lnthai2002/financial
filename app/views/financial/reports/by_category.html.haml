@@ -1,0 +1,9 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Report by
+  %tbody
+    -@categories.each do |e|
+      %tr
+        %td= link_to e.description, by_category_report_path('category_id'=>e.description)
+        
