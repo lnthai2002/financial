@@ -19,6 +19,8 @@ Financial::Engine.routes.draw do
   end
   resources :reports do
     collection do
+      get :by_category
+      get :for_category
       get :by_date
       get :by_month
       get :by_week
