@@ -2,7 +2,7 @@
   %thead
     %tr
       %th Description
-      %th= link_to 'Add', new_category_path
+      %th= link_to 'Add', new_category_path, :class=>"btn btn-default"
   %tbody
     -@categories.each do |e|
       %tr
