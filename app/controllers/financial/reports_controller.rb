@@ -19,7 +19,7 @@ module Financial
         end
         @category_report = CategoryReport.new(@date, params[:category], current_ability)
       else
-        redirect_to :index
+        redirect_to reports_path
       end
     end
 

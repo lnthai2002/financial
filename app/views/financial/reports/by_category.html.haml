@@ -5,5 +5,5 @@
   %tbody
     -@categories.each do |e|
       %tr
-        %td= link_to e.description, by_category_report_path('category_id'=>e.description)
+        %td= link_to e.description, for_category_reports_path('category'=>e.description)
         

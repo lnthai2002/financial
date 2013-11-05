@@ -32,40 +32,10 @@ module Financial
                                   .where(:category_id=>@category.id)
                                   .group("YEAR(pmt_date), MONTH(pmt_date)")
         summary_by_month.each do |summary|
-          @category_by_month["#{summary.year}/#{summary.month}"] = @category_by_month["#{summary.year}/#{summary.month}"].merge({"#{summary.year}/#{summary.month}"=>summary.amount.to_d})
+          @category_by_month["#{summary.year}/#{summary.month}"] = summary.amount.to_d
         end
       end
       return @category_by_month
-    end
-
-    def month_summary
-      if !@month_summary
-        @month_summary = Expense.accessible_by(@current_ability)
-                                .where(date_range_conditions(@date.beginning_of_month, @date.end_of_month))
-                                .where(:category_id=>@category.id)
-                                .sum(:amount_cents)
-      end
-      return @month_summary
-    end
-
-    def week_summary
-      if !@week_summary
-        @week_summary = Expense.accessible_by(@current_ability)
-                                .where(date_range_conditions(@date.beginning_of_week, @date.end_of_week))
-                                .where(:category_id=>@category.id)
-                                .sum(:amount_cents)  
-      end
-      return @week_summary
-    end
-
-    def date_summary
-      if !@date_summary
-        @date_summary= Expense.accessible_by(@current_ability)
-                                .where(["pmt_date = DATE(?)", @date])
-                                .where(:category_id=>@category.id)
-                                .sum(:amount_cents)
-      end
-      return @date_summary
     end
 
     protected

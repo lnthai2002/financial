@@ -43,7 +43,11 @@ module Financial
     end
 
     def gc_table_for_category(summary)
-      return ((summary.to_a).unshift(['Month','Amount'])).to_s
+      table = ["['Month','Amount']"]
+      summary.each do |month, amount|
+        table << "['#{month}', #{amount}]"
+      end
+      return "[#{table.join(',')}]"
     end
   end
 end
