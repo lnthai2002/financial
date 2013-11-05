@@ -2,7 +2,7 @@
   %thead
     %tr
       %th Description
-      %th &nbsp
+      %th= link_to 'Add', new_category_path
   %tbody
     -@categories.each do |e|
       %tr
