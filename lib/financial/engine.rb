@@ -9,7 +9,7 @@ module Financial
         app.config.paths["db/migrate"] += config.paths["db/migrate"].expanded
         #declare that this engine is a ui module so that main app layout will show link to it
         app.config.ui_modules << 'financial'
-        app.config.assets.precompile += ['jquery.js']
+        app.config.assets.precompile += ['jquery.js jquery-ui.js']
       end
     end
 
