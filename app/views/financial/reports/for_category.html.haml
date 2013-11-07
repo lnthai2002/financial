@@ -18,7 +18,15 @@
   }
 
   $(document).ready(function(){
-    drawCategoryByMonthChart();
+    // Listen for orientation changes
+    window.addEventListener("orientationchange", function() {
+      if(window.innerHeight > window.innerWidth){
+        alert("Please use Landscape!");
+      }else{
+        drawCategoryByMonthChart();
+      }
+    },false);
+    //drawCategoryByMonthChart();
   });
 
 %div{:class=>"col-xs-12"}
