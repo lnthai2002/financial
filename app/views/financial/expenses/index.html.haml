@@ -6,13 +6,19 @@
   google.load('visualization', '1.0', {'packages':['corechart']});
 
   function drawSummaryChart() {
-    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@expenses['summary'])});
-    var chart = new google.visualization.PieChart(document.getElementById('summary_chart'));
-    chart.draw(data);
+    if(window.innerHeight > window.innerWidth){
+      var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@expenses['summary'])});
+      var chart = new google.visualization.PieChart(document.getElementById('summary_chart'));
+      chart.draw(data);
+    }
   }
 
   $(document).ready(function(){
     drawSummaryChart();
+
+    window.addEventListener("orientationchange", function() {
+      drawSummaryChart();
+    },false);
   });
 
 .col-xs-12
