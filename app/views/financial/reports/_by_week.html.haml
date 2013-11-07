@@ -1,16 +1,23 @@
 :javascript
   function drawWeekChart() {
-    var options = {'title':'Expense'};
-    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.week_summary['expense'])});
-    var chart = new google.visualization.PieChart(document.getElementById('week_chart'));
-    chart.draw(data, options);
+    if(window.innerHeight > window.innerWidth){
+      var options = {'title':'Expense'};
+      var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.week_summary['expense'])});
+      var chart = new google.visualization.PieChart(document.getElementById('week_chart'));
+      chart.draw(data, options);
+    }
   }
 
   $(document).ready(function(){
     $("#by_week_form #date").change(function () {
       $('#by_week_form').submit();
     })
+
     drawWeekChart();
+
+    window.addEventListener("orientationchange", function() {
+      drawWeekChart();
+    },false);
   });
 
 %div{:class=>"panel panel-primary"}

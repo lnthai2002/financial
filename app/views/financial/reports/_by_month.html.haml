@@ -1,17 +1,23 @@
 :javascript
   function drawMonthChart() {
-    var options = {'title':'Expense'};
-    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.month_summary['expense'])});
-    var chart = new google.visualization.PieChart(document.getElementById('month_chart'));
-    chart.draw(data, options);
+    if(window.innerHeight > window.innerWidth){
+      var options = {'title':'Expense'};
+      var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.month_summary['expense'])});
+      var chart = new google.visualization.PieChart(document.getElementById('month_chart'));
+      chart.draw(data, options);
+    }
   }
 
   $(document).ready(function(){
     $("#by_month_form #date").change(function () {
       $('#by_month_form').submit();
     })
-    drawBalanceByMonthChart();
+
     drawMonthChart();
+
+    window.addEventListener("orientationchange", function() {
+      drawMonthChart();
+    },false);
   });
 
 %div{:class=>"panel panel-primary"}
