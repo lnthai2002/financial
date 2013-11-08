@@ -6,11 +6,25 @@
     chart.draw(data, options);
   }
 
+  function toggleWeekReport(){//only display week report in portrait
+    if(window.innerHeight > window.innerWidth){
+      $("#byweek").show();
+      drawWeekChart();
+    } else {
+      $("#byweek").hide();
+    }
+  }
+
   $(document).ready(function(){
     $("#by_week_form #date").change(function () {
       $('#by_week_form').submit();
     })
-    drawWeekChart();
+
+    window.addEventListener("orientationchange", function() {
+      toggleWeekReport();
+    },false);
+    
+    toggleWeekReport();
   });
 
 %div{:class=>"panel panel-primary"}

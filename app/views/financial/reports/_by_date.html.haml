@@ -1,10 +1,24 @@
 :javascript
+  function toggleDateReport(){//only display date report in portrait
+    if(window.innerHeight > window.innerWidth){
+      $("#bydate").show();
+    } else {
+      $("#bydate").hide();
+    }
+  }
+
   $(document).ready(function(){
     $(".datepicker").datepicker({ dateFormat: "yy-mm-dd" });
 
     $("#by_date_form #datepick").change(function () {
       $('#by_date_form').submit();
     })
+
+    window.addEventListener("orientationchange", function() {
+      toggleDateReport();
+    },false);
+
+    toggleDateReport();
   });
 
 %div{:class=>"panel panel-primary"}

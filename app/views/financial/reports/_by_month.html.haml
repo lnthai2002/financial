@@ -6,12 +6,26 @@
     chart.draw(data, options);
   }
 
+  function toggleMonthReport(){//only display month report in portrait
+    if(window.innerHeight > window.innerWidth){
+      $("#bymonth").show();
+      drawMonthChart();
+    } else {
+      $("#bymonth").hide();
+    }
+  }
+
   $(document).ready(function(){
+    
     $("#by_month_form #date").change(function () {
       $('#by_month_form').submit();
     })
-    drawBalanceByMonthChart();
-    drawMonthChart();
+
+    window.addEventListener("orientationchange", function() {
+      toggleMonthReport();
+    },false);
+
+    toggleMonthReport();
   });
 
 %div{:class=>"panel panel-primary"}

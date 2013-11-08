@@ -6,23 +6,38 @@
   google.load('visualization', '1.0', {'packages':['corechart']});
 
   function drawCategoryByMonthChart(){
-    var options = {
-      title: "#{@category_report.category.description} by month",
-      vAxis: {title: "Amount"},
-      hAxis: {title: "Month"},
-      seriesType: "bars",
-    };
-    var data = google.visualization.arrayToDataTable(#{gc_table_for_category(@category_report.category_by_month)});
-    var chart = new google.visualization.ComboChart(document.getElementById('category_by_month_chart'));
-    chart.draw(data, options);
+    if(window.innerHeight > window.innerWidth){
+      $("#category_by_month_chart").hide()
+      $("#suggestion").show();
+    } else {
+      $("#suggestion").hide();
+      $("#category_by_month_chart").show()
+      var options = {
+        title: "#{@category_report.category.description} by month",
+        vAxis: {title: "Amount"},
+        hAxis: {title: "Month"},
+        seriesType: "bars",
+      };
+      var data = google.visualization.arrayToDataTable(#{gc_table_for_category(@category_report.category_by_month)});
+      var chart = new google.visualization.ComboChart(document.getElementById('category_by_month_chart'));
+      chart.draw(data, options);
+    }
   }
 
   $(document).ready(function(){
     drawCategoryByMonthChart();
+
+    // Listen for orientation changes
+    window.addEventListener("orientationchange", function() {
+      drawCategoryByMonthChart();
+    },false);
+    
   });
 
 %div{:class=>"col-xs-12"}
   #category_by_month_chart
+  #suggestion
+    %p Please rotate your device to landscape to see report
 -#
   #byweek.col-xs-12=render :partial=>'by_week'
   #bydate.col-xs-12=render :partial=>'by_date'
