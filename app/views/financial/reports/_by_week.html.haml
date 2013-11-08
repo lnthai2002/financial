@@ -1,10 +1,17 @@
 :javascript
   function drawWeekChart() {
+    var options = {'title':'Expense'};
+    var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.week_summary['expense'])});
+    var chart = new google.visualization.PieChart(document.getElementById('week_chart'));
+    chart.draw(data, options);
+  }
+
+  function toggleWeekReport(){//only display week report in portrait
     if(window.innerHeight > window.innerWidth){
-      var options = {'title':'Expense'};
-      var data = new google.visualization.arrayToDataTable(#{gc_table_for_summary(@report.week_summary['expense'])});
-      var chart = new google.visualization.PieChart(document.getElementById('week_chart'));
-      chart.draw(data, options);
+      $("#byweek").show();
+      drawWeekChart();
+    } else {
+      $("#byweek").hide();
     }
   }
 
@@ -13,11 +20,11 @@
       $('#by_week_form').submit();
     })
 
-    drawWeekChart();
-
     window.addEventListener("orientationchange", function() {
-      drawWeekChart();
+      toggleWeekReport();
     },false);
+    
+    toggleWeekReport();
   });
 
 %div{:class=>"panel panel-primary"}

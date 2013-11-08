@@ -7,9 +7,11 @@
 
   function drawCategoryByMonthChart(){
     if(window.innerHeight > window.innerWidth){
+      $("#category_by_month_chart").hide()
       $("#suggestion").show();
     } else {
       $("#suggestion").hide();
+      $("#category_by_month_chart").show()
       var options = {
         title: "#{@category_report.category.description} by month",
         vAxis: {title: "Amount"},
@@ -34,7 +36,7 @@
 
 %div{:class=>"col-xs-12"}
   #category_by_month_chart
-  #suggestion{:display=>'none'}
+  #suggestion
     %p Please rotate your device to landscape to see report
 -#
   #byweek.col-xs-12=render :partial=>'by_week'

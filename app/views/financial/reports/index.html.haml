@@ -5,8 +5,10 @@
   // Load the Visualization API and the piechart package.
   google.load('visualization', '1.0', {'packages':['corechart']});
 
-  function drawBalanceByMonthChart(){
+  //only draw chart if screen is in landscape mode
+  function drawBalanceByMonthChart(){ 
     if(window.innerHeight < window.innerWidth){
+      $("#balance_by_month_chart").show();
       var options = {
         title: 'Balance by month',
         vAxis: {title: "Amount"},
@@ -17,16 +19,17 @@
       var data = google.visualization.arrayToDataTable(#{gc_table_for_monthly_balance(@report.balance_by_month)});
       var chart = new google.visualization.ComboChart(document.getElementById('balance_by_month_chart'));
       chart.draw(data, options);
+    } else {
+      $("#balance_by_month_chart").hide();
     }
   }
 
   $(document).ready(function(){
-    drawBalanceByMonthChart();
-
-     // Listen for orientation changes
     window.addEventListener("orientationchange", function() {
       drawBalanceByMonthChart();
     },false);
+
+    drawBalanceByMonthChart();
   });
 
 %div{:class=>"col-xs-12"}
