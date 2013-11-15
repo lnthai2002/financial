@@ -1,91 +1,79 @@
-%div{:id=>"plan_#{plan.id}"}
-  %fieldset
-    %legend.plan=plan.name
-    %p.detail-button
-    %p.close-button
-      = link_to 'Amortization', plan
-      |
-      = link_to 'Delete', plan, confirm: 'Are you sure?', method: :delete, :remote=>true
-    .plan-container
-      %table{:id=>"mortgage_#{plan.mortgage.id}"}
-        %tr.info
-          %th Purchased price
-          %td=number_to_currency(plan.mortgage.purchased_price)
-        %tr.info
-          %th Down payment
-          %td=number_to_currency(plan.mortgage.down_payment)
-        %tr.info
-          %th Interest
-          %td="#{number_with_precision(plan.mortgage.interest, :precision=>2)}%"
-        %tr.info
-          %th Loan term
-          %td="#{plan.mortgage.loan_term} years"
-        %tr.info
-          %th Municipal tax
-          %td=number_to_currency(plan.mortgage.municipal_tax)
-        %tr.info
-          %th School tax
-          %td=number_to_currency(plan.mortgage.school_tax)
-        %tr.info
-          %th Heating cost
-          %td=number_to_currency(plan.mortgage.heating)
-        %tr.info
-          %th House insurance
-          %td=number_to_currency(plan.mortgage.house_insurance)
-        %tr.info
-          %th Mortgage insurance
-          %td=number_to_currency(plan.mortgage.mortgage_insurance)
-        %tr.info
-          %th Revenue
-          %td=number_to_currency(plan.mortgage.revenue)
-        %tr.info
-          %th Family expense
-          %td=number_to_currency(plan.finance.net_monthly_expense)
-        %tr.info
-          %th Net income
-          %td=number_to_currency(plan.finance.net_monthly_income)
-        %tr
-          %th Monthly mortgage payment
-          %td=number_to_currency(plan.mortgage.monthly_mortgage_payment)
-        %tr
-          %th Monthly payment to bank, municipal, heating, insurance
-          %td=number_to_currency(plan.mortgage.monthly_payment)
-        %tr
-          %th Net monthly payment after revenue
-          %td=number_to_currency(plan.mortgage.net_monthly_payment)
-        %tr
-          %th Monthly saving after mortgage and family expense
-          %td=number_to_currency(plan.monthly_saving)
-
-      %table{:id=>"investment_#{plan.investment.id}"}
-        %tr.info
-          %th Principal
-          %td=number_to_currency(plan.investment.principal)
-        %tr.info
-          %th Rate
-          %td="#{number_with_precision(plan.investment.rate, :precision=>2)}%"
-        %tr.info
-          %th Monthly deposit
-          %td=number_to_currency(plan.investment.monthly_dep)
-        %tr.info
-          %th Length
-          %td="#{plan.investment.months} months"
-        %tr
-          %th Value at maturity
-          %td=number_to_currency(plan.investment.future_value)
-        %tr
-          %td{:colspan=>2}
-            =form_for plan.investment, :remote=>true, :html=>{:role=>"form"} do |i|
-              %fieldset
-                %legend Alternative investment
-                .form-group
-                  =i.label :alt_monthly_dep, :class=>'sr-only'
-                  =i.number_field :alt_monthly_dep, :step=>0.01, :placeholder=>"alternative monthly deposit for investment", :class=>'form-control'
-                .form-group
-                  =i.label :alt_rate, :class=>'sr-only'
-                  =i.number_field :alt_rate, :step=>'any', :placeholder=>"alternative rate of return", :class=>'form-control'
-                .form-group
-                  =i.label :alt_length, :class=>'sr-only'
-                  =i.number_field :alt_length, :step=>1, :placeholder=>"number of months until mature", :class=>'form-control'
-                %br
-                =i.submit "Recalculate", :class=>"btn btn-default"
+.container{:id=>"plan_#{plan.id}"}
+  %div{:class=>"col-xs-12 col-md-12"}
+    .panel.panel-danger
+      .panel-heading.js_collapsable
+        =plan.name |
+        =">>>" |
+        =link_to 'Amortization', plan |
+        ="|" |
+        =link_to 'Delete', plan, confirm: 'Are you sure?', method: :delete, :remote=>true |
+      .panel-body
+        %table{:id=>"mortgage_#{plan.mortgage.id}"}
+          %tr.info
+            %th Purchased price
+            %td=number_to_currency(plan.mortgage.purchased_price)
+          %tr.info
+            %th Down payment
+            %td=number_to_currency(plan.mortgage.down_payment)
+          %tr.info
+            %th Interest
+            %td="#{number_with_precision(plan.mortgage.interest, :precision=>2)}%"
+          %tr.info
+            %th Loan term
+            %td="#{plan.mortgage.loan_term} years"
+          %tr.info
+            %th Municipal tax
+            %td=number_to_currency(plan.mortgage.municipal_tax)
+          %tr.info
+            %th School tax
+            %td=number_to_currency(plan.mortgage.school_tax)
+          %tr.info
+            %th Heating cost
+            %td=number_to_currency(plan.mortgage.heating)
+          %tr.info
+            %th House insurance
+            %td=number_to_currency(plan.mortgage.house_insurance)
+          %tr.info
+            %th Mortgage insurance
+            %td=number_to_currency(plan.mortgage.mortgage_insurance)
+          %tr.info
+            %th Revenue
+            %td=number_to_currency(plan.mortgage.revenue)
+          %tr.info
+            %th Family expense
+            %td=number_to_currency(plan.finance.net_monthly_expense)
+          %tr.info
+            %th Net income
+            %td=number_to_currency(plan.finance.net_monthly_income)
+          %tr
+            %th Monthly mortgage payment
+            %td=number_to_currency(plan.mortgage.monthly_mortgage_payment)
+          %tr
+            %th Monthly payment to bank, municipal, heating, insurance
+            %td=number_to_currency(plan.mortgage.monthly_payment)
+          %tr
+            %th Net monthly payment after revenue
+            %td=number_to_currency(plan.mortgage.net_monthly_payment)
+          %tr
+            %th Monthly saving after mortgage and family expense
+            %td=number_to_currency(plan.monthly_saving)
+  
+        %table{:id=>"investment_#{plan.investment.id}"}
+          %tr.info
+            %th Principal
+            %td=number_to_currency(plan.investment.principal)
+          %tr.info
+            %th Rate
+            %td="#{number_with_precision(plan.investment.rate, :precision=>2)}%"
+          %tr.info
+            %th Monthly deposit
+            %td=number_to_currency(plan.investment.monthly_dep)
+          %tr.info
+            %th Length
+            %td="#{plan.investment.months} months"
+          %tr
+            %th Value at maturity
+            %td=number_to_currency(plan.investment.future_value)
+          %tr
+            %td{:colspan=>2}
+              =render :partial=>'investments/alt_investment_form', :locals=>{:invesement=>plan.investment}

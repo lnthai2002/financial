@@ -14,3 +14,9 @@
 //= require jquery.ui.all
 //= require jquery_ujs
 //= require_tree .
+//Show and hide panel body
+$(document).ready(function(){
+  $('.panel-heading.js_collapsable').click(function(e){
+    $(e.currentTarget).nextAll('.panel-body:first').slideToggle();
+  })
+});

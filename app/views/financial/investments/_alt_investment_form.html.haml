@@ -1,0 +1,14 @@
+=form_for invesment, :remote=>true, :html=>{:role=>"form"} do |i|
+                %fieldset
+                  %legend Alternative investment
+                  .form-group
+                    =i.label :alt_monthly_dep, :class=>'sr-only'
+                    =i.number_field :alt_monthly_dep, :step=>0.01, :placeholder=>"alternative monthly deposit for investment", :class=>'form-control'
+                  .form-group
+                    =i.label :alt_rate, :class=>'sr-only'
+                    =i.number_field :alt_rate, :step=>'any', :placeholder=>"alternative rate of return", :class=>'form-control'
+                  .form-group
+                    =i.label :alt_length, :class=>'sr-only'
+                    =i.number_field :alt_length, :step=>1, :placeholder=>"number of months until mature", :class=>'form-control'
+                  %br
+                  =i.submit "Recalculate", :class=>"btn btn-default"
