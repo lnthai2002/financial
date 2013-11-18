@@ -1,65 +1,83 @@
-.col-xs-12.col-md-12
-  =form_for @plan, :remote=>true, :html=>{:role=>"form", :class=>"form-horizontal"} do |b|
+=form_for @plan, :remote=>true, :html=>{:role=>"form", :class=>"form-horizontal"} do |b|
+  .row
     .col-xs-12.col-md-12
       .form-group
-        =b.label :name
-        =b.text_field :name, :placeholder=>"friendly name for this plan", :class=>'form-control'
+        =b.label :name, :class=>"col-xs-2 col-md-2 control-label"
+        .col-xs-10.col-md-10
+          =b.text_field :name, :placeholder=>"friendly name for this plan", :class=>'form-control'
+  .row
     .col-xs-12.col-md-6
-      .panel.panel-danger
+      .panel.panel-default
         .panel-heading
           Mortgage
         .panel-body
           =b.fields_for :mortgage do |m|
             = m.error_messages
             .form-group
-              =m.label :purchased_price
-              =m.number_field :purchased_price, :step=>0.01, :placeholder=>"purchased price", :class=>'form-control'
+              =m.label :purchased_price, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :purchased_price, :step=>0.01, :placeholder=>"purchased price", :class=>'form-control'
             .form-group
-              =m.label :down_payment
-              =m.number_field :down_payment, :step=>0.01, :placeholder=>"down payment", :class=>'form-control'
+              =m.label :down_payment, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :down_payment, :step=>0.01, :placeholder=>"down payment", :class=>'form-control'
             .form-group
-              =m.label :interest
-              =m.number_field :interest, :step=>'any', :placeholder=>"annual interest rate", :class=>'form-control'
+              =m.label :interest, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :interest, :step=>'any', :placeholder=>"annual interest rate", :class=>'form-control'
             .form-group
-              =m.label :loan_term
-              =m.number_field :loan_term, :step=>1, :placeholder=>"loan term in year", :class=>'form-control'
+              =m.label :loan_term, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :loan_term, :step=>1, :placeholder=>"loan term in year", :class=>'form-control'
             .form-group
-              =m.label :municipal_tax
-              =m.number_field :municipal_tax, :step=>0.01, :placeholder=>"annual municipal tax (Canada)", :class=>'form-control'
+              =m.label :municipal_tax, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :municipal_tax, :step=>0.01, :placeholder=>"annual municipal tax (Canada)", :class=>'form-control'
             .form-group
-              =m.label :school_tax
-              =m.number_field :school_tax, :step=>0.01, :placeholder=>"annual school tax (Canada)", :class=>'form-control'
+              =m.label :school_tax, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :school_tax, :step=>0.01, :placeholder=>"annual school tax (Canada)", :class=>'form-control'
             .form-group
-              =m.label :heating
-              =m.number_field :heating, :step=>0.01, :placeholder=>"annual heating cost", :class=>'form-control'
+              =m.label :heating, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :heating, :step=>0.01, :placeholder=>"annual heating cost", :class=>'form-control'
             .form-group
-              =m.label :house_insurance
-              =m.number_field :house_insurance, :step=>0.01, :placeholder=>"annual house insurance", :class=>'form-control'
+              =m.label :house_insurance, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :house_insurance, :step=>0.01, :placeholder=>"annual house insurance", :class=>'form-control'
             .form-group
-              =m.label :mortgage_insurance
-              =m.number_field :mortgage_insurance, :step=>0.01, :placeholder=>"annualy, not taken into account in this calculator", :class=>'form-control'
+              =m.label :mortgage_insurance, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :mortgage_insurance, :step=>0.01, :placeholder=>"annualy, not taken into account in this calculator", :class=>'form-control'
             .form-group
-              =m.label :revenue
-              =m.number_field :revenue, :step=>0.01, :placeholder=>"annual revenue from leasing", :class=>'form-control'
+              =m.label :revenue, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =m.number_field :revenue, :step=>0.01, :placeholder=>"annual revenue from leasing", :class=>'form-control'
     .col-xs-12.col-md-6
-      .panel.panel-success
+      .panel.panel-default
         .panel-heading
           Investment
         .panel-body
           =b.fields_for :investment do |i|
             = i.error_messages
             .form-group
-              =i.label :principal
-              =i.number_field :principal, :step=>0.01, :placeholder=>"initial value of investment", :class=>'form-control'
+              =i.label :principal, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =i.number_field :principal, :step=>0.01, :placeholder=>"initial value of investment", :class=>'form-control'
             .form-group
-              =i.label :rate
-              =i.number_field :rate, :step=>'any', :placeholder=>"annual rate of return", :class=>'form-control'
+              =i.label :rate, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =i.number_field :rate, :step=>'any', :placeholder=>"annual rate of return", :class=>'form-control'
             .form-group
-              =i.label :monthly_dep
-              =i.number_field :monthly_dep, :step=>0.01, :placeholder=>"monthly saving for investment", :class=>'form-control'
+              =i.label :monthly_dep, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =i.number_field :monthly_dep, :step=>0.01, :placeholder=>"monthly saving for investment", :class=>'form-control'
             .form-group
-              =i.label :months
-              =i.number_field :months, :step=>1, :placeholder=>"number of months until mature", :class=>'form-control'
+              =i.label :months, :class=>"col-xs-6 control-label"
+              .col-xs-6
+                =i.number_field :months, :step=>1, :placeholder=>"number of months until mature", :class=>'form-control'
+  .row  
     .col-xs-12.col-md-12
       .form-group
-        =b.submit "Calculate", :class=>"btn btn-default"
+        .col-xs-12.col-md-12
+          =b.submit "Calculate", :class=>"btn btn-default"

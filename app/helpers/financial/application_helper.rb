@@ -49,5 +49,14 @@ module Financial
       end
       return "[#{table.join(',')}]"
     end
+
+    def plan_header(plan)
+      return raw plan.name +
+      " >>> " +
+      link_to('Amortization', plan) +
+      " | " +
+      link_to('Delete', plan, confirm: 'Are you sure?',
+              method: :delete, :remote=>true)
+    end
   end
 end
