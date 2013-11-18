@@ -4,66 +4,62 @@
       .panel-heading.js_collapsable
         =plan_header(plan)
       .panel-body
-        .panel.panel-info
-          .panel-heading.js_collapsable
-            Detail
-          .panel-body
             %table{:id=>"mortgage_#{plan.mortgage.id}"}
-              %tr.info
-                %th Purchased price
-                %td=number_to_currency(plan.mortgage.purchased_price)
-              %tr.info
-                %th Down payment
-                %td=number_to_currency(plan.mortgage.down_payment)
-              %tr.info
-                %th Interest
-                %td="#{number_with_precision(plan.mortgage.interest, :precision=>2)}%"
-              %tr.info
-                %th Loan term
-                %td="#{plan.mortgage.loan_term} years"
-              %tr.info
-                %th Municipal tax
-                %td=number_to_currency(plan.mortgage.municipal_tax)
-              %tr.info
-                %th School tax
-                %td=number_to_currency(plan.mortgage.school_tax)
-              %tr.info
-                %th Heating cost
-                %td=number_to_currency(plan.mortgage.heating)
-              %tr.info
-                %th House insurance
-                %td=number_to_currency(plan.mortgage.house_insurance)
-              %tr.info
-                %th Mortgage insurance
-                %td=number_to_currency(plan.mortgage.mortgage_insurance)
-              %tr.info
-                %th Revenue
-                %td=number_to_currency(plan.mortgage.revenue)
-              %tr.info
-                %th Family expense
-                %td=number_to_currency(plan.finance.net_monthly_expense)
-              %tr.info
-                %th Net income
-                %td=number_to_currency(plan.finance.net_monthly_income)
-        .panel.panel-info
-          .panel-heading.js_collapsable
-            Detail
-          .panel-body
-            %table{:id=>"mortgage_#{plan.mortgage.id}"}
-              %tr
-                %th Monthly mortgage payment
-                %td=number_to_currency(plan.mortgage.monthly_mortgage_payment)
-              %tr
-                %th Monthly payment to bank, municipal, heating, insurance
-                %td=number_to_currency(plan.mortgage.monthly_payment)
-              %tr
-                %th Net monthly payment after revenue
-                %td=number_to_currency(plan.mortgage.net_monthly_payment)
-              %tr
-                %th Monthly saving after mortgage and family expense
-                %td=number_to_currency(plan.monthly_saving)
+              %tbody
+                %tr.js_info_hideable
+                  %th{'colspan'=>2} toggle info
+                %tr.info
+                  %th Purchased price
+                  %td=number_to_currency(plan.mortgage.purchased_price)
+                %tr.info
+                  %th Down payment
+                  %td=number_to_currency(plan.mortgage.down_payment)
+                %tr.info
+                  %th Interest
+                  %td="#{number_with_precision(plan.mortgage.interest, :precision=>2)}%"
+                %tr.info
+                  %th Loan term
+                  %td="#{plan.mortgage.loan_term} years"
+                %tr.info
+                  %th Municipal tax
+                  %td=number_to_currency(plan.mortgage.municipal_tax)
+                %tr.info
+                  %th School tax
+                  %td=number_to_currency(plan.mortgage.school_tax)
+                %tr.info
+                  %th Heating cost
+                  %td=number_to_currency(plan.mortgage.heating)
+                %tr.info
+                  %th House insurance
+                  %td=number_to_currency(plan.mortgage.house_insurance)
+                %tr.info
+                  %th Mortgage insurance
+                  %td=number_to_currency(plan.mortgage.mortgage_insurance)
+                %tr.info
+                  %th Revenue
+                  %td=number_to_currency(plan.mortgage.revenue)
+                %tr.info
+                  %th Family expense
+                  %td=number_to_currency(plan.finance.net_monthly_expense)
+                %tr.info
+                  %th Net income
+                  %td=number_to_currency(plan.finance.net_monthly_income)
+                %tr
+                  %th Monthly mortgage payment
+                  %td=number_to_currency(plan.mortgage.monthly_mortgage_payment)
+                %tr
+                  %th Monthly payment to bank, municipal, heating, insurance
+                  %td=number_to_currency(plan.mortgage.monthly_payment)
+                %tr
+                  %th Net monthly payment after revenue
+                  %td=number_to_currency(plan.mortgage.net_monthly_payment)
+                %tr
+                  %th Monthly saving after mortgage and family expense
+                  %td=number_to_currency(plan.monthly_saving)
   
         %table{:id=>"investment_#{plan.investment.id}"}
+          %tr.js_info_hideable
+            %th{'colspan'=>2} toggle info
           %tr.info
             %th Principal
             %td=number_to_currency(plan.investment.principal)

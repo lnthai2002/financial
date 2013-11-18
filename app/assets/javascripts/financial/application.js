@@ -19,4 +19,9 @@ $(document).ready(function(){
   $('.panel-heading.js_collapsable').click(function(e){
     $(e.currentTarget).nextAll('.panel-body:first').slideToggle();
   })
+  
+  //used in plans listing page
+  $('tr.js_info_hideable').click(function(e){
+    $(e.currentTarget).siblings('.info').toggle();
+  })
 });
