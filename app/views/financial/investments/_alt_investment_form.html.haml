@@ -1,14 +1,18 @@
-=form_for investment, :remote=>true, :html=>{:role=>"form"} do |i|
+=form_for investment, :remote=>true, :html=>{:role=>"form", :class=>"form-horizontal"} do |i|
   %fieldset
     %legend Alternative investment
     .form-group
-      =i.label :alt_monthly_dep, :class=>'sr-only'
-      =i.number_field :alt_monthly_dep, :step=>0.01, :placeholder=>"alternative monthly deposit for investment", :class=>'form-control'
+      =i.label :alt_monthly_dep, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =i.number_field :alt_monthly_dep, :step=>0.01, :placeholder=>"alternative monthly deposit for investment", :class=>'form-control'
     .form-group
-      =i.label :alt_rate, :class=>'sr-only'
-      =i.number_field :alt_rate, :step=>'any', :placeholder=>"alternative rate of return", :class=>'form-control'
+      =i.label :alt_rate, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =i.number_field :alt_rate, :step=>'any', :placeholder=>"alternative rate of return", :class=>'form-control'
     .form-group
-      =i.label :alt_length, :class=>'sr-only'
-      =i.number_field :alt_length, :step=>1, :placeholder=>"number of months until mature", :class=>'form-control'
-    %br
-    =i.submit "Recalculate", :class=>"btn btn-default"
+      =i.label :alt_length, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =i.number_field :alt_length, :step=>1, :placeholder=>"number of months until mature", :class=>'form-control'
+    .form-group
+      .col-xs-12
+        =i.submit "Recalculate", :class=>"btn btn-default"

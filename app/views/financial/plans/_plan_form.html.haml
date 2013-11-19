@@ -1,4 +1,22 @@
-=form_for @plan, :remote=>true, :html=>{:role=>"form", :class=>"form-horizontal"} do |b|
+:javascript
+  $(document).ready(function(){
+    //do not show form by default
+    $('#add_plan').show();
+    $('.plan-frm').hide();
+
+    $('#add_plan').click(function(e){
+      $('#add_plan').hide();
+      $('.plan-frm').show();
+    })
+    $('#hide-form').click(function(e){
+      $('#add_plan').show();
+      $('.plan-frm').hide();
+    })
+  });
+
+= link_to 'add plan', "#", :id=>'add_plan', :class=>"btn btn-default"
+
+=form_for @plan, :remote=>true, :html=>{:role=>"form", :class=>"form-horizontal plan-frm"} do |b|
   .row
     .col-xs-12.col-md-12
       .form-group
@@ -81,3 +99,4 @@
       .form-group
         .col-xs-12.col-md-12
           =b.submit "Calculate", :class=>"btn btn-default"
+          =link_to 'Hide form', "#", :id=>'hide-form', :class=>"btn btn-default"
