@@ -21,7 +21,13 @@ $(document).ready(function(){
   })
   
   //used in plans listing page
-  $('tr.js_info_hideable').click(function(e){
-    $(e.currentTarget).siblings('.info').toggle();
+  $('[data-slide-target]').click(function(e){
+    var target = $(e.currentTarget).data('slide-target');
+  	$(target).slideToggle();
+  })
+
+  $('[data-toggle-target]').click(function(e){
+    var target = $(e.currentTarget).data('toggle-target');
+    $(target).toggle();
   })
 });

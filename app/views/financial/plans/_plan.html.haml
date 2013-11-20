@@ -1,63 +1,51 @@
-:javascript
-  $(document).ready(function(){
-    $('[data-toggle-target]').click(function(e){
-      var target = $(e.currentTarget).data('target');
-      $(target).toggle();
-    })
-    $('[data-slide-target]').click(function(e){
-      var target = $(e.currentTarget).data('target');
-      $(target).find('.panel-body').slideToggle();
-    })
-  });
-
 .container{:id=>"plan_#{plan.id}"}
   .col-xs-12.col-md-12
     .panel.panel-default
-      .panel-heading{'display'=>'inline'}
+      .panel-heading
         =plan.name
         =link_to('Amortization', plan, :class=>"btn btn-default")
-        =link_to 'Detail', "#", :class=>"btn btn-default", 'data-toggle-target'=>"#plan_#{plan.id} tr.info"
-        =link_to 'Collapse', "#", :class=>'btn btn-default', 'data-slide-target'=>"plan_#{plan.id}"
-        =link_to 'Delete', plan, confirm: 'Are you sure?', method: :delete, :remote=>true, :class=>'close'
+        .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} tr.info"} Detail
+        .btn.btn-default{'data-slide-target'=>"#plan_#{plan.id} .panel-body"} Collapse
+        =link_to 'X', plan, confirm: 'Are you sure?', method: :delete, :remote=>true, :class=>'close'
       .panel-body
         %table{:id=>"mortgage_#{plan.mortgage.id}"}
           %tbody
-            %tr.js_info_hideable
+            %tr
               %th{:colspan=>2} Mortgage
-            %tr.info.hidden
+            %tr.info
               %td Purchased price
               %td=number_to_currency(plan.mortgage.purchased_price)
-            %tr.info.hidden
+            %tr.info
               %td Down payment
               %td=number_to_currency(plan.mortgage.down_payment)
-            %tr.info.hidden
+            %tr.info
               %td Interest
               %td="#{number_with_precision(plan.mortgage.interest, :precision=>2)}%"
-            %tr.info.hidden
+            %tr.info
               %td Loan term
               %td="#{plan.mortgage.loan_term} years"
-            %tr.info.hidden
+            %tr.info
               %td Municipal tax
               %td=number_to_currency(plan.mortgage.municipal_tax)
-            %tr.info.hidden
+            %tr.info
               %td School tax
               %td=number_to_currency(plan.mortgage.school_tax)
-            %tr.info.hidden
+            %tr.info
               %td Heating cost
               %td=number_to_currency(plan.mortgage.heating)
-            %tr.info.hidden
+            %tr.info
               %td House insurance
               %td=number_to_currency(plan.mortgage.house_insurance)
-            %tr.info.hidden
+            %tr.info
               %td Mortgage insurance
               %td=number_to_currency(plan.mortgage.mortgage_insurance)
-            %tr.info.hidden
+            %tr.info
               %td Revenue
               %td=number_to_currency(plan.mortgage.revenue)
-            %tr.info.hidden
+            %tr.info
               %td Family expense
               %td=number_to_currency(plan.finance.net_monthly_expense)
-            %tr.info.hidden
+            %tr.info
               %td Net income
               %td=number_to_currency(plan.finance.net_monthly_income)
             %tr
@@ -76,16 +64,16 @@
         %table{:id=>"investment_#{plan.investment.id}"}
           %tr
             %th{:colspan=>2} Investment
-          %tr.info.hidden
+          %tr.info
             %td Principal
             %td=number_to_currency(plan.investment.principal)
-          %tr.info.hidden
+          %tr.info
             %td Rate
             %td="#{number_with_precision(plan.investment.rate, :precision=>2)}%"
-          %tr.info.hidden
+          %tr.info
             %td Monthly deposit
             %td=number_to_currency(plan.investment.monthly_dep)
-          %tr.info.hidden
+          %tr.info
             %td Length
             %td="#{plan.investment.months} months"
           %tr
