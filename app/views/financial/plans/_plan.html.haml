@@ -1,16 +1,10 @@
-:javascript
-  $(document).ready(function(){
-    $('.info').hide();
-    $('.alt-investment-form').hide();
-  });
-
 .col-xs-12.col-md-12
   .panel.panel-default{:id=>"plan_#{plan.id}"}
     .panel-heading
       =plan.name        
       =link_to(plan, :class=>"btn btn-default") do
         .glyphicon.glyphicon-calendar
-      .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} tr.info"}
+      .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} tr.default-hidden"}
         .glyphicon.glyphicon-eye-open
       .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} .panel-body"}
         .glyphicon.glyphicon-resize-vertical
@@ -20,40 +14,40 @@
         %tbody
           %tr
             %th{:colspan=>2} Mortgage
-          %tr.info
+          %tr.important.default-hidden
             %td Purchased price
             %td=number_to_currency(plan.mortgage.purchased_price)
-          %tr.info
+          %tr.important.default-hidden
             %td Down payment
             %td=number_to_currency(plan.mortgage.down_payment)
-          %tr.info
+          %tr.important.default-hidden
             %td Interest
             %td="#{number_with_precision(plan.mortgage.interest, :precision=>2)}%"
-          %tr.info
+          %tr.important.default-hidden
             %td Loan term
             %td="#{plan.mortgage.loan_term} years"
-          %tr.info
+          %tr.important.default-hidden
             %td Municipal tax
             %td=number_to_currency(plan.mortgage.municipal_tax)
-          %tr.info
+          %tr.important.default-hidden
             %td School tax
             %td=number_to_currency(plan.mortgage.school_tax)
-          %tr.info
+          %tr.important.default-hidden
             %td Heating cost
             %td=number_to_currency(plan.mortgage.heating)
-          %tr.info
+          %tr.important.default-hidden
             %td House insurance
             %td=number_to_currency(plan.mortgage.house_insurance)
-          %tr.info
+          %tr.important.default-hidden
             %td Mortgage insurance
             %td=number_to_currency(plan.mortgage.mortgage_insurance)
-          %tr.info
+          %tr.important.default-hidden
             %td Revenue
             %td=number_to_currency(plan.mortgage.revenue)
-          %tr.info
+          %tr.important.default-hidden
             %td Family expense
             %td=number_to_currency(plan.finance.net_monthly_expense)
-          %tr.info
+          %tr.important.default-hidden
             %td Net income
             %td=number_to_currency(plan.finance.net_monthly_income)
           %tr
@@ -75,16 +69,16 @@
           %td
             .btn.btn-default{'data-toggle-target'=>".alt-investment-form"}
               .glyphicon.glyphicon-plus
-        %tr.info
+        %tr.important.default-hidden
           %td Principal
           %td=number_to_currency(plan.investment.principal)
-        %tr.info
+        %tr.important.default-hidden
           %td Rate
           %td="#{number_with_precision(plan.investment.rate, :precision=>2)}%"
-        %tr.info
+        %tr.important.default-hidden
           %td Monthly deposit
           %td=number_to_currency(plan.investment.monthly_dep)
-        %tr.info
+        %tr.important.default-hidden
           %td Length
           %td="#{plan.investment.months} months"
         %tr
