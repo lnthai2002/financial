@@ -9,12 +9,12 @@
     .panel-heading
       =plan.name        
       =link_to(plan, :class=>"btn btn-default") do
-        .glyphicon.glyphicon-ok
+        .glyphicon.glyphicon-calendar
       .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} tr.info"}
-        .glyphicon.glyphicon-align-justify
+        .glyphicon.glyphicon-eye-open
       .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} .panel-body"}
         .glyphicon.glyphicon-resize-vertical
-      =link_to 'X', plan, confirm: 'Are you sure?', method: :delete, :remote=>true, :class=>'close'
+      =link_to 'x', plan, confirm: 'Are you sure?', method: :delete, :remote=>true, :class=>'close'
     .panel-body
       %table{:id=>"mortgage_#{plan.mortgage.id}"}
         %tbody
