@@ -1,10 +1,19 @@
+:javascript
+  $(document).ready(function(){
+    $('.info').hide();
+    $('.alt-investment-form').hide();
+  });
+
 .col-xs-12.col-md-12
   .panel.panel-default{:id=>"plan_#{plan.id}"}
     .panel-heading
-      =plan.name
-      =link_to('Amortization', plan, :class=>"btn btn-default")
-      .glyphicon.glyphicon-list{'data-toggle-target'=>"#plan_#{plan.id} tr.info"}
-      .glyphicon.glyphicon-resize-vertical{'data-slide-target'=>"#plan_#{plan.id} .panel-body"}
+      =plan.name        
+      =link_to(plan, :class=>"btn btn-default") do
+        .glyphicon.glyphicon-ok
+      .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} tr.info"}
+        .glyphicon.glyphicon-align-justify
+      .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} .panel-body"}
+        .glyphicon.glyphicon-resize-vertical
       =link_to 'X', plan, confirm: 'Are you sure?', method: :delete, :remote=>true, :class=>'close'
     .panel-body
       %table{:id=>"mortgage_#{plan.mortgage.id}"}
@@ -62,7 +71,10 @@
 
       %table{:id=>"investment_#{plan.investment.id}"}
         %tr
-          %th{:colspan=>2} Investment
+          %th Investment
+          %td
+            .btn.btn-default{'data-toggle-target'=>".alt-investment-form"}
+              .glyphicon.glyphicon-plus
         %tr.info
           %td Principal
           %td=number_to_currency(plan.investment.principal)

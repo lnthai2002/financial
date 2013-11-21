@@ -21,12 +21,12 @@ $(document).ready(function(){
   })
   
   //used in plans listing page
-  $('[data-slide-target]').click(function(e){
-    var target = $(e.currentTarget).data('slide-target');
+  $(document).on('click', '[data-slide-target]', function(e){
+  	var target = $(e.currentTarget).data('slide-target');
   	$(target).slideToggle();
-  })
+  });
 
-  $('[data-toggle-target]').click(function(e){
+  $(document).on('click', '[data-toggle-target]', function(e){
     var target = $(e.currentTarget).data('toggle-target');
     $(target).toggle();
   })
