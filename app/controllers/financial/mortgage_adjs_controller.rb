@@ -1,7 +1,7 @@
 require_dependency "financial/application_controller"
 
 module Financial
-  class MortgageAdjustmentsController < AuthorizableController
+  class MortgageAdjsController < AuthorizableController
     #update or create a new adjustment if an adjustment already exist for the given month, update it
     def create
       @adjustment = MortgageAdj.accessible_by(current_ability).where(:mortgage_id=>params[:adjustment][:mortgage_id],:month=>params[:adjustment][:month]).first

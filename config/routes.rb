@@ -8,7 +8,7 @@ Financial::Engine.routes.draw do
   resources :finances
   resources :incomes
   resources :investments
-  resources :mortgage_adjustments
+  resources :mortgage_adjs
   resources :payment_types
   resources :people
   resources :plans
