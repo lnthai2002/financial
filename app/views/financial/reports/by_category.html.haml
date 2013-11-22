@@ -1,9 +1,8 @@
-%table.table.table-striped
-  %thead
-    %tr
-      %th Report by
-  %tbody
+.container
+  =form_for :category, :url=>for_category_reports_path, :method=>:get do |f|
     -@categories.each do |e|
-      %tr
-        %td= link_to e.description, for_category_reports_path('category'=>e.description)
-        
+      .form-group
+        =f.check_box e.description
+        =f.label e.description, e.description
+    .form-group
+      =f.submit 'generate'

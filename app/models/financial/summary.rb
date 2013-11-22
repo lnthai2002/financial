@@ -3,13 +3,17 @@ module Financial
     def self.expenses_by_date_range(ability, start_date, end_date)
       return Expense.accessible_by(ability).joins(:expense_category)
                     .select("description, SUM(amount_cents) AS amount_cents")
-                    .where(date_range_conditions(start_date, end_date)).group('category_id').all
+                    .where(date_range_conditions(start_date, end_date))
+                    .group('category_id')
+                    .all
     end
 
     def self.incomes_by_date_range(ability, start_date, end_date)
       return Income.accessible_by(ability).joins(:income_category)
                    .select("description, SUM(amount_cents) AS amount_cents")
-                   .where(date_range_conditions(start_date, end_date)).group('category_id').all
+                   .where(date_range_conditions(start_date, end_date))
+                   .group('category_id')
+                   .all
     end
 
     def self.by_date_range(ability, start_date, end_date)
