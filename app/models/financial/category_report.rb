@@ -1,7 +1,7 @@
 module Financial
   class CategoryReport
     attr_reader :date
-    attr_reader :category
+    attr_reader :categories
 
     def initialize(date, category, current_ability)
       if date
@@ -9,9 +9,17 @@ module Financial
       else
         raise Exception.new("Cannot instantiate report without a date")
       end
+      @categories = Category.where(:description=>category)
+      @cats = @categories.pluck(:id)
+      @categories = @categories.pluck(:description).join(',')
+      
+      #TODO: rails 4 support multiple pluck, use this
+      # @categories = Category.where(:description=>category).pluck(:id, :description)
+      # @categories = @categories.transpose
+      # @cats = @categories[0]
+      # @categories = @categories[1].join(',')
 
-      @category = Category.where(:description=>category).first
-      if !@category
+      if @categories.blank?
         raise Exception.new("Cannot instantiate report without a category")
       end
 
@@ -29,8 +37,9 @@ module Financial
                                   .select("YEAR(pmt_date) AS year,
                                            MONTH(pmt_date) AS month,
                                            SUM(amount_cents) AS amount_cents")
-                                  .where(:category_id=>@category.id)
+                                  .where(:category_id=>@cats)
                                   .group("YEAR(pmt_date), MONTH(pmt_date)")
+                                  .all
         summary_by_month.each do |summary|
           @category_by_month["#{summary.year}/#{summary.month}"] = summary.amount.to_d
         end

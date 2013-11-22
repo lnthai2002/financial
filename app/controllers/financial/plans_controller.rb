@@ -13,6 +13,8 @@ module Financial
     def create
       @plan = Plan.new(params[:plan])
       @plan.person = @person
+      @plan.mortgage.person = @person
+      @plan.investment.person = @person
       if @plan.save #valid plan
         @saved_plan = @plan #used to render recently added plan
         @plan = Plan.new(params[:plan]) #used to populate form

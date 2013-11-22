@@ -1,33 +1,48 @@
-=form_for :adjustment, :url=>{:controller=>:mortgage_adjustments, :action=>:create}, :remote=>true do |a|
-  =a.hidden_field :mortgage_id, :value=>@plan.mortgage.id
-  %fieldset
-    %legend Adjustment
-    = a.error_messages
-    %br
-    =a.text_field :month, :placeholder=>"which month to add adjustment"
-    %br
-    =a.text_field :amount, :placeholder=>"extra payment for this month"
-    %br
-    =a.text_field :interest, :placeholder=>"interest rate from this month onward"
-    %br
-    =a.text_field :duration, :placeholder=>"length of mortgage since this month"
-    %br
-    =a.submit "Insert"
-    
-%table
-  %tr{:class=>cycle('even', 'odd')}
-    %th Month
-    %th Interest
-    %th Capital deduction
-    %th Extra payment
-    %th Balance
-    %th New interest rate
-  -@plan.mortgage.amortization.each do |month|
-    %tr{:class=>cycle('even', 'odd')}
-      %td=month[:month]
-      %td=number_to_currency(month[:interest])
-      %td=number_to_currency(month[:cap_deduction])
-      %td=number_to_currency(month[:xtra_payment])
-      %td=number_to_currency(month[:balance])
-      %td=month[:new_rate].to_s
-      %td=link_to('Remove adjustment', {:controller=>:mortgage_adjustments, :action=>:destroy, :id=>month[:adj_id]}, confirm: 'Are you sure?', method: :delete) if !month[:adj_id].blank? 
+.container
+  .btn.btn-default{'data-toggle-target'=>"#adjustment-form"}
+    .glyphicon.glyphicon-plus adjustment
+  =form_for :adjustment,
+    :url=>{:controller=>:mortgage_adjs, :action=>:create},
+    :remote=>true,
+    :html=>{:role=>"form", :class=>"form-horizontal default-hidden", :id=>'adjustment-form'} do |a|
+    =a.error_messages
+    .form-group
+      =a.label :month, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =a.number_field :month, :step=>1, :placeholder=>"which month to add adjustment"
+    .form-group
+      =a.label :amount, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =a.number_field :amount, :step=>0.01, :placeholder=>"extra payment for this month"
+    .form-group
+      =a.label :interest, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =a.number_field :interest, :step=>'any', :placeholder=>"interest rate from this month onward"
+    .form-group
+      =a.label :duration, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =a.number_field :duration, :step=>1, :placeholder=>"length of mortgage since this month"
+    .form-group
+      .col-xs-12
+        =a.hidden_field :mortgage_id, :value=>@plan.mortgage.id
+        =a.submit "Insert", :class=>"btn btn-default"
+.container
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Month
+        %th Interest
+        %th Capital deduction
+        %th Extra payment
+        %th Balance
+        %th New interest rate
+    %tbody
+      -@plan.mortgage.amortization.each do |month|
+        %tr
+          %td=month[:month]
+          %td=number_to_currency(month[:interest])
+          %td=number_to_currency(month[:cap_deduction])
+          %td=number_to_currency(month[:xtra_payment])
+          %td=number_to_currency(month[:balance])
+          %td=month[:new_rate].to_s
+          %td=link_to('x', mortgage_adj_path(month[:adj_id]), confirm: 'Are you sure?', method: :delete, class: 'close') if !month[:adj_id].blank? 

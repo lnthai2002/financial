@@ -17,7 +17,10 @@ module Financial
         rescue
           @date = Date.today
         end
-        @category_report = CategoryReport.new(@date, params[:category], current_ability)
+        
+        categories = []
+        params[:category].each{|cat,selected| categories << cat if selected == '1'}
+        @category_report = CategoryReport.new(@date, categories, current_ability)
       else
         redirect_to reports_path
       end

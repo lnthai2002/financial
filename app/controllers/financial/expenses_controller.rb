@@ -64,7 +64,7 @@ module Financial
       @expense.person = @person
       respond_to do |format|
         if @expense.save
-          format.html { redirect_to reports_path, notice: 'Expense was successfully recorded.' }
+          format.html { redirect_to new_expense_path, notice: 'Expense was successfully recorded.' }
           format.json { render json: @expense, status: :created, location: @expense }
         else
           format.html { render action: "new" }

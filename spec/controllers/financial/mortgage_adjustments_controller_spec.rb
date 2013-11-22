@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Financial
-  describe MortgageAdjustmentsController do
+  describe MortgageAdjsController do
   
   end
 end

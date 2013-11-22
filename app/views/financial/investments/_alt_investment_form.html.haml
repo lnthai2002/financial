@@ -1,0 +1,20 @@
+.well.alt-investment-form.default-hidden
+  =form_for investment, :remote=>true, :html=>{:role=>"form", :class=>"form-horizontal"} do |i|
+    .form-group
+      .col-xs-12
+        %h3 Alternative investment
+    .form-group
+      =i.label :alt_monthly_dep, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =i.number_field :alt_monthly_dep, :step=>0.01, :placeholder=>"alternative monthly deposit for investment", :class=>'form-control'
+    .form-group
+      =i.label :alt_rate, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =i.number_field :alt_rate, :step=>'any', :placeholder=>"alternative rate of return", :class=>'form-control'
+    .form-group
+      =i.label :alt_length, :class=>"col-xs-6 control-label"
+      .col-xs-6
+        =i.number_field :alt_length, :step=>1, :placeholder=>"number of months until mature", :class=>'form-control'
+    .form-group
+      .col-xs-12
+        =i.submit "Recalculate", :class=>"btn btn-default"

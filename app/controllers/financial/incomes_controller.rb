@@ -42,7 +42,7 @@ module Financial
       @income = Income.new(params[:income])
       @income.person = @person
       if @income.save
-        redirect_to reports_path
+        redirect_to new_income_path
       else
         render action: "new"
       end
