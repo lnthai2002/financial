@@ -7,6 +7,7 @@ module Financial
     belongs_to :person
     belongs_to :recurring_payment, :foreign_key => :recurring_id
 
+    validates :payee_payer, :pmt_date, :person_id, :presence=>true
     validate :not_belong_to_recurring_event_when_update, on: :update
     validate :not_belong_to_recurring_event_when_edit, on: :destroy
 
