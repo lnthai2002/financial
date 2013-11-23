@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'cancan'
   s.add_dependency 'whenever'
   s.add_dependency 'dynamic_form'
+  s.add_dependency 'simple_form'
   s.add_dependency 'money-rails'
   s.add_dependency 'rubycas-client-rails'#, :git => 'git://github.com/rubycas/rubycas-client-rails.git'
   s.add_dependency 'rubycas-client'
