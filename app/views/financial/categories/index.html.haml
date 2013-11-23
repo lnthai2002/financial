@@ -2,9 +2,9 @@
   %thead
     %tr
       %th Description
-      %th= link_to 'Add', new_category_path, :class=>"btn btn-default"
+      %th= link_to 'Add', new_category_path, :class=>"btn btn-success"
   %tbody
     -@categories.each do |e|
       %tr
         %td= link_to e.description, edit_category_path(e)
-        %td= link_to 'Remove', category_path(e), :confirm => 'Are you sure?', :method => :delete
+        %td= link_to 'Remove', category_path(e), :confirm => 'Are you sure?', :method => :delete, :class=>"btn btn-danger"
