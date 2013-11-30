@@ -41,7 +41,7 @@
         %tbody
           - @expenses['list'].each do |e|
             %tr
-              %td= e.pmt_date
+              %td= e.pmt_date.strftime("%y/%m/%d")
               %td= e.expense_category.description
               %td= link_to number_to_currency(e.amount), edit_expense_path(e)
               %td= e.payee_payer
@@ -50,4 +50,4 @@
               %td
                 = link_to 'Break', :controller=>:expenses, :action=>:breakdown, :id=>e.id
                 |
-                = link_to 'Remove', e, :confirm => 'Are you sure?', :method => :delete
+                = link_to 'Remove', e, :confirm => "Remove #{number_to_currency(e.amount)} on #{e.pmt_date.strftime('%y/%m/%d')}?", :method => :delete

@@ -42,7 +42,7 @@ module Financial
       @income = Income.new(params[:income])
       @income.person = @person
       if @income.save
-        redirect_to new_income_path
+        redirect_to new_income_path, notice: "#{@income.amount} income on #{@income.pmt_date.strftime('%y/%m/%d')} recorded"
       else
         render action: "new"
       end
@@ -53,7 +53,7 @@ module Financial
   
       respond_to do |format|
         if @income.update_attributes(params[:income])
-          format.html { redirect_to reports_path, notice: 'Income was successfully changed.' }
+          format.html { redirect_to reports_path, notice: "#{@income.amount} income on #{@income.pmt_date.strftime('%y/%m/%d')} changed"}
           format.json { head :ok }
         else
           format.html { render action: "edit" }
