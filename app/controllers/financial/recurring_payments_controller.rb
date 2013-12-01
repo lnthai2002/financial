@@ -8,9 +8,10 @@ module Financial
     end
 
     def new
-      @recurring_payment = RecurringPayment.new
-      @payment_types = PaymentType.all
-      @categories = IncomeCategory.all  #first recurring type selection is Income, thus prepopulate with income cat
+      @recurring_payment = RecurringIncome.new(:first_date=>Date.today)
+      load_selections
+      #@payment_types = PaymentType.all
+      #@categories = IncomeCategory.all  #first recurring type selection is Income, thus prepopulate with income cat
     end
 
     def create
@@ -19,18 +20,14 @@ module Financial
       if @recurring_payment.save
         redirect_to recurring_payments_path
       else
+        load_selections
         render action: "new"
       end
     end
 
     def edit
       @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
-      @payment_types = PaymentType.all
-      if @recurring_payment.class == Financial::RecurringIncome
-        @categories = IncomeCategory.all
-      elsif @recurring_payment.class == Financial::RecurringExpense
-        @categories = ExpenseCategory.all
-      end
+      load_selections
     end
 
     def update
@@ -38,7 +35,8 @@ module Financial
       if @recurring_payment.update_attributes(params[:recurring_payment])
         redirect_to recurring_payments_path
       else
-        redirect_to edit_recurring_payment_path(params[:id])
+        load_selections 
+        render action: "edit"
       end
     end
 
@@ -73,6 +71,17 @@ module Financial
       respond_to do |format|
         format.json { render json: @categories }
       end
+    end
+    
+    private
+    
+    def load_selections
+      if @recurring_payment.type == 'Financial::RecurringIncome'
+        @categories = IncomeCategory.all
+      elsif @recurring_payment.type == 'Financial::RecurringExpense'
+        @categories = ExpenseCategory.all
+      end
+      @payment_types = PaymentType.all
     end
   end
 end

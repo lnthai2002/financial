@@ -35,7 +35,7 @@ module Financial
     # GET /expenses/new.json
     def new
       load_selections
-      @expense = Expense.new
+      @expense = Expense.new(:pmt_date=>Date.today)
   
       respond_to do |format|
         format.html # new.html.erb
@@ -64,10 +64,13 @@ module Financial
       @expense.person = @person
       respond_to do |format|
         if @expense.save
-          format.html { redirect_to new_expense_path, notice: 'Expense was successfully recorded.' }
+          format.html { redirect_to new_expense_path, notice: "#{@expense.amount} expense on #{@expense.pmt_date.strftime('%y/%m/%d')} recorded" }
           format.json { render json: @expense, status: :created, location: @expense }
         else
-          format.html { render action: "new" }
+          format.html {
+            load_selections
+            render action: "new"
+          }
           format.json { render json: @expense.errors, status: :unprocessable_entity }
         end
       end
@@ -80,10 +83,13 @@ module Financial
   
       respond_to do |format|
         if @expense.update_attributes(params[:expense])
-          format.html { redirect_to reports_path, notice: 'Expense was successfully changed.' }
+          format.html { redirect_to reports_path, notice: "#{@expense.amount} expense on #{@expense.pmt_date.strftime('%y/%m/%d')} changed" }
           format.json { head :ok }
-        else
-          format.html { render action: "edit" }
+        else          
+          format.html {
+            load_selections
+            render action: "edit"
+          }
           format.json { render json: @expense.errors, status: :unprocessable_entity }
         end
       end

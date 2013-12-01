@@ -58,5 +58,24 @@ module Financial
       link_to('Delete', plan, confirm: 'Are you sure?',
               method: :delete, :remote=>true)
     end
+
+    def show_flash(options = {:alert=>"alert alert-danger", :notice=>"alert alert-success"})
+      output = ActiveSupport::SafeBuffer.new
+      [:alert, :notice].each do |message|
+        content = ActiveSupport::SafeBuffer.new
+        content << content_tag(:button, class: 'close', 'data-dismiss'=>'alert', 'area-hidden'=>'true') do
+          'x'
+        end
+        content << flash[message]
+         
+        output << content_tag(:div, class: [message, options[message]], tabindex: '0') do
+          content.to_s.html_safe
+        end if flash[message].present?
+    
+        flash[message] = nil
+      end
+
+      output
+    end
   end
 end

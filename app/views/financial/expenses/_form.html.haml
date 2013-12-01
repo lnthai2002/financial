@@ -1,11 +1,5 @@
-:javascript
-  $(document).ready(function(){
-    $(function() {
-      $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
-    });
-  });
-
 .container
+  =show_flash
   = form_for(@expense, :html=>{:class=>"form-horizontal",'role'=>"form"}) do |f|
     = f.error_messages
     .form-group

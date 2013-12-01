@@ -7,9 +7,9 @@
         %thead
           %tr
             %th Date
-            %th Category
             %th Amount
             %th Payer
+            %th Category
             %th Method of payment
             %th Note
             %th &nbsp;
@@ -21,10 +21,10 @@
         %tbody
           - @incomes['list'].each do |i|
             %tr
-              %td= i.pmt_date
-              %td= i.income_category.description
+              %td= i.pmt_date.strftime("%m/%d")
               %td= link_to number_to_currency(i.amount), edit_income_path(i)
               %td= i.payee_payer
+              %td= i.income_category.description
               %td= i.payment_type.description
               %td= link_to i.note, edit_income_path(i)
-              %td= link_to 'Remove', i, :confirm => 'Are you sure?', :method => :delete
+              %td= link_to 'Remove', i, :confirm => "Remove #{number_to_currency(i.amount)} on #{i.pmt_date.strftime('%y/%m/%d')}?", :method => :delete

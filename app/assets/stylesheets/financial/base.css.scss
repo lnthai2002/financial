@@ -1,8 +1,16 @@
-.important {background-color:LightGray}
+@import "bootstrap";
+@import "bootstrap/theme";
+
 table{width:98%;}
-.close-button{text-align:right}
-.field_with_errors{border-style:solid; border-color:Red}
-#errorExplanation{
-  h2{background-color:#D80000; color:White}
-}
+
 .default-hidden{display:none}
+
+.important {background-color:LightGray}
+
+.close-button{text-align:right}
+
+#errorExplanation{
+  @extend .alert;
+  @extend .alert-danger;
+}
+.field_with_errors { @extend .has-error; }

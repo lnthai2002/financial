@@ -2,13 +2,16 @@ module Financial
   class RecurringPayment < ActiveRecord::Base
     include IceCube
 
-    monetize :amount_cents
+    monetize :amount_cents,
+             :allow_nil => true,
+             :numericality => {:greater_than => 0}
 
     attr_accessible :frequency, :first_date, :category_id, :amount, :note, :payment_type_id, :type, :end_date, :finished, :person_id, :payee_payer
 
     belongs_to :person
     has_many :payments, :foreign_key => :recurring_id
 
+    validates :frequency, :first_date, :category_id, :amount, :payment_type_id, :payee_payer, :person_id, :presence=>true
     validate :no_payments_when_update, on: :update
 
     #Post Expense/Income
@@ -52,7 +55,7 @@ module Financial
 
     def no_payments_when_update
       #do not allow update if changing first_date or amount and there are payment posted  
-      if (self.first_date_changed? || self.amount_changed?) && self.payments.blank?
+      if (self.first_date_changed? || self.amount_cents_changed?) && self.payments.blank?
         errors[:base] << "You can not change first date or amount when this recurring event already triggered."
       end
     end

@@ -1,9 +1,5 @@
 :javascript
   $(document).ready(function(){
-    $(function() {
-      $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
-    });
-    
     $("#recurring_payment_type").change(function () {
       var recurring_type = $("#recurring_payment_type option:selected").val();
       var update_url = '#{recurring_payment_reload_categories_url}';
@@ -38,7 +34,7 @@
     .form-group
       = f.label :first_date, :class=>"col-xs-6 control-label"
       .col-xs-6
-        = f.text_field :first_date, :placeholder=>'first date', :class=>'datepicker form-control', :readonly=>true, :class=>'form-control'
+        = f.text_field :first_date, :placeholder=>'first date', :class=>'datepicker form-control', :readonly=>true
     #recurring_categories
       .form-group
         = f.label :category_id, :class=>"col-xs-6 control-label"
