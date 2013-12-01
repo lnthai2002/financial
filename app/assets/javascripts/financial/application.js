@@ -15,21 +15,21 @@
 //= require jquery_ujs
 //= require_tree .
 //Show and hide panel body
-$(document).ready(function(){
-  $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" }).datepicker('setDate', new Date());
 
-  $('.panel-heading.js_collapsable').click(function(e){
-    $(e.currentTarget).nextAll('.panel-body:first').slideToggle();
-  })
-  
-  //used in plans listing page
-  $(document).on('click', '[data-slide-target]', function(e){
-  	var target = $(e.currentTarget).data('slide-target');
-  	$(target).slideToggle();
-  });
+$(document).ready(function() {
+	$(".datepicker").datepicker({dateFormat : "yy-mm-dd"})
 
-  $(document).on('click', '[data-toggle-target]', function(e){
-    var target = $(e.currentTarget).data('toggle-target');
-    $(target).toggle();
-  })
-});
+	$('.panel-heading.js_collapsable').click(function(e) {
+		$(e.currentTarget).nextAll('.panel-body:first').slideToggle();
+	})
+	//used in plans listing page
+	$(document).on('click', '[data-slide-target]', function(e) {
+		var target = $(e.currentTarget).data('slide-target');
+		$(target).slideToggle();
+	});
+
+	$(document).on('click', '[data-toggle-target]', function(e) {
+		var target = $(e.currentTarget).data('toggle-target');
+		$(target).toggle();
+	})
+}); 

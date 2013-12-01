@@ -30,7 +30,7 @@ module Financial
 
     def new
       load_selections
-      @income = Income.new
+      @income = Income.new(:pmt_date=>Date.today)
     end
 
     def edit
@@ -41,10 +41,20 @@ module Financial
     def create
       @income = Income.new(params[:income])
       @income.person = @person
-      if @income.save
-        redirect_to new_income_path, notice: "#{@income.amount} income on #{@income.pmt_date.strftime('%y/%m/%d')} recorded"
-      else
-        render action: "new"
+      respond_to do |format|
+        if @income.save
+          format.html {
+            redirect_to new_income_path,
+                        notice: "#{@income.amount} income on #{@income.pmt_date.strftime('%y/%m/%d')} recorded"
+          }
+          format.json { render json: @income, status: :created, location: @income }
+        else
+          format.html {
+            load_selections
+            render action: "new"
+          }
+          format.json { render json: @income.errors, status: :unprocessable_entity }
+        end
       end
     end
 
@@ -56,7 +66,10 @@ module Financial
           format.html { redirect_to reports_path, notice: "#{@income.amount} income on #{@income.pmt_date.strftime('%y/%m/%d')} changed"}
           format.json { head :ok }
         else
-          format.html { render action: "edit" }
+          format.html {
+            load_selections 
+            render action: "edit" 
+          }
           format.json { render json: @income.errors, status: :unprocessable_entity }
         end
       end
