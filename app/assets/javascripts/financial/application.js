@@ -16,6 +16,8 @@
 //= require_tree .
 //Show and hide panel body
 $(document).ready(function(){
+  $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" }).datepicker('setDate', new Date());
+
   $('.panel-heading.js_collapsable').click(function(e){
     $(e.currentTarget).nextAll('.panel-body:first').slideToggle();
   })
