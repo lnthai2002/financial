@@ -14,7 +14,7 @@ Financial::Engine.routes.draw do
   resources :plans
   resources :recurring_payments do
     member do
-      put :terminate
+      patch :terminate
     end
   end
   resources :reports do
