@@ -32,11 +32,11 @@ module Financial
     # POST /payment_types
     # POST /payment_types.json
     def create
-      @payment_type = PaymentType.new(params[:payment_type])
+      @payment_type = PaymentType.new(payment_type_params)
   
       respond_to do |format|
         if @payment_type.save
-          format.html { redirect_to payment_types_path, notice: 'Payment method was successfully created.' }
+          format.html { redirect_to payment_types_path, notice: "'#{@payment_type.description}' added" }
           format.json { render json: @payment_type, status: :created, location: @payment_type }
         else
           format.html { render action: "new" }
@@ -49,10 +49,10 @@ module Financial
     # PUT /payment_types/1.json
     def update
       @payment_type = PaymentType.find(params[:id])
-  
+      old_desc = @payment_type.description
       respond_to do |format|
-        if @payment_type.update_attributes(params[:payment_type])
-          format.html { redirect_to payment_types_path, notice: 'Payment method was successfully updated.' }
+        if @payment_type.update_attributes(payment_type_params)
+          format.html { redirect_to payment_types_path, notice: "#{old_desc} changed to #{@payment_type.description}" }
           format.json { head :ok }
         else
           format.html { render action: "edit" }
@@ -65,12 +65,22 @@ module Financial
     # DELETE /payment_types/1.json
     def destroy
       @payment_type = PaymentType.find(params[:id])
-      @payment_type.destroy
-  
       respond_to do |format|
-        format.html { redirect_to payment_types_url }
-        format.json { head :ok }
+        if @payment_type.payments.exists? || @payment_type.recurring_payments.exists?
+          format.html { redirect_to payment_types_url, alert: "#{@payment_type.description} is used in multiple payments, cant delete!" }
+          format.json { render json: @payment_type.errors, status: :unprocessable_entity }
+        else
+          @payment_type.destroy
+          format.html { redirect_to payment_types_url, notice: "#{@payment_type.description} removed" }
+          format.json { head :ok }
+        end
       end
+    end
+
+    private
+
+    def payment_type_params
+      params.require(:payment_type).permit(:description)
     end
   end
 end
