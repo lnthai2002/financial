@@ -5,7 +5,6 @@ module Financial
     #month: selected month
     #amount: extra payment for the selected year
     #interest: new interest rate applied since the selected year
-    attr_accessible :month, :amount, :interest, :duration, :mortgage_id, :person_id
 
     belongs_to :mortgage
     belongs_to :person
