@@ -45,7 +45,9 @@ module Financial
   
     # Ajax called to render additional fields depending on the expense type selected
     def select_type
-      type = ExpenseCategory.find(:first, :select=>'description', :conditions=>{:id=>params[:expense][:category_id]})
+      type = ExpenseCategory.where(:id=>params[:expense][:category_id])
+                            .pluck('description')
+                            .first
       if type != nil && type == 'Anual bill'
         render :partial => 'date_range', :layout => false
       end
@@ -60,7 +62,7 @@ module Financial
     # POST /expenses
     # POST /expenses.json
     def create
-      @expense = Expense.new(params[:expense])
+      @expense = Expense.new(expense_params)
       @expense.person = @person
       respond_to do |format|
         if @expense.save
@@ -82,7 +84,7 @@ module Financial
       @expense = Expense.accessible_by(current_ability).find(params[:id])
   
       respond_to do |format|
-        if @expense.update_attributes(params[:expense])
+        if @expense.update_attributes(expense_params)
           format.html { redirect_to reports_path, notice: "#{@expense.amount} expense on #{@expense.pmt_date.strftime('%y/%m/%d')} changed" }
           format.json { head :ok }
         else          
@@ -102,7 +104,7 @@ module Financial
       @expense.destroy
   
       respond_to do |format|
-        format.html { redirect_to reports_url }
+        format.html { redirect_to reports_url, notice: "#{@expense.amount} expense on #{@expense.pmt_date.strftime('%y/%m/%d')} removed" }
         format.json { head :ok }
       end
     end
@@ -118,20 +120,16 @@ module Financial
     # PUT /expenses/1/update_breakdown
     def update_breakdown
       @parent_expense = Expense.accessible_by(current_ability).find(params[:id])
-      @expense = Expense.new(params[:expense])
+      @expense = Expense.new(expense_params)
       error = false
   #    flash[:error] = nil
-      if(params[:expense].amount.to_f >= @parent_expense.amount.to_f)
+      if(params[:expense].amount >= @parent_expense.amount)
         flash[:error] = 'Sub-amount can not exceed parent amount.'
         error = true
-        puts "888888888888 " + params[:expense].amount.to_f.to_s
-        puts "----------- " + @parent_expense.amount.to_f.to_s
       end
-      if (params[:expense].payment_type_id.to_i != @parent_expense.payment_type_id.to_i)
+      if (params[:expense].payment_type_id != @parent_expense.payment_type_id)
         flash[:error] = 'Sub-expense must have the same payment method as parent expense.'
         error = true
-        puts "888888888888 " + params[:expense].payment_type_id.to_s
-        puts "----------- " + @parent_expense.payment_type_id.to_s
       end
       if error == false
         begin
@@ -156,6 +154,13 @@ module Financial
     def load_selections
       @expense_categories = ExpenseCategory.all
       @payment_types = PaymentType.all
+    end
+
+  private
+
+    def expense_params
+      #do not allow modifying recurring_id from UI
+      params.require(:expense).permit(:amount, :pmt_date, :note, :category_id, :payment_type_id, :payee_payer)
     end
   end
 end
