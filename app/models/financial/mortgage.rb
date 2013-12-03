@@ -80,7 +80,6 @@ module Financial
     #loan_term count by year
     #all tax and insurance are year amount
     #revenue: amount gain by renting part of the building, count by year
-    attr_accessible :purchased_price, :down_payment, :interest, :loan_term, :municipal_tax, :school_tax, :heating, :house_insurance, :mortgage_insurance, :revenue
 
     belongs_to :plan
     belongs_to :person

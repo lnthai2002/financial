@@ -11,13 +11,13 @@ module Financial
     end
 
     def create
-      @plan = Plan.new(params[:plan])
+      @plan = Plan.new(plan_params)
       @plan.person = @person
       @plan.mortgage.person = @person
       @plan.investment.person = @person
       if @plan.save #valid plan
         @saved_plan = @plan #used to render recently added plan
-        @plan = Plan.new(params[:plan]) #used to populate form
+        @plan = Plan.new(plan_params) #used to populate form
       else
         #return the plan with error to be displayed
       end
@@ -32,6 +32,18 @@ module Financial
 
     def show
       @plan = Plan.accessible_by(current_ability).find(params[:id])
+    end
+
+    private
+
+    def plan_params
+      params.require(:plan)
+            .permit(:name,
+                    mortgage_attributes: [:purchased_price, :down_payment, :interest,
+                                          :loan_term, :municipal_tax, :school_tax,
+                                          :heating, :house_insurance,
+                                          :mortgage_insurance, :revenue],
+                    investment_attributes: [:principal, :rate, :monthly_dep, :months])
     end
   end
 end

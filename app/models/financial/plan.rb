@@ -1,7 +1,5 @@
 module Financial
   class Plan < ActiveRecord::Base
-    attr_accessible :name, :mortgage_attributes, :investment_attributes
-
     before_save :set_values
 
     has_one :mortgage, :dependent => :destroy

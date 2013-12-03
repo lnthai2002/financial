@@ -3,8 +3,6 @@ module Financial
     monetize :principal_cents
     monetize :monthly_dep_cents
 
-    attr_accessible :principal, :rate, :monthly_dep, :months, :alt_rate, :alt_monthly_dep, :alt_length, :person_id
-
     #virtual attributes
     attr_reader :alt_rate, :alt_monthly_dep, :alt_length
 
