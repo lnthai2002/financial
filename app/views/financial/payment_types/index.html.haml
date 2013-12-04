@@ -7,4 +7,4 @@
     -@payment_types.each do |payment_type|
       %tr
         %td= link_to payment_type.description, edit_payment_type_path(payment_type)
-        %td= link_to 'Remove', payment_type, confirm: 'Are you sure?', method: :delete, :class=>"btn btn-danger"
+        %td= link_to 'Remove', payment_type, data: {confirm: 'Are you sure?'}, method: :delete, class: "btn btn-danger"

@@ -50,4 +50,4 @@
               %td
                 = link_to 'Break', :controller=>:expenses, :action=>:breakdown, :id=>e.id
                 |
-                = link_to 'Remove', e, :confirm => "Remove #{number_to_currency(e.amount)} on #{e.pmt_date.strftime('%y/%m/%d')}?", :method => :delete
+                = link_to 'Remove', e, data:{confirm: "Remove #{number_to_currency(e.amount)} on #{e.pmt_date.strftime('%y/%m/%d')}?"}, method: :delete

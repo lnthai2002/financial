@@ -27,4 +27,4 @@
               %td= i.income_category.description
               %td= i.payment_type.description
               %td= link_to i.note, edit_income_path(i)
-              %td= link_to 'Remove', i, :confirm => "Remove #{number_to_currency(i.amount)} on #{i.pmt_date.strftime('%y/%m/%d')}?", :method => :delete
+              %td= link_to 'Remove', i, data: {confirm: "Remove #{number_to_currency(i.amount)} on #{i.pmt_date.strftime('%y/%m/%d')}?"}, :method => :delete

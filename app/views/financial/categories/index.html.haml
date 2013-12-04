@@ -7,4 +7,4 @@
     -@categories.each do |e|
       %tr
         %td= link_to e.description, edit_category_path(e)
-        %td= link_to 'Remove', category_path(e), :confirm => 'Are you sure?', :method => :delete, :class=>"btn btn-danger"
+        %td= link_to 'Remove', category_path(e), data:{confirm: 'Are you sure?'}, method: :delete, class: "btn btn-danger"
