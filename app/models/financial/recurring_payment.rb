@@ -6,8 +6,7 @@ module Financial
              :allow_nil => true,
              :numericality => {:greater_than => 0}
 
-    attr_accessible :frequency, :first_date, :category_id, :amount, :note, :payment_type_id, :type, :end_date, :finished, :person_id, :payee_payer
-
+    belongs_to :payment_type
     belongs_to :person
     has_many :payments, :foreign_key => :recurring_id
 
@@ -55,8 +54,8 @@ module Financial
 
     def no_payments_when_update
       #do not allow update if changing first_date or amount and there are payment posted  
-      if (self.first_date_changed? || self.amount_cents_changed?) && self.payments.blank?
-        errors[:base] << "You can not change first date or amount when this recurring event already triggered."
+      if (self.first_date_changed? || self.amount_cents_changed?) && self.payments.exists?
+        errors[:base] << "This recurring event already triggered. Modification not allowed"
       end
     end
 

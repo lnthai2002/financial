@@ -11,7 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery.ui.all
+//= require jquery.ui.datepicker
 //= require jquery_ujs
 //= require_tree .
 //Show and hide panel body

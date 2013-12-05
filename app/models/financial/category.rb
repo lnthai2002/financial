@@ -1,6 +1,7 @@
 module Financial
   class Category < ActiveRecord::Base
-    attr_accessible :description, :type
+    has_many :payments
+    has_many :recurring_payments
     validates :description, :type, :presence=>true
   end
 end

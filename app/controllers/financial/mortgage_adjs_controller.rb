@@ -4,12 +4,15 @@ module Financial
   class MortgageAdjsController < AuthorizableController
     #update or create a new adjustment if an adjustment already exist for the given month, update it
     def create
-      @adjustment = MortgageAdj.accessible_by(current_ability).where(:mortgage_id=>params[:adjustment][:mortgage_id],:month=>params[:adjustment][:month]).first
+      @adjustment = MortgageAdj.accessible_by(current_ability)
+                               .where(:mortgage_id=>params[:adjustment][:mortgage_id],
+                                      :month=>params[:adjustment][:month])
+                               .first
       if @adjustment.blank?
-        @adjustment = MortgageAdj.new(params[:adjustment])
+        @adjustment = MortgageAdj.new(mortgage_adj_params)
         @adjustment.person = @person
       else
-        @adjustment.attributes=params[:adjustment]
+        @adjustment.attributes=mortgage_adj_params
       end
       
       if @adjustment.save
@@ -23,7 +26,14 @@ module Financial
     def destroy
       existing_adj = MortgageAdj.accessible_by(current_ability).find(params[:id])
       existing_adj.destroy
-      redirect_to :controller=>:plans, :action=>:show, :id=>existing_adj.mortgage_id
+      redirect_to :controller=>'plans', :action=>'show', :id=>existing_adj.mortgage_id
+    end
+
+    private
+
+    def mortgage_adj_params
+      #do not allow switching mortgage by changing mortgage_id
+      params.require(:adjustment).permit(:month, :amount, :interest, :duration)
     end
   end
 end

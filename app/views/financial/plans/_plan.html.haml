@@ -8,7 +8,7 @@
         .glyphicon.glyphicon-eye-open
       .btn.btn-default{'data-toggle-target'=>"#plan_#{plan.id} .panel-body"}
         .glyphicon.glyphicon-resize-vertical
-      =link_to 'x', plan, confirm: 'Are you sure?', method: :delete, :remote=>true, :class=>'close'
+      =link_to 'x', plan, data: {confirm: 'Are you sure?'}, method: :delete, remote: true, class: 'close'
     .panel-body
       %table{:id=>"mortgage_#{plan.mortgage.id}"}
         %tbody

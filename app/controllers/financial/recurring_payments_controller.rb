@@ -10,15 +10,13 @@ module Financial
     def new
       @recurring_payment = RecurringIncome.new(:first_date=>Date.today)
       load_selections
-      #@payment_types = PaymentType.all
-      #@categories = IncomeCategory.all  #first recurring type selection is Income, thus prepopulate with income cat
     end
 
     def create
-      @recurring_payment = RecurringPayment.new(params[:recurring_payment])
+      @recurring_payment = RecurringPayment.new(recurring_payment_params)
       @recurring_payment.person = @person
       if @recurring_payment.save
-        redirect_to recurring_payments_path
+        redirect_to recurring_payments_path, notice: "#{@recurring_payment.amount} begining #{@recurring_payment.first_date.strftime('%y/%m/%d')} scheduled"
       else
         load_selections
         render action: "new"
@@ -32,8 +30,8 @@ module Financial
 
     def update
       @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
-      if @recurring_payment.update_attributes(params[:recurring_payment])
-        redirect_to recurring_payments_path
+      if @recurring_payment.update_attributes(recurring_payment_params)
+        redirect_to recurring_payments_path, notice: "#{@recurring_payment.note} changed"
       else
         load_selections 
         render action: "edit"
@@ -44,7 +42,7 @@ module Financial
       @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
       @recurring_payment.end_date = Date.today
       if @recurring_payment.save
-        redirect_to recurring_payments_path
+        redirect_to recurring_payments_path, notice: "#{@recurring_payment.note} terminated"
       end
     end
 
@@ -73,7 +71,7 @@ module Financial
       end
     end
     
-    private
+    protected
     
     def load_selections
       if @recurring_payment.type == 'Financial::RecurringIncome'
@@ -82,6 +80,16 @@ module Financial
         @categories = ExpenseCategory.all
       end
       @payment_types = PaymentType.all
+    end
+
+    private
+
+    def recurring_payment_params
+      params.require(:recurring_payment).permit(:frequency, :first_date,
+                                                :category_id, :amount,
+                                                :note, :payment_type_id,
+                                                :type, :end_date, :finished,
+                                                :payee_payer)
     end
   end
 end

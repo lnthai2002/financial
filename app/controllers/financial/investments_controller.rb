@@ -8,5 +8,12 @@ module Financial
       @investment.attributes=params[:investment]
       render "update_investment"
     end
+
+    private
+
+    def investment_params
+      #virtual attributes, not persist
+      params.require(:investment).permit(:alt_rate, :alt_monthly_dep, :alt_length)
+    end
   end
 end

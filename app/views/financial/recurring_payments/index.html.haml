@@ -1,52 +1,53 @@
-%div{:class=>"panel panel-success"}
-  %div{:class=>"panel-heading"}
-    Recurring incomes
-  %div{:class=>"panel-body"}
-    %div{:class=>"table-responsive"}
-      %table.table.table-striped.table-condensed
-        %thead
-          %tr
-            %th Frequency
-            %th Start date
-            %th Category
-            %th Amount
-            %th Payer
-            %th Payment method
-            %th Note
-        %tbody
-          - @recurring_incomes.each do |i|
+.container
+  %div{:class=>"panel panel-success"}
+    %div{:class=>"panel-heading"}
+      Recurring incomes
+    %div{:class=>"panel-body"}
+      %div{:class=>"table-responsive"}
+        %table.table.table-striped.table-condensed
+          %thead
             %tr
-              %td= i.frequency
-              %td= i.first_date
-              %td= i.income_category.description
-              %td= number_to_currency(i.amount)
-              %td= i.payee_payer
-              %td= i.payment_type.description
-              %td= link_to i.note, edit_recurring_payment_path(i)
-
-%div{:class=>"panel panel-danger"}
-  %div{:class=>"panel-heading"}
-    Recurring expenses
-  %div{:class=>"panel-body"}
-    %div{:class=>"table-responsive"}
-      %table.table.table-striped.table-condensed
-        %thead
-          %tr
-            %th Frequency
-            %th Start date
-            %th Category
-            %th Amount
-            %th Payee
-            %th Payment method
-            %th Note
-            %th &nbsp;
-        %tbody
-          - @recurring_expenses.each do |e|
+              %th Frequency
+              %th Start date
+              %th Category
+              %th Amount
+              %th Payer
+              %th Payment method
+              %th Note
+          %tbody
+            - @recurring_incomes.each do |i|
+              %tr
+                %td= i.frequency
+                %td= i.first_date
+                %td= i.income_category.description
+                %td= number_to_currency(i.amount)
+                %td= i.payee_payer
+                %td= i.payment_type.description
+                %td= link_to i.note, edit_recurring_payment_path(i)
+  
+  %div{:class=>"panel panel-danger"}
+    %div{:class=>"panel-heading"}
+      Recurring expenses
+    %div{:class=>"panel-body"}
+      %div{:class=>"table-responsive"}
+        %table.table.table-striped.table-condensed
+          %thead
             %tr
-              %td= e.frequency
-              %td= e.first_date
-              %td= e.expense_category.description
-              %td= number_to_currency(e.amount)
-              %td= e.payee_payer
-              %td= e.payment_type.description
-              %td= link_to e.note, edit_recurring_payment_path(e)
+              %th Frequency
+              %th Start date
+              %th Category
+              %th Amount
+              %th Payee
+              %th Payment method
+              %th Note
+              %th &nbsp;
+          %tbody
+            - @recurring_expenses.each do |e|
+              %tr
+                %td= e.frequency
+                %td= e.first_date
+                %td= e.expense_category.description
+                %td= number_to_currency(e.amount)
+                %td= e.payee_payer
+                %td= e.payment_type.description
+                %td= link_to e.note, edit_recurring_payment_path(e)

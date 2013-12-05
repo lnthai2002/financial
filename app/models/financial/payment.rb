@@ -3,9 +3,8 @@ module Financial
     monetize :amount_cents,
              :allow_nil => true,
              :numericality => {:greater_than_or_equal_to => 0}
-    
-    attr_accessible :amount, :pmt_date, :note, :category_id, :payment_type_id, :recurring_id, :person_id, :payee_payer
 
+    belongs_to :payment_type
     belongs_to :person
     belongs_to :recurring_payment, :foreign_key => :recurring_id
 

@@ -1,0 +1,16 @@
+!!! 5
+
+%html
+  %head
+    %title P.A.S
+    = render :partial=>'assets'
+    = csrf_meta_tags
+    %meta{:name=>"viewport", :content=>"initial-scale=1, width=device-width"}
+
+%body
+  .content
+    #nav
+      = render :partial=>'usecases_nav'
+    .container
+      =show_flash
+    = yield

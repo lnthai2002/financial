@@ -39,7 +39,7 @@ module Financial
     end
 
     def create
-      @income = Income.new(params[:income])
+      @income = Income.new(income_params)
       @income.person = @person
       respond_to do |format|
         if @income.save
@@ -62,7 +62,7 @@ module Financial
       @income = Income.accessible_by(current_ability).find(params[:id])
   
       respond_to do |format|
-        if @income.update_attributes(params[:income])
+        if @income.update_attributes(income_params)
           format.html { redirect_to reports_path, notice: "#{@income.amount} income on #{@income.pmt_date.strftime('%y/%m/%d')} changed"}
           format.json { head :ok }
         else
@@ -82,16 +82,23 @@ module Financial
       @income.destroy
   
       respond_to do |format|
-        format.html { redirect_to reports_url }
+        format.html { redirect_to reports_url, notice: "#{@income.amount} income on #{@income.pmt_date.strftime('%y/%m/%d')} removed" }
         format.json { head :ok }
       end
     end
 
-    private
+    protected
 
     def load_selections
       @income_categories = IncomeCategory.all
       @payment_types = PaymentType.all
+    end
+
+    private
+
+    def income_params
+      #do not allow modifying recurring_id from UI
+      params.require(:income).permit(:amount, :pmt_date, :note, :category_id, :payment_type_id, :payee_payer)
     end
   end
 end

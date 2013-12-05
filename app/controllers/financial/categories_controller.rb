@@ -32,7 +32,7 @@ module Financial
     # POST /categories
     # POST /categories.json
     def create
-      @category = Category.new(params[:category])
+      @category = Category.new(category_params)
 
       respond_to do |format|
         if @category.save
@@ -50,7 +50,7 @@ module Financial
     def update
       @category = Category.find(params[:id])
       respond_to do |format|
-        if @category.update_attributes(params[:category])
+        if @category.update_attributes(category_params)
           format.html { redirect_to categories_path, notice: 'Category was successfully updated.' }
           format.json { head :ok }
         else
@@ -64,12 +64,23 @@ module Financial
     # DELETE /categories/1.json
     def destroy
       @category = Category.find(params[:id])
-      @category.destroy
   
       respond_to do |format|
-        format.html { redirect_to categories_url }
-        format.json { head :ok }
+        if @category.payments.exists? || @category.recurring_payments.exists?
+          format.html { redirect_to categories_url, alert: "#{@category.description} is used in multiple payments, can't delete!" }
+          format.json { render json: @category.errors, status: :unprocessable_entity }
+        else
+          @category.destroy
+          format.html { redirect_to categories_url, notice: "#{@category.description} removed" }
+          format.json { head :ok }
+        end
       end
+    end
+
+    private
+
+    def category_params
+      params.require(:category).permit(:description, :type)
     end
   end
 end

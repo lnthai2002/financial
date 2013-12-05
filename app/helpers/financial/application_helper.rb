@@ -55,7 +55,7 @@ module Financial
       " >>> " +
       link_to('Amortization', plan) +
       " | " +
-      link_to('Delete', plan, confirm: 'Are you sure?',
+      link_to('Delete', plan, data:{confirm: 'Are you sure?'},
               method: :delete, :remote=>true)
     end
 

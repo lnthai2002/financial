@@ -6,7 +6,9 @@ module Financial
     #see: http://pivotallabs.com/leave-your-migrations-in-your-rails-engines/
     initializer :append_migrations do |app|
       unless app.root.to_s.match root.to_s
-        app.config.paths["db/migrate"] += config.paths["db/migrate"].expanded
+        config.paths["db/migrate"].expanded.each do |expanded_path|
+          app.config.paths["db/migrate"] << expanded_path
+        end
         #declare that this engine is a ui module so that main app layout will show link to it
         app.config.ui_modules << 'financial'
       end

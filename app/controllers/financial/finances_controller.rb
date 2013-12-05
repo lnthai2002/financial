@@ -12,17 +12,23 @@ module Financial
     def create
       person = Person.where(:email=>session[:cas_user]).first
       if person.finance.blank?
-        @finance = Finance.new(params[:finance])
+        @finance = Finance.new(finance_params)
         @finance.person = person
       else
         @finance = person.finance
-        @finance.attributes=params[:finance]
+        @finance.attributes=finance_params
       end
       if @finance.save
         redirect_to plans_path
       else
         render :new
       end
+    end
+
+    private
+
+    def finance_params
+      params.require(:finance).permit(:net_monthly_income, :net_monthly_expense)
     end
   end
 end

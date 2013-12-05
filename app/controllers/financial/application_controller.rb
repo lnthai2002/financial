@@ -3,7 +3,7 @@ module Financial
     before_filter RubyCAS::Filter
     before_filter :check_user_finance
 
-    layout 'layouts/application'
+    layout 'financial/layouts/application'
 
     protected
 
