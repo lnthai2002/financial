@@ -64,11 +64,16 @@ module Financial
     # DELETE /categories/1.json
     def destroy
       @category = Category.find(params[:id])
-      @category.destroy
   
       respond_to do |format|
-        format.html { redirect_to categories_url }
-        format.json { head :ok }
+        if @category.payments.exists? || @category.recurring_payments.exists?
+          format.html { redirect_to categories_url, alert: "#{@category.description} is used in multiple payments, can't delete!" }
+          format.json { render json: @category.errors, status: :unprocessable_entity }
+        else
+          @category.destroy
+          format.html { redirect_to categories_url, notice: "#{@category.description} removed" }
+          format.json { head :ok }
+        end
       end
     end
 
