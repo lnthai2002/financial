@@ -27,6 +27,7 @@ Financial::Engine.routes.draw do
     end
   end
 
+  delete 'logout', to: 'sessions#logout'
   get 'recurring_payment_categories', :to=>'recurring_payments#reload_categories', :as=>:recurring_payment_reload_categories
 
   root :to => 'expenses#new'
