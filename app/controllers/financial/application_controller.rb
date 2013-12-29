@@ -1,6 +1,6 @@
 module Financial
   class ApplicationController < ActionController::Base
-    before_filter RubyCAS::Filter
+    before_filter CASClient::Frameworks::Rails::Filter
     before_filter :check_user_finance
 
     layout 'financial/layouts/application'
