@@ -3,8 +3,8 @@ require_dependency "financial/application_controller"
 module Financial
   class RecurringPaymentsController < AuthorizableController
     def index
-      @recurring_incomes = RecurringIncome.accessible_by(current_ability).find(:all)
-      @recurring_expenses = RecurringExpense.accessible_by(current_ability).find(:all)
+      @recurring_incomes = RecurringIncome.accessible_by(current_ability).where(:end_date=>nil).all
+      @recurring_expenses = RecurringExpense.accessible_by(current_ability).where(:end_date=>nil).all
     end
 
     def new
@@ -42,7 +42,7 @@ module Financial
       @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
       @recurring_payment.end_date = Date.today
       if @recurring_payment.save
-        redirect_to recurring_payments_path, notice: "#{@recurring_payment.note} terminated"
+        redirect_to recurring_payments_path, notice: "#{@recurring_payment.payee_payer} #{@recurring_payment.amount} terminated"
       end
     end
 

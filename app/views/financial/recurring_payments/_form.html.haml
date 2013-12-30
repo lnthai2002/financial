@@ -58,4 +58,4 @@
         = f.text_area :note, :placeholder=>'note', :rows=>2, :class=>'form-control'
     .form-group
       .col-xs-12
-        = f.submit 'Done', :class=>"btn btn-default"
+        = buttons_for_recurring_payment_form(f, @recurring_payment)
