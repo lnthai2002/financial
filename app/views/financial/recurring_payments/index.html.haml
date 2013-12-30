@@ -20,7 +20,7 @@
                 %td= i.frequency
                 %td= i.first_date
                 %td= i.income_category.description
-                %td= number_to_currency(i.amount)
+                %td= link_to number_to_currency(i.amount), edit_recurring_payment_path(i)
                 %td= i.payee_payer
                 %td= i.payment_type.description
                 %td= link_to i.note, edit_recurring_payment_path(i)
@@ -47,7 +47,7 @@
                 %td= e.frequency
                 %td= e.first_date
                 %td= e.expense_category.description
-                %td= number_to_currency(e.amount)
+                %td= link_to number_to_currency(e.amount), edit_recurring_payment_path(e)
                 %td= e.payee_payer
                 %td= e.payment_type.description
                 %td= link_to e.note, edit_recurring_payment_path(e)

@@ -42,7 +42,7 @@ module Financial
       @recurring_payment = RecurringPayment.accessible_by(current_ability).find(params[:id])
       @recurring_payment.end_date = Date.today
       if @recurring_payment.save
-        redirect_to recurring_payments_path, notice: "#{@recurring_payment.note} terminated"
+        redirect_to recurring_payments_path, notice: "#{@recurring_payment.payee_payer} #{@recurring_payment.amount} terminated"
       end
     end
 

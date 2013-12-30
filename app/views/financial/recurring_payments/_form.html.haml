@@ -57,5 +57,13 @@
       .col-xs-6
         = f.text_area :note, :placeholder=>'note', :rows=>2, :class=>'form-control'
     .form-group
-      .col-xs-12
-        = f.submit 'Done', :class=>"btn btn-default"
+      -if @recurring_payment.new_record?
+        .col-xs-12
+          = f.submit 'Done', :class=>"btn btn-success"
+      -else
+        .col-xs-6
+          = f.submit 'Done', :class=>"btn btn-success"
+        .col-xs-6
+          = link_to 'Terminate', terminate_recurring_payment_path(@recurring_payment),
+                    data:{confirm: "Stop #{number_to_currency(@recurring_payment.amount)} from/to #{@recurring_payment.payee_payer} on #{@recurring_payment.pmt_date.strftime('%y/%m/%d')}?"},
+                    method: :patch, :class=>"btn btn-danger"
