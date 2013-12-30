@@ -3,8 +3,8 @@ require_dependency "financial/application_controller"
 module Financial
   class RecurringPaymentsController < AuthorizableController
     def index
-      @recurring_incomes = RecurringIncome.accessible_by(current_ability).find(:all)
-      @recurring_expenses = RecurringExpense.accessible_by(current_ability).find(:all)
+      @recurring_incomes = RecurringIncome.accessible_by(current_ability).where(:end_date=>nil).all
+      @recurring_expenses = RecurringExpense.accessible_by(current_ability).where(:end_date=>nil).all
     end
 
     def new

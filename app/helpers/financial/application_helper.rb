@@ -77,5 +77,19 @@ module Financial
 
       output
     end
+
+    def buttons_for_recurring_payment_form(form, r_payment)
+      if r_payment.new_record?
+        return form.submit('Done', :class=>"btn btn-success")
+      else
+        output = ActiveSupport::SafeBuffer.new
+        output << form.submit('Done', :class=>"btn btn-success")
+        output << "\n"
+        output << link_to('Terminate', terminate_recurring_payment_path(r_payment),
+                data:{confirm: "Stop #{r_payment.payee_payer} #{r_payment.frequency.downcase} payment of #{number_to_currency(r_payment.amount)} ?"},
+                method: :patch, :class=>"btn btn-danger")
+        return output.to_s.html_safe
+      end
+    end
   end
 end
