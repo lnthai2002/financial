@@ -43,4 +43,4 @@
             %li
               %a{'href'=>payment_types_path} Payment methods
         %li
-          =link_to 'Logout', logout_path, method: :delete
+          =link_to 'Logout', logout_path, data:{confirm: "Logout now?"}, method: :delete
