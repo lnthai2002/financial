@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'bootstrap-sass', '~> 3.0.2.0'
   s.add_dependency 'ice_cube'
-  s.add_dependency 'haml'
+  s.add_dependency 'haml-rails'
   s.add_dependency 'cancan'
   s.add_dependency 'whenever'
   s.add_dependency 'dynamic_form'
