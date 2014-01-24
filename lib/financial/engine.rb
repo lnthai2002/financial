@@ -9,14 +9,13 @@ module Financial
         config.paths["db/migrate"].expanded.each do |expanded_path|
           app.config.paths["db/migrate"] << expanded_path
         end
-        #declare that this engine is a ui module so that main app layout will show link to it
-        app.config.ui_modules << 'financial'
       end
     end
 
     config.autoload_paths += %W(#{config.root}/extras)
 
     require 'rubygems'
+    require 'cancan'
     require 'bootstrap-sass'
     config.generators do |g|
       g.test_framework      :rspec,        :fixture => false
