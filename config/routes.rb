@@ -21,9 +21,9 @@ Financial::Engine.routes.draw do
     collection do
       get :by_category
       get :for_category
-      get :by_date
-      get :by_month
-      get :by_week
+      get :date_summary
+      get :month_summary
+      get :week_summary
     end
   end
 

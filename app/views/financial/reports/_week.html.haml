@@ -8,16 +8,16 @@
 
   function toggleWeekReport(){//only display week report in portrait
     if(window.innerHeight > window.innerWidth){
-      $("#byweek").show();
+      $("#week_summary").show();
       drawWeekChart();
     } else {
-      $("#byweek").hide();
+      $("#week_summary").hide();
     }
   }
 
   $(document).ready(function(){
-    $("#by_week_form #date").change(function () {
-      $('#by_week_form').submit();
+    $("#week_summary_form #date").change(function () {
+      $('#week_summary_form').submit();
     })
 
     //window.addEventListener("orientationchange", function() {
@@ -30,7 +30,7 @@
 
 %div{:class=>"panel panel-primary"}
   %div{:class=>"panel-heading"}
-    =form_tag by_week_reports_url, :id=>'by_week_form', :method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
+    =form_tag week_summary_reports_url, :id=>'week_summary_form', :method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
       .form-group
         =label_tag 'date', "Week"
         =select_tag('date', options_for_select(last_12_weeks, date_for_select(@report.date)), :class=>'form-control')

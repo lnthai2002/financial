@@ -1,15 +1,15 @@
 :javascript
   function toggleDateReport(){//only display date report in portrait
     if(window.innerHeight > window.innerWidth){
-      $("#bydate").show();
+      $("#date_summary").show();
     } else {
-      $("#bydate").hide();
+      $("#date_summary").hide();
     }
   }
 
   $(document).ready(function(){
-    $("#by_date_form #datepick").change(function () {
-      $('#by_date_form').submit();
+    $("#date_summary_form #datepick").change(function () {
+      $('#date_summary_form').submit();
     })
 
     //window.addEventListener("orientationchange", function() {
@@ -21,7 +21,7 @@
 
 %div{:class=>"panel panel-primary"}
   %div{:class=>"panel-heading"}
-    =form_tag by_date_reports_url, :id=>'by_date_form',:method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
+    =form_tag date_summary_reports_url, :id=>'date_summary_form',:method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
       .form-group
         =label_tag 'date', "Date"
         =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker form-control', :readonly=>true)
