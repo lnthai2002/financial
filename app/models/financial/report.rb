@@ -39,14 +39,14 @@ module Financial
 
     def month_summary
       if !@month_summary
-        @month_summary = Summary.by_date_range(@current_ability, @date.beginning_of_month, @date.end_of_month)  
+        @month_summary = Summary.in_date_range(@current_ability, @date.beginning_of_month, @date.end_of_month)  
       end
       return @month_summary
     end
 
     def week_summary
       if !@week_summary
-        @week_summary = Summary.by_date_range(@current_ability, @date.beginning_of_week, @date.end_of_week)  
+        @week_summary = Summary.in_date_range(@current_ability, @date.beginning_of_week, @date.end_of_week)  
       end
       return @week_summary
     end

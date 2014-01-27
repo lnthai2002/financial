@@ -27,17 +27,17 @@ module Financial
     end
 
     #ajax call to update by_month
-    def by_month
+    def month_summary
       prepare_report
     end
 
     #ajax call to update by_week
-    def by_week
+    def week_summary
       prepare_report
     end
 
     #ajax call to update by_date
-    def by_date
+    def date_summary
       prepare_report
     end
 
