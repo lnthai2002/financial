@@ -8,29 +8,30 @@
 
   function toggleMonthReport(){//only display month report in portrait
     if(window.innerHeight > window.innerWidth){
-      $("#bymonth").show();
+      $("#month_summary").show();
       drawMonthChart();
     } else {
-      $("#bymonth").hide();
+      $("#month_summary").hide();
     }
   }
 
   $(document).ready(function(){
     
-    $("#by_month_form #date").change(function () {
-      $('#by_month_form').submit();
+    $("#month_summary_form #date").change(function () {
+      $('#month_summary_form').submit();
     })
 
-    window.addEventListener("orientationchange", function() {
-      toggleMonthReport();
-    },false);
+    //window.addEventListener("orientationchange", function() {
+    //  toggleMonthReport();
+    //},false);
 
-    toggleMonthReport();
+    //toggleMonthReport();
+    drawMonthChart();
   });
 
 %div{:class=>"panel panel-primary"}
   %div{:class=>"panel-heading"}
-    =form_tag by_month_reports_url, :id=>'by_month_form', :method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
+    =form_tag month_summary_reports_url, :id=>'month_summary_form', :method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
       .form-group
         =label_tag 'date', "Month"
         =select_tag('date', options_for_select(months_from_2_years_ago, date_for_select(@report.date)), :class=>'form-control')
