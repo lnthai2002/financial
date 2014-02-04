@@ -1,31 +1,29 @@
 .container
-  .btn.btn-default{'data-toggle-target'=>"#adjustment-form"}
+  .btn.btn-success{'data-toggle-target'=>"#adjustment-form"}
     .glyphicon.glyphicon-plus adjustment
-  =form_for :adjustment,
-    :url=>{:controller=>:mortgage_adjs, :action=>:create},
-    :remote=>true,
-    :html=>{:role=>"form", :class=>"form-horizontal default-hidden", :id=>'adjustment-form'} do |a|
+  =form_for :adjustment, url:mortgage_adjs_path, remote: true,
+    html:{'role'=>'form', class:'form-horizontal default-hidden', id:'adjustment-form'} do |a|
     =a.error_messages
     .form-group
-      =a.label :month, :class=>"col-xs-6 control-label"
+      =a.label :month, class:'col-xs-6 control-label'
       .col-xs-6
-        =a.number_field :month, :step=>1, :placeholder=>"which month to add adjustment"
+        =a.number_field :month, 'step'=>1, placeholder:'for which month'
     .form-group
-      =a.label :amount, :class=>"col-xs-6 control-label"
+      =a.label :amount, class:'col-xs-6 control-label'
       .col-xs-6
-        =a.number_field :amount, :step=>0.01, :placeholder=>"extra payment for this month"
+        =a.number_field :amount, 'step'=>0.01, placeholder:'how much'
     .form-group
-      =a.label :interest, :class=>"col-xs-6 control-label"
+      =a.label :interest, 'Onward interest(%)',class:'col-xs-6 control-label'
       .col-xs-6
-        =a.number_field :interest, :step=>'any', :placeholder=>"interest rate from this month onward"
+        =a.number_field :interest, 'step'=>'any', placeholder:'% not decimal'
     .form-group
-      =a.label :duration, :class=>"col-xs-6 control-label"
+      =a.label :duration, class:'col-xs-6 control-label'
       .col-xs-6
-        =a.number_field :duration, :step=>1, :placeholder=>"length of mortgage since this month"
+        =a.number_field :duration, 'step'=>1, placeholder:'length of mortgage since this month'
     .form-group
       .col-xs-12
-        =a.hidden_field :mortgage_id, :value=>@plan.mortgage.id
-        =a.submit "Insert", :class=>"btn btn-default"
+        =a.hidden_field :mortgage_id, value:@plan.mortgage.id
+        =a.submit "Insert Adjustment", class:'btn btn-primary btn-block'
 .container
   %table.table.table-striped
     %thead

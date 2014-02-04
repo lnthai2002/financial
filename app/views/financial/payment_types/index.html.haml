@@ -2,10 +2,12 @@
   %table.table.table-striped
     %thead
       %tr
-        %th Method of payment
-        %th= link_to 'Add', new_payment_type_path, :class=>"btn btn-success"
+        %th{'colspan'=>2}= link_to 'Add', new_payment_type_path, class:'btn btn-success btn-block'
     %tbody
       -@payment_types.each do |payment_type|
         %tr
           %td= link_to payment_type.description, edit_payment_type_path(payment_type)
-          %td= link_to 'Remove', payment_type, data: {confirm: 'Are you sure?'}, method: :delete, class: "btn btn-danger"
+          %td
+            = link_to 'Remove', payment_type,
+                      data:{confirm: "Remove #{payment_type.description}?"},
+                      method: :delete, class: 'btn btn-danger btn-block'

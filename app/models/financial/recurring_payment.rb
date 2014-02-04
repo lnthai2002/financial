@@ -15,7 +15,7 @@ module Financial
 
     #Post Expense/Income
     def self.post
-      RecurringPayment.where(:finished=>false).to_a.each do |r|#if recurring payment is marked finished, no need to process them
+      RecurringPayment.where(finished: false).to_a.each do |r|#if recurring payment is marked finished, no need to process them
         schedule = Schedule.new(r.first_date)
         case r.frequency
           when 'Daily'
@@ -62,7 +62,7 @@ module Financial
     private
 
     def self.post_routine(recurring, potential_posting_date, &block)
-      if recurring.payments.where(:pmt_date=>potential_posting_date).all.blank? #no payment exist on this date yet
+      if not recurring.payments.where(pmt_date: potential_posting_date).exists? #no payment exist on this date yet
         if recurring.first_date == potential_posting_date #arrive at the starting date
           payment = Payment.from_recurring_payment(recurring)
           payment.pmt_date = potential_posting_date

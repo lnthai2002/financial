@@ -6,7 +6,7 @@ module Financial
     end
 
     def new
-      @recurring_payment = RecurringIncome.new(:first_date=>Date.today)
+      @recurring_payment = RecurringIncome.new(first_date: Date.today)
       load_selections
     end
 

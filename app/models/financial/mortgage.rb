@@ -137,7 +137,7 @@ module Financial
       return mortgage.start(1)
     end
 
-    #return the amount of extra payment for the selected year, zero if no extra payment made on tha year
+    #return the amount of extra payment for the selected year, zero if no extra payment made on that year
     def extra_payment_for(month)
       return cached_adjustments[month].try(:amount).to_f
     end

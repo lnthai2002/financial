@@ -1,15 +1,15 @@
 .container
-  =form_for(@category.becomes(Financial::Category), :html=>{:class=>"form-horizontal",:role=>"form"}) do |f|
+  =form_for(@category.becomes(Financial::Category), html:{class:'form-horizontal','role'=>'form'}) do |f|
     -f.object = @category.becomes(@category.class)
     =f.error_messages
     .form-group
-      =f.label :type, :class=>"col-xs-6 control-label"
+      =f.label :type, class:'col-xs-6 control-label'
       .col-xs-6
-        =f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {:include_blank => false}, :class=>'form-control'
+        =f.select :type, [['Expense','Financial::ExpenseCategory'],['Income','Financial::IncomeCategory']], {include_blank:false}, class:'form-control'
     .form-group
-      =f.label :description, :class=>"col-xs-6 control-label"
+      =f.label :description, class:'col-xs-6 control-label'
       .col-xs-6
-        =f.text_field :description, :placeholder=>"Short description", :class=>'form-control'
+        =f.text_field :description, placeholder:'Short description', class:'form-control'
     .form-group
       .col-xs-12
-        =f.submit "OK", :class=>"btn btn-default"
+        =f.submit "OK", :class=>"btn btn-primary btn-block "
