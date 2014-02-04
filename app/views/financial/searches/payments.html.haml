@@ -1,0 +1,24 @@
+.container
+  %div{:class=>"panel panel-primary"}
+    %div{:class=>"panel-heading"}
+      Search results
+    %div{:class=>"panel-body"}
+      %div{:class=>"col-xs-12 table-responsive"}
+        %table.table.table-striped.table-condensed
+          %thead
+            %tr
+              %th Date
+              %th Amount
+              %th Payee
+              %th Category
+              %th Payment Method
+              %th Note
+          %tbody
+            - @results.each do |e|
+              %tr
+                %td= e.pmt_date.strftime("%m/%d")
+                %td= link_to number_to_currency(e.amount), edit_expense_path(e)
+                %td= e.payee_payer
+                %td= e.expense_category.description
+                %td= e.payment_type.description
+                %td= link_to e.note, edit_expense_path(e)
