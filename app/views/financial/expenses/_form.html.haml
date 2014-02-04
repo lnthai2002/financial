@@ -4,7 +4,7 @@
     .form-group
       = f.label :pmt_date, :class=>"col-xs-6 control-label"
       .col-xs-6
-        = f.text_field :pmt_date, :placeholder=>'date', :class=>'datepicker form-control', :readonly=>true
+        = f.date_field :pmt_date, :placeholder=>'date', :class=>'form-control'
     .form-group
       = f.label :category_id, :class=>"col-xs-6 control-label"
       .col-xs-6
@@ -27,4 +27,7 @@
         = f.text_area :note, :placeholder=>'note', :rows=>2, :class=>'form-control'
     .form-group
       .col-xs-12
-        = f.submit 'Done', :class=>"btn btn-default"
+        = link_to('Remove', @expense, :class=>"btn btn-danger col-xs-6",
+          data:{confirm: "Remove #{number_to_currency(@expense.amount)} on #{@expense.pmt_date.strftime('%y/%m/%d')}?"},
+          method: :delete) if not @expense.new_record?
+        = f.submit 'Done', :class=>"btn btn-default col-xs-6"

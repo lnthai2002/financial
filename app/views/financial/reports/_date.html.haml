@@ -24,7 +24,7 @@
     =form_tag date_summary_reports_url, :id=>'date_summary_form',:method=>'get', :remote=>true, :role=>"form", :class=>"form-inline" do
       .form-group
         =label_tag 'date', "Date"
-        =text_field_tag('date', @report.date, :id=>'datepick', :class=>'datepicker form-control', :readonly=>true)
+        =date_field_tag('date', @report.date, :id=>'datepick', :class=>'form-control')
   %div{:class=>"panel-body"}
     %div{:class=>"col-xs-12 col-md-2"}
       %table.table.table-striped
