@@ -1,7 +1,12 @@
 module Financial
   class Search
-    def initialize(params)
+    def initialize(params, current_ability)
       @params = params
+      if current_ability
+        @current_ability = current_ability
+      else
+        raise Exception.new("Can not instantiate search without ability, this violate security")
+      end
     end
 
     def execute
@@ -13,7 +18,7 @@ module Financial
     private
 
     def search_payments
-      conditions = Payment
+      conditions = Payment.accessible_by(@current_ability)
       if not @params['category_id'].blank?
         conditions = conditions.where(category_id: @params['category_id'])
       end
