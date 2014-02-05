@@ -1,5 +1,3 @@
-require_dependency "financial/application_controller"
-
 module Financial
   class MortgageAdjsController < AuthorizableController
     #update or create a new adjustment if an adjustment already exist for the given month, update it

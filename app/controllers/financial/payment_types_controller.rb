@@ -1,7 +1,5 @@
-require_dependency "financial/application_controller"
-
 module Financial
-  class PaymentTypesController < ApplicationController
+  class PaymentTypesController < AuthorizableController
     # GET /payment_types
     # GET /payment_types.json
     def index

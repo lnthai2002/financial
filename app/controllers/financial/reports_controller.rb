@@ -1,5 +1,3 @@
-require_dependency "financial/application_controller"
-
 module Financial
   class ReportsController < AuthorizableController
     def index

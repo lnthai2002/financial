@@ -1,5 +1,3 @@
-require_dependency "financial/application_controller"
-
 module Financial
   class InvestmentsController < AuthorizableController
     #load the investment, set the virtual attributes: alt_rate, alt_monthly_dep, alt_length
