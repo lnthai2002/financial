@@ -45,4 +45,7 @@
           %td=number_to_currency(month[:xtra_payment])
           %td=number_to_currency(month[:balance])
           %td=month[:new_rate].to_s
-          %td=link_to('x', mortgage_adj_path(month[:adj_id]), data: {confirm: 'Are you sure?'}, method: :delete, class: 'close') if !month[:adj_id].blank? 
+          %td=link_to('x', mortgage_adj_path(month[:adj_id]),
+                      data: {confirm: "Remove adjustment at month #{month[:month]}?"},
+                      method: :delete,
+                      class: 'close') if not month[:adj_id].blank? 
