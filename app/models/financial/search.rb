@@ -10,7 +10,7 @@ module Financial
     end
 
     def execute
-      if %w{Expense, Income, Payment}.include?(@params['type'])
+      if %w{Expense Income Payment}.include?(@params['type'])
         search_payments
       end
     end
@@ -43,6 +43,8 @@ module Financial
           return conditions = conditions.all
         when 'Payment'
           return conditions.all
+        else
+          return []
       end
     end
   end
