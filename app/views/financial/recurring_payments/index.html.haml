@@ -12,7 +12,6 @@
               %th Category
               %th Amount
               %th Payer
-              %th Payment method
               %th Note
           %tbody
             - @recurring_incomes.each do |i|
@@ -22,7 +21,6 @@
                 %td= description_of_category(i.category_id)
                 %td= link_to number_to_currency(i.amount), edit_recurring_payment_path(i)
                 %td= i.payee_payer
-                %td= i.payment_type.description
                 %td= link_to i.note, edit_recurring_payment_path(i)
   
   %div{:class=>"panel panel-danger"}
@@ -38,7 +36,6 @@
               %th Category
               %th Amount
               %th Payee
-              %th Payment method
               %th Note
               %th &nbsp;
           %tbody
@@ -49,5 +46,4 @@
                 %td= description_of_category(e.category_id)
                 %td= link_to number_to_currency(e.amount), edit_recurring_payment_path(e)
                 %td= e.payee_payer
-                %td= e.payment_type.description
                 %td= link_to e.note, edit_recurring_payment_path(e)

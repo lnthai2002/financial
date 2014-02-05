@@ -11,7 +11,6 @@
               %th Amount
               %th Payee
               %th Category
-              %th Payment Method
               %th Note
           %tbody
             - @results.each do |e|
@@ -20,5 +19,4 @@
                 %td= link_to number_to_currency(e.amount), edit_expense_path(e)
                 %td= e.payee_payer
                 %td= description_of_category(e.category_id)
-                %td= e.payment_type.description
                 %td= link_to e.note, edit_expense_path(e)
