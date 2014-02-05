@@ -19,7 +19,7 @@ module Financial
                          start_date.strftime("%Y-%m-%d"),
                          end_date.strftime("%Y-%m-%d")]
       @expenses = {'start_date'=>start_date, 'end_date'=>end_date}
-      @expenses['list'] = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
+      @expenses['list'] = Expense.accessible_by(current_ability).where(range_condition).order(:pmt_date).to_a
       @expenses['total'] = Money.new(Expense.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
       @expenses['summary'] = Summary.expenses_by_categories_in_date_range(current_ability, start_date, end_date)
 

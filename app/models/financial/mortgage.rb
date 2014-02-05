@@ -158,7 +158,7 @@ module Financial
     def cached_adjustments
       if @adjs.nil?
         @adjs = {}
-        self.mortgage_adjs.all.each do |adj|
+        self.mortgage_adjs.to_a.each do |adj|
           @adjs[adj.month]=adj
         end
       end

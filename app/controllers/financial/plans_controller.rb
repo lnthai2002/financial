@@ -5,7 +5,7 @@ module Financial
       #see http://stackoverflow.com/questions/4867880/nested-attributes-in-rails-3
       @plan.build_mortgage
       @plan.build_investment
-      @plans = Plan.accessible_by(current_ability).all
+      @plans = Plan.accessible_by(current_ability).to_a
     end
 
     def create

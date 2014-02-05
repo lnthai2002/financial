@@ -38,12 +38,12 @@ module Financial
       case @params['type']
         when 'Expense'
           conditions = conditions.where(type: 'Financial::Expense')
-          return conditions = conditions.all
+          return conditions = conditions.to_a
         when 'Income'
           conditions = conditions.where(type: 'Financial::Income')
-          return conditions = conditions.all
+          return conditions = conditions.to_a
         when 'Payment'
-          return conditions.all
+          return conditions.to_a
         else
           return []
       end

@@ -5,7 +5,7 @@ module Financial
                     .select("SUBSTRING_INDEX(description, ':', 1) AS description, SUM(amount_cents) AS amount_cents")
                     .where(date_range_conditions(start_date, end_date))
                     .group("SUBSTRING_INDEX(description, ':', 1)")
-                    .all
+                    .to_a
     end
 
     def self.expenses_by_subcategories_in_date_range(ability, start_date, end_date)
@@ -13,7 +13,7 @@ module Financial
                     .select("description, SUM(amount_cents) AS amount_cents")
                     .where(date_range_conditions(start_date, end_date))
                     .group('category_id')
-                    .all
+                    .to_a
     end
 
     def self.incomes_by_categories_in_date_range(ability, start_date, end_date)
@@ -21,7 +21,7 @@ module Financial
                    .select("description, SUM(amount_cents) AS amount_cents")
                    .where(date_range_conditions(start_date, end_date))
                    .group('category_id')
-                   .all
+                   .to_a
     end
 
     def self.in_date_range(ability, start_date, end_date)

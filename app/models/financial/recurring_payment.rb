@@ -15,7 +15,7 @@ module Financial
 
     #Post Expense/Income
     def self.post
-      RecurringPayment.where(:finished=>false).all.each do |r|#if recurring payment is marked finished, no need to process them
+      RecurringPayment.where(:finished=>false).to_a.each do |r|#if recurring payment is marked finished, no need to process them
         schedule = Schedule.new(r.first_date)
         case r.frequency
           when 'Daily'

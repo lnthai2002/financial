@@ -1,8 +1,8 @@
 module Financial
   class RecurringPaymentsController < AuthorizableController
     def index
-      @recurring_incomes = RecurringIncome.accessible_by(current_ability).where(:end_date=>nil).all
-      @recurring_expenses = RecurringExpense.accessible_by(current_ability).where(:end_date=>nil).all
+      @recurring_incomes = RecurringIncome.accessible_by(current_ability).where(end_date:nil).to_a
+      @recurring_expenses = RecurringExpense.accessible_by(current_ability).where(end_date:nil).to_a
     end
 
     def new
