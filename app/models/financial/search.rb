@@ -18,6 +18,7 @@ module Financial
     private
 
     def search_payments
+      payments = Payment.arel_table
       conditions = Payment.accessible_by(@current_ability)
       if not @params['category_id'].blank?
         conditions = conditions.where(category_id: @params['category_id'])
@@ -29,10 +30,10 @@ module Financial
         conditions = conditions.where(payment_type_id: @params['payment_type_id'])
       end
       if not @params['payee_payer'].blank?
-        conditions = conditions.where("payee_payer LIKE %?%", @params['payee_payer'])
+        conditions = conditions.where(payments[:payee_payer].matches("%#{@params['payee_payer']}%"))
       end
       if not @params['note'].blank?
-        conditions = conditions.where("note LIKE %?%", @params['note'])
+        conditions = conditions.where(payments[:note].matches("%#{@params['note']}%"))
       end
       case @params['type']
         when 'Expense'
