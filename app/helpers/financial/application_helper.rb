@@ -1,5 +1,15 @@
 module Financial
   module ApplicationHelper
+    #TODO: any insert, delete, update categories should update this CATEGORIES
+    CATEGORIES = Category.all.inject(Hash.new) {|hash, category| 
+      hash[category.id] = category.description
+      hash
+    }
+    #resolve category description
+    def description_of_category(id)
+      return CATEGORIES[id]
+    end
+
     #selected value for date should be in a consistent format 
     def date_for_select(date)
       return date.strftime("%Y%m%d")
