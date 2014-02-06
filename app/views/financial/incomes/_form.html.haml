@@ -26,9 +26,4 @@
       .col-xs-6
         = f.text_area :note, placeholder:'note', rows:2, class:'form-control'
     .form-group
-      .col-xs-6
-        = link_to('Remove', @income, class:'btn btn-danger btn-block',
-          data:{confirm: "Remove #{number_to_currency(@income.amount)} on #{@income.pmt_date.strftime('%y/%m/%d')}?"},
-          method: :delete) if not @income.new_record?
-      .col-xs-6
-        = f.submit 'Done', class:'btn btn-primary btn-block'
+      = buttons_for_payment_form(f)

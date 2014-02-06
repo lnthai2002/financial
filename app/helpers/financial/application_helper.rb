@@ -88,18 +88,39 @@ module Financial
       output
     end
 
-    def buttons_for_recurring_payment_form(form, r_payment)
-      if r_payment.new_record?
-        return form.submit('Done', :class=>"btn btn-success")
+    def buttons_for_payment_form(form_builder)
+      return horizontal_pair_form_buttons(form_builder){
+        link_to('Remove', form_builder.object, class: 'btn btn-danger btn-block',
+                data:{confirm: "Remove #{number_to_currency(form_builder.object.amount)} on #{form_builder.object.pmt_date.strftime('%y/%m/%d')}?"},
+                method: :delete)
+      }
+    end
+
+    def buttons_for_recurring_payment_form(form_builder)
+      return horizontal_pair_form_buttons(form_builder){
+        link_to('Terminate', terminate_recurring_payment_path(form_builder.object),
+                data:{confirm: "Stop #{form_builder.object.payee_payer} #{form_builder.object.frequency.downcase} payment of #{number_to_currency(form_builder.object.amount)} ?"},
+                method: :patch, class: 'btn btn-danger btn-block')
+      }
+    end
+
+    private
+
+    #take a FormBuilder and add a pair of button, one is submit, the other is from the block provided 
+    def horizontal_pair_form_buttons(form_builder, &block)
+      output = ActiveSupport::SafeBuffer.new
+      if form_builder.object.new_record?
+        column = 'col-xs-12'
       else
-        output = ActiveSupport::SafeBuffer.new
-        output << form.submit('Done', :class=>"btn btn-success")
-        output << "\n"
-        output << link_to('Terminate', terminate_recurring_payment_path(r_payment),
-                data:{confirm: "Stop #{r_payment.payee_payer} #{r_payment.frequency.downcase} payment of #{number_to_currency(r_payment.amount)} ?"},
-                method: :patch, :class=>"btn btn-danger")
-        return output.to_s.html_safe
+        column = 'col-xs-6'
+        output << content_tag(:div, class: column) do
+          block.call
+        end
       end
+      output << content_tag(:div, class: column) do
+        form_builder.submit('Done', class: 'btn btn-primary btn-block')
+      end
+      return output.to_s.html_safe
     end
   end
 end

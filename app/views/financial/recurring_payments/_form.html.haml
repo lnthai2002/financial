@@ -57,5 +57,4 @@
       .col-xs-6
         = f.text_area :note, :placeholder=>'note', :rows=>2, :class=>'form-control'
     .form-group
-      .col-xs-12
-        = buttons_for_recurring_payment_form(f, @recurring_payment)
+      = buttons_for_recurring_payment_form(f)
