@@ -17,5 +17,7 @@
           .form-group
             = f.text_field :note, placeholder: 'note', class: 'form-control'
           .form-group
-            %button.btn.btn-default{'data-dismiss'=>'modal'} Close
-            = f.submit 'Find', class: 'btn btn-primary'
+            .modal-left
+              %button.btn.btn-default.btn-block{'data-dismiss'=>'modal'} Cancel
+            .modal-right
+              = f.submit 'Find', class: 'btn btn-primary btn-block'
