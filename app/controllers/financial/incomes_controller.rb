@@ -1,5 +1,3 @@
-require_dependency "financial/application_controller"
-
 module Financial
   class IncomesController < AuthorizableController
     def index
@@ -19,7 +17,7 @@ module Financial
                          start_date.strftime("%Y-%m-%d"),
                          end_date.strftime("%Y-%m-%d")]
       @incomes = {'start_date'=>start_date, 'end_date'=>end_date}
-      @incomes['list'] = Income.accessible_by(current_ability).where(range_condition).order(:pmt_date).all
+      @incomes['list'] = Income.accessible_by(current_ability).where(range_condition).order(:pmt_date).to_a
       @incomes['total'] = Money.new(Income.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
       
       respond_to do |format|

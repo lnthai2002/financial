@@ -1,15 +1,15 @@
-require_dependency "financial/application_controller"
-
 module Financial
   class MortgageAdjsController < AuthorizableController
     #update or create a new adjustment if an adjustment already exist for the given month, update it
     def create
+      mortgage = Mortgage.accessible_by(current_ability).find(params[:adjustment][:mortgage_id])
       @adjustment = MortgageAdj.accessible_by(current_ability)
                                .where(:mortgage_id=>params[:adjustment][:mortgage_id],
                                       :month=>params[:adjustment][:month])
                                .first
       if @adjustment.blank?
         @adjustment = MortgageAdj.new(mortgage_adj_params)
+        @adjustment.mortgage = mortgage
         @adjustment.person = @person
       else
         @adjustment.attributes=mortgage_adj_params
@@ -19,7 +19,7 @@ module Financial
         @adjustment=MortgageAdj.new
       end
 
-      @plan = Mortgage.accessible_by(current_ability).find(params[:adjustment][:mortgage_id]).plan
+      @plan = mortgage.plan
       render "financial/plans/update_detail"
     end
 

@@ -1,5 +1,3 @@
-require_dependency "financial/application_controller"
-
 module Financial
   class FinancesController < AuthorizableController
     skip_before_filter :check_user_finance, :only => [:new, :create]

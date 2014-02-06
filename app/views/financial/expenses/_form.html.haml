@@ -4,7 +4,7 @@
     .form-group
       = f.label :pmt_date, :class=>"col-xs-6 control-label"
       .col-xs-6
-        = f.text_field :pmt_date, :placeholder=>'date', :class=>'datepicker form-control', :readonly=>true
+        = f.date_field :pmt_date, :placeholder=>'date', :class=>'form-control'
     .form-group
       = f.label :category_id, :class=>"col-xs-6 control-label"
       .col-xs-6
@@ -26,5 +26,4 @@
       .col-xs-6
         = f.text_area :note, :placeholder=>'note', :rows=>2, :class=>'form-control'
     .form-group
-      .col-xs-12
-        = f.submit 'Done', :class=>"btn btn-default"
+      = buttons_for_payment_form(f)

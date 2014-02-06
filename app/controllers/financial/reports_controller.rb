@@ -1,5 +1,3 @@
-require_dependency "financial/application_controller"
-
 module Financial
   class ReportsController < AuthorizableController
     def index
@@ -7,7 +5,7 @@ module Financial
     end
 
     def by_category
-      @categories = Category.all
+      @categories = Category.all.sort_by{|cat| cat.description}
     end
 
     def for_category

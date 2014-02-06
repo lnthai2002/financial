@@ -6,11 +6,11 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand{'href'=>"#"} Financial
+      %a.navbar-brand{'href'=>"http://darkportal.no-ip.info"} Financial
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li.dropdown
-          %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          %a.dropdown-toggle{'href'=>"#", 'data-toggle'=>"dropdown"}
             Reports
             %b.caret
           %ul.dropdown-menu
@@ -19,11 +19,13 @@
             %li
               %a{'href'=>by_category_reports_path} By Category
         %li
+          %a#search{'href'=>"#", 'data-toggle'=>'modal', 'data-target'=>'#search_form'} Search
+        %li
           %a{'href'=>new_expense_path} Expense
         %li
           %a{'href'=>new_income_path} Income
         %li.dropdown
-          %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          %a.dropdown-toggle{'href'=>"#", 'data-toggle'=>"dropdown"}
             Recurring
             %b.caret
           %ul.dropdown-menu
@@ -34,7 +36,7 @@
         %li
           %a{'href'=>plans_path} Planning
         %li.dropdown
-          %a{'href'=>"#", :class=>"dropdown-toggle", 'data-toggle'=>"dropdown"}
+          %a.dropdown-toggle{'href'=>"#", 'data-toggle'=>"dropdown"}
             Admin
             %b.caret
           %ul.dropdown-menu

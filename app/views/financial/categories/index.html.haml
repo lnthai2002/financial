@@ -2,10 +2,12 @@
   %table.table.table-striped
     %thead
       %tr
-        %th Description
-        %th= link_to 'Add', new_category_path, :class=>"btn btn-success"
+        %th{'colspan'=>2}= link_to 'Add', new_category_path, class:'btn btn-success btn-block'
     %tbody
       -@categories.each do |e|
         %tr
           %td= link_to e.description, edit_category_path(e)
-          %td= link_to 'Remove', category_path(e), data:{confirm: 'Are you sure?'}, method: :delete, class: "btn btn-danger"
+          %td
+            = link_to 'Remove', category_path(e),
+                      data:{confirm: "Remove #{e.description}?"},
+                      method: :delete, class: 'btn btn-danger btn-block'

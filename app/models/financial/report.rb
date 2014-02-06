@@ -26,7 +26,7 @@ module Financial
                                            type,
                                            SUM(amount_cents) AS amount_cents")
                                   .group("YEAR(pmt_date), MONTH(pmt_date), type")
-                                  .all
+                                  .to_a
         summary_by_month.each do |summary|
           @balance_by_month["#{summary.year}/#{summary.month}"] = @balance_by_month["#{summary.year}/#{summary.month}"].merge({summary.type=>summary.amount.to_d})
         end

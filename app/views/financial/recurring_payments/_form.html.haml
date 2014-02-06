@@ -34,7 +34,7 @@
     .form-group
       = f.label :first_date, :class=>"col-xs-6 control-label"
       .col-xs-6
-        = f.text_field :first_date, :placeholder=>'first date', :class=>'datepicker form-control', :readonly=>true
+        = f.date_field :first_date, :placeholder=>'first date', :class=>'form-control'
     #recurring_categories
       .form-group
         = f.label :category_id, :class=>"col-xs-6 control-label"
@@ -57,5 +57,4 @@
       .col-xs-6
         = f.text_area :note, :placeholder=>'note', :rows=>2, :class=>'form-control'
     .form-group
-      .col-xs-12
-        = buttons_for_recurring_payment_form(f, @recurring_payment)
+      = buttons_for_recurring_payment_form(f)

@@ -1,14 +1,12 @@
-require_dependency "financial/application_controller"
-
 module Financial
   class RecurringPaymentsController < AuthorizableController
     def index
-      @recurring_incomes = RecurringIncome.accessible_by(current_ability).where(:end_date=>nil).all
-      @recurring_expenses = RecurringExpense.accessible_by(current_ability).where(:end_date=>nil).all
+      @recurring_incomes = RecurringIncome.accessible_by(current_ability).where(end_date:nil).to_a
+      @recurring_expenses = RecurringExpense.accessible_by(current_ability).where(end_date:nil).to_a
     end
 
     def new
-      @recurring_payment = RecurringIncome.new(:first_date=>Date.today)
+      @recurring_payment = RecurringIncome.new(first_date: Date.today)
       load_selections
     end
 

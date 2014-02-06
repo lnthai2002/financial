@@ -39,7 +39,7 @@ module Financial
                                            SUM(amount_cents) AS amount_cents")
                                   .where(:category_id=>@cats)
                                   .group("YEAR(pmt_date), MONTH(pmt_date)")
-                                  .all
+                                  .to_a
         summary_by_month.each do |summary|
           @category_by_month["#{summary.year}/#{summary.month}"] = summary.amount.to_d
         end

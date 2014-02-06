@@ -1,0 +1,23 @@
+.modal.fade#search_form{'tabindex'=>'-1', 'role'=>'dialog', 'aria-hidden'=>'true'}
+  .modal-dialog
+    .modal-content
+      .modal-body
+        = form_for('search', {url: payments_search_path, html: {'role'=>'form', class: 'form-horizontal', method: :get}}) do |f|
+          = f.error_messages
+          .form-group
+            =f.select :type, [['Both', 'Payment'], ['Income', 'Income'],['Expense', 'Expense']], {include_blank: false}, class: 'form-control'
+          .form-group
+            = f.select :category_id, Financial::Category.all.collect{|t| [t['description'], t['id']] }, {include_blank: true}, class: 'form-control'
+          .form-group
+            = f.number_field :amount, step: 0.01, placeholder: 'amount', class: 'form-control'
+          .form-group
+            = f.text_field :payee_payer, placeholder: 'payee/payer', class: 'form-control'
+          .form-group
+            = f.select :payment_type_id, Financial::PaymentType.all.collect{|t| [t['description'], t['id']] }, {include_blank: true}, class: 'form-control'
+          .form-group
+            = f.text_field :note, placeholder: 'note', class: 'form-control'
+          .form-group
+            .modal-left
+              %button.btn.btn-default.btn-block{'data-dismiss'=>'modal'} Cancel
+            .modal-right
+              = f.submit 'Find', class: 'btn btn-primary btn-block'
