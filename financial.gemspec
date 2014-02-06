@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-rails'
   s.add_dependency 'remotipart'                 #allow submit ajax form with multipart
   s.add_dependency 'will_paginate'              #pagination
-  s.add_dependency 'calendar_date_select'       #show calendar to user to select
 
   s.add_dependency 'sass-rails'
   s.add_dependency 'bootstrap-sass', '~> 3.0.2.0'
