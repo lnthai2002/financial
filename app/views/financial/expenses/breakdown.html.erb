@@ -29,7 +29,7 @@
   <table>
   	<tr>
 		<th align="left"><%=f.label :Date%></th>
-		<td><%=f.calendar_date_select :pmt_date, {:popup=>'force', :year_range=>[2.years.ago,3.years.from_now],:size=>15}%></td>
+		<td><%=f.date_field :pmt_date%></td>
 	</tr>
 	<tr>
 		<th align="left">Type</th>
