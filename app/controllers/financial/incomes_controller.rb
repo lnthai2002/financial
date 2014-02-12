@@ -1,5 +1,8 @@
 module Financial
   class IncomesController < AuthorizableController
+    before_action :load_selections, only:[:new, :edit]
+
+    # GET /incomes
     def index
       #default is the current month
       begin
@@ -21,30 +24,35 @@ module Financial
       @payments['total'] = Money.new(Income.accessible_by(current_ability).where(range_condition).sum(:amount_cents))
     end
 
+    # GET /incomes/new
     def new
-      load_selections
       @payment = Income.new(:pmt_date=>Date.today)
+      render 'form'
     end
 
+    # GET /incomes/1/edit
     def edit
-      load_selections
       @payment = Income.accessible_by(current_ability).find(params[:id])
+      render 'form'
     end
 
+    # POST /incomes
+    # POST /incomes.json
     def create
       @payment = Income.new(income_params)
       @payment.person = @person
       respond_to do |format|
         if @payment.save
-          format.html {
-            redirect_to new_income_path,
-                        notice: "#{@payment.amount} income on #{@payment.pmt_date.strftime('%y/%m/%d')} recorded"
-          }
+          flash[:notice] = "#{@payment.amount} income on #{@payment.pmt_date.strftime('%y/%m/%d')} recorded"
+          path = incomes_path('start_date'=>@payment.pmt_date.beginning_of_month,
+                              'end_date'=>@payment.pmt_date.end_of_month)
+          format.html { redirect_to path }
+          format.js   { render      'create' }
           format.json { render json: @payment, status: :created, location: @payment }
         else
-          format.html {
+          format.any(:html, :js) {
             load_selections
-            render action: 'new'
+            render 'form'
           }
           format.json { render json: @payment.errors, status: :unprocessable_entity }
         end
@@ -56,12 +64,16 @@ module Financial
   
       respond_to do |format|
         if @payment.update_attributes(income_params)
-          format.html { redirect_to reports_path, notice: "#{@payment.amount} income on #{@payment.pmt_date.strftime('%y/%m/%d')} changed"}
+          flash[:notice] = "#{@payment.amount} income on #{@payment.pmt_date.strftime('%y/%m/%d')} changed"
+          path = incomes_path('start_date'=>@payment.pmt_date.beginning_of_month,
+                              'end_date'=>@payment.pmt_date.end_of_month)
+          format.html { redirect_to path }
+          format.js   { render js: %(window.location='#{path}') }
           format.json { head :ok }
         else
-          format.html {
-            load_selections 
-            render action: 'edit'
+          format.any(:html, :js) {
+            load_selections
+            render 'form'
           }
           format.json { render json: @payment.errors, status: :unprocessable_entity }
         end
@@ -73,9 +85,12 @@ module Financial
     def destroy
       @payment = Income.accessible_by(current_ability).find(params[:id])
       @payment.destroy
-  
+
+      path = incomes_path('start_date'=>@payment.pmt_date.beginning_of_month,
+                           'end_date'=>@payment.pmt_date.end_of_month)
+
       respond_to do |format|
-        format.html { redirect_to reports_url, notice: "#{@payment.amount} income on #{@payment.pmt_date.strftime('%y/%m/%d')} removed" }
+        format.html { redirect_to path, notice: "#{@payment.amount} income on #{@payment.pmt_date.strftime('%y/%m/%d')} removed" }
         format.json { head :ok }
       end
     end
