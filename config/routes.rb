@@ -27,7 +27,8 @@ Financial::Engine.routes.draw do
     end
   end
   resource :search do
-    get :payments
+    get :payments, :action=>:payments_search_form
+    post :payments, :action=>:payments
   end
   delete 'logout', to: 'sessions#logout'
   get 'recurring_payment_categories', :to=>'recurring_payments#reload_categories', :as=>:recurring_payment_reload_categories
