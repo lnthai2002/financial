@@ -1,7 +1,8 @@
 module Financial
   class ExpensesController < AuthorizableController
+    before_action :load_selections, only:[:new, :edit]
+
     # GET /expenses
-    # GET /expenses.json
     def index
       #default is the current month
       begin
@@ -25,31 +26,15 @@ module Financial
     end
   
     # GET /expenses/new
-    # GET /expenses/new.json
     def new
-      load_selections
       @payment = Expense.new(:pmt_date=>Date.today)
-  
-      respond_to do |format|
-        format.html # new.html.erb
-        format.json { render json: @payment }
-      end
-    end
-  
-    # Ajax called to render additional fields depending on the expense type selected
-    def select_type
-      type = ExpenseCategory.where(:id=>params[:expense][:category_id])
-                            .pluck('description')
-                            .first
-      if type != nil && type == 'Anual bill'
-        render :partial => 'date_range', :layout => false
-      end
+      render 'form'
     end
   
     # GET /expenses/1/edit
     def edit
-      load_selections
       @payment = Expense.accessible_by(current_ability).find(params[:id])
+      render 'form'
     end
   
     # POST /expenses
@@ -59,12 +44,16 @@ module Financial
       @payment.person = @person
       respond_to do |format|
         if @payment.save
-          format.html { redirect_to new_expense_path, notice: "#{@payment.amount} expense on #{@payment.pmt_date.strftime('%y/%m/%d')} recorded" }
+          flash[:notice] = "#{@payment.amount} expense on #{@payment.pmt_date.strftime('%y/%m/%d')} recorded"
+          path = expenses_path('start_date'=>@payment.pmt_date.beginning_of_month,
+                               'end_date'=>@payment.pmt_date.end_of_month)
+          format.html { redirect_to path }
+          format.js   { render      'create' }
           format.json { render json: @payment, status: :created, location: @payment }
         else
-          format.html {
+          format.any(:html, :js) {
             load_selections
-            render action: 'new'
+            render 'form'
           }
           format.json { render json: @payment.errors, status: :unprocessable_entity }
         end
@@ -78,12 +67,16 @@ module Financial
   
       respond_to do |format|
         if @payment.update_attributes(expense_params)
-          format.html { redirect_to reports_path, notice: "#{@payment.amount} expense on #{@payment.pmt_date.strftime('%y/%m/%d')} changed" }
+          flash[:notice] = "#{@payment.amount} expense on #{@payment.pmt_date.strftime('%y/%m/%d')} changed"
+          path = expenses_path('start_date'=>@payment.pmt_date.beginning_of_month,
+                               'end_date'=>@payment.pmt_date.end_of_month)
+          format.html { redirect_to path }
+          format.js   { render js: %(window.location='#{path}') }
           format.json { head :ok }
         else          
-          format.html {
+          format.any(:html, :js) {
             load_selections
-            render action: 'edit'
+            render 'form'
           }
           format.json { render json: @payment.errors, status: :unprocessable_entity }
         end
@@ -95,10 +88,22 @@ module Financial
     def destroy
       @payment = Expense.accessible_by(current_ability).find(params[:id])
       @payment.destroy
-  
+
+      path = expenses_path('start_date'=>@payment.pmt_date.beginning_of_month,
+                           'end_date'=>@payment.pmt_date.end_of_month)
       respond_to do |format|
-        format.html { redirect_to reports_url, notice: "#{@payment.amount} expense on #{@payment.pmt_date.strftime('%y/%m/%d')} removed" }
+        format.html { redirect_to path, notice: "#{@payment.amount} expense on #{@payment.pmt_date.strftime('%y/%m/%d')} removed" }
         format.json { head :ok }
+      end
+    end
+
+    # Ajax called to render additional fields depending on the expense type selected
+    def select_type
+      type = ExpenseCategory.where(:id=>params[:expense][:category_id])
+                            .pluck('description')
+                            .first
+      if type != nil && type == 'Anual bill'
+        render :partial => 'date_range', :layout => false
       end
     end
     

@@ -2,7 +2,7 @@
   .modal-dialog
     .modal-content
       .modal-body
-        = form_for(@payment, html:{class:'form-horizontal', 'role'=>'form'}) do |f|
+        = form_for(@payment, html:{class:'form-horizontal', 'role'=>'form'}, remote:true) do |f|
           = f.error_messages
           .form-group
             = f.date_field :pmt_date, placeholder:'date', class:'form-control'
