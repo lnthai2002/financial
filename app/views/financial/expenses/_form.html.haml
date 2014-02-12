@@ -1,5 +1,5 @@
 .container
-  = form_for(@expense, html:{class:'form-horizontal','role'=>'form'}) do |f|
+  = form_for(@payment, html:{class:'form-horizontal','role'=>'form'}) do |f|
     = f.error_messages
     .form-group
       = f.label :pmt_date, class:'col-xs-6 control-label'
@@ -8,7 +8,7 @@
     .form-group
       = f.label :category_id, class:'col-xs-6 control-label'
       .col-xs-6
-        = f.select :category_id, @expense_categories.collect{|t| [t['description'], t['id']] }, {include_blank: false}, class:'form-control'
+        = f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {include_blank: false}, class:'form-control'
     .form-group
       = f.label :amount, class:'col-xs-6 control-label'
       .col-xs-6
