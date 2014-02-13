@@ -69,6 +69,17 @@ module Financial
               method: :delete, :remote=>true)
     end
 
+    def show_flash_message
+      output = ''
+      [:alert, :notice].each do |message|
+        if flash[message]
+          output = flash[message]
+          flash[message] = nil
+        end
+      end
+      return output
+    end
+
     def show_flash(options = {:alert=>"alert alert-danger", :notice=>"alert alert-success"})
       output = ActiveSupport::SafeBuffer.new
       [:alert, :notice].each do |message|
@@ -88,9 +99,25 @@ module Financial
       output
     end
 
-    def buttons_for_payment_form(form_builder)
-      return horizontal_pair_form_buttons(form_builder){
-        link_to('Remove', form_builder.object, class: 'btn btn-danger btn-block',
+    def buttons_for_payment_dialog(form_builder)
+      output = ActiveSupport::SafeBuffer.new
+      if form_builder.object.new_record?
+        column = 'col-xs-12'
+      else
+        column = 'col-xs-6'
+        output << content_tag(:div, class: column) do
+          block.call
+        end
+      end
+      output << content_tag(:div, class: column) do
+        form_builder.submit('Done', class: 'btn btn-primary btn-block', 'data-dismiss'=>'modal')
+      end
+      return output.to_s.html_safe
+    end
+
+    def buttons_for_payment_form(form_builder, modal=false)
+      return horizontal_pair_form_buttons(form_builder, modal){
+        link_to('Remove', form_builder.object, class: 'btn btn-danger', 'role'=>'button',
                 data:{confirm: "Remove #{number_to_currency(form_builder.object.amount)} on #{form_builder.object.pmt_date.strftime('%y/%m/%d')}?"},
                 method: :delete)
       }
@@ -107,18 +134,27 @@ module Financial
     private
 
     #take a FormBuilder and add a pair of button, one is submit, the other is from the block provided 
-    def horizontal_pair_form_buttons(form_builder, &block)
-      output = ActiveSupport::SafeBuffer.new
-      if form_builder.object.new_record?
-        column = 'col-xs-12'
-      else
-        column = 'col-xs-6'
-        output << content_tag(:div, class: column) do
+    def horizontal_pair_form_buttons(form_builder, modal=false, &block)
+      content = ActiveSupport::SafeBuffer.new
+      submit_text = 'Insert'
+      if modal
+        content << content_tag(:div, class: 'btn-group') do
+          link_to('Cancel', '#', class: 'btn btn-default', 'data-dismiss'=>'modal', 'role'=>'button')
+        end
+      end
+      if not form_builder.object.new_record?
+        submit_text = 'Update'
+        content << content_tag(:div, class: 'btn-group') do
           block.call
         end
       end
-      output << content_tag(:div, class: column) do
-        form_builder.submit('Done', class: 'btn btn-primary btn-block')
+      content << content_tag(:div, class: 'btn-group') do
+        form_builder.submit(submit_text, class: 'btn btn-primary', 'role'=>'button')
+      end
+      
+      output = ActiveSupport::SafeBuffer.new
+      output << content_tag(:div, class: 'btn-block btn-group btn-group-justified') do
+        content.to_s
       end
       return output.to_s.html_safe
     end

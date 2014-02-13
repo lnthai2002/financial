@@ -21,6 +21,7 @@
   .panel.panel-primary
     .panel-heading
       ="#{@payments["start_date"].strftime("%Y/%m/%d")} - #{@payments["end_date"].strftime("%Y/%m/%d")}"
+      =link_to 'Add', new_expense_path, remote:true, class:'btn btn-success'
     .panel-body
       .col-xs-12.table-responsive
         %table.table.table-striped.table-condensed
