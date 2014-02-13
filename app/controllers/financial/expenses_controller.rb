@@ -28,13 +28,13 @@ module Financial
     # GET /expenses/new
     def new
       @payment = Expense.new(:pmt_date=>Date.today)
-      render 'form'
+      render 'financial/payments/form'
     end
   
     # GET /expenses/1/edit
     def edit
       @payment = Expense.accessible_by(current_ability).find(params[:id])
-      render 'form'
+      render 'financial/payments/form'
     end
   
     # POST /expenses
@@ -48,12 +48,12 @@ module Financial
           path = expenses_path('start_date'=>@payment.pmt_date.beginning_of_month,
                                'end_date'=>@payment.pmt_date.end_of_month)
           format.html { redirect_to path }
-          format.js   { render      'create' }
+          format.js   { render      'financial/payments/create' }
           format.json { render json: @payment, status: :created, location: @payment }
         else
           format.any(:html, :js) {
             load_selections
-            render 'form'
+            render 'financial/payments/form'
           }
           format.json { render json: @payment.errors, status: :unprocessable_entity }
         end
@@ -76,7 +76,7 @@ module Financial
         else          
           format.any(:html, :js) {
             load_selections
-            render 'form'
+            render 'financial/payments/form'
           }
           format.json { render json: @payment.errors, status: :unprocessable_entity }
         end
