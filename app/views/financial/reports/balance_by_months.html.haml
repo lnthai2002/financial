@@ -21,6 +21,7 @@
       chart.draw(data, options);
     } else {
       $("#balance_by_month_chart").hide();
+      alert("rotate phone horizontally to view graph");
     }
   }
 
@@ -32,9 +33,6 @@
     drawBalanceByMonthChart();
   });
 
-%div{:class=>"col-xs-12"}
-  #balance_by_month_chart
-
-#month_summary.col-xs-12=render :partial=>'month'
-#week_summary.col-xs-12=render :partial=>'week'
-#date_summary.col-xs-12=render :partial=>'date'
+.row
+  .col-xs-12
+    #balance_by_month_chart

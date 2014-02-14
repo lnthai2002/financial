@@ -1,9 +1,0 @@
-.container
-  =form_for :category, url: for_category_reports_path, method: :get do |f|
-    -@categories.each do |e|
-      .col-xs-12.col-sm-6.col-md-4
-        .form-group
-          =f.check_box e.description
-          =f.label e.description, e.description
-    .form-group
-      =f.submit 'Generate', class:'btn btn-primary btn-block'

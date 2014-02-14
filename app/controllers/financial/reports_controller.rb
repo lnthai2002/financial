@@ -1,27 +1,30 @@
 module Financial
   class ReportsController < AuthorizableController
-    def index
+    def summaries
       prepare_report
     end
 
-    def by_category
-      @categories = Category.all.sort_by{|cat| cat.description}
+    def balance_by_months
+      prepare_report
     end
 
-    def for_category
-      if params[:category]
-        begin
-          @date = Date.parse(params[:date])
-        rescue
-          @date = Date.today
-        end
-        
-        categories = []
-        params[:category].each{|cat,selected| categories << cat if selected == '1'}
-        @category_report = CategoryReport.new(@date, categories, current_ability)
-      else
-        redirect_to reports_path
+    def monthly_for_categories_form
+      @categories = Category.all.sort_by{|cat| cat.description}
+      respond_to do |format|
+        format.js {render 'monthly_for_categories'}
       end
+    end
+
+    def monthly_for_categories
+      begin
+        @date = Date.parse(params[:date])
+      rescue
+        @date = Date.today
+      end
+      
+      categories = []
+      params[:category].each{|cat,selected| categories << cat if selected == '1'}
+      @category_report = CategoryReport.new(@date, categories, current_ability)
     end
 
     #ajax call to update by_month

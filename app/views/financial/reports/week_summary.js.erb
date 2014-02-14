@@ -1,1 +1,2 @@
 $("#week_summary").html("<%= escape_javascript(render :partial => 'week') %>");
+$("[data-toggle-target='#week_summary']").attr("href", "#").removeAttr("data-remote");
