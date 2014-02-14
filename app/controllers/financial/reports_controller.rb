@@ -16,15 +16,18 @@ module Financial
     end
 
     def monthly_for_categories
-      begin
-        @date = Date.parse(params[:date])
-      rescue
-        @date = Date.today
-      end
-      
       categories = []
       params[:category].each{|cat,selected| categories << cat if selected == '1'}
-      @category_report = CategoryReport.new(@date, categories, current_ability)
+      if not categories.blank?
+        begin
+          @date = Date.parse(params[:date])
+        rescue
+          @date = Date.today
+        end
+        @category_report = CategoryReport.new(@date, categories, current_ability)
+      else
+        redirect_to reports_path, alert: 'No categories selected'
+      end
     end
 
     #ajax call to update by_month
