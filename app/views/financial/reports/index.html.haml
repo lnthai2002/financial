@@ -1,40 +1,4 @@
-- content_for :specific_view_js do
-  %script{:src=>'http://www.google.com/jsapi', :type=>'text/javascript', :charset=>'utf-8'}
-
-:javascript
-  // Load the Visualization API and the piechart package.
-  google.load('visualization', '1.0', {'packages':['corechart']});
-
-  //only draw chart if screen is in landscape mode
-  function drawBalanceByMonthChart(){ 
-    if(window.innerHeight < window.innerWidth){
-      $("#balance_by_month_chart").show();
-      var options = {
-        title: 'Balance by month',
-        vAxis: {title: "Amount"},
-        hAxis: {title: "Month"},
-        seriesType: "bars",
-        series: {2: {type: "line"}}
-      };
-      var data = google.visualization.arrayToDataTable(#{gc_table_for_monthly_balance(@report.balance_by_month)});
-      var chart = new google.visualization.ComboChart(document.getElementById('balance_by_month_chart'));
-      chart.draw(data, options);
-    } else {
-      $("#balance_by_month_chart").hide();
-    }
-  }
-
-  $(document).ready(function(){
-    window.addEventListener("orientationchange", function() {
-      drawBalanceByMonthChart();
-    },false);
-
-    drawBalanceByMonthChart();
-  });
-
-%div{:class=>"col-xs-12"}
-  #balance_by_month_chart
-
-#month_summary.col-xs-12=render :partial=>'month'
-#week_summary.col-xs-12=render :partial=>'week'
-#date_summary.col-xs-12=render :partial=>'date'
+.container
+  =link_to 'Monthly balance graph', balance_by_months_reports_path, class:'btn btn-primary btn-block'
+  =link_to 'Summaries', summaries_reports_path, class:'btn btn-primary btn-block'
+  =link_to 'Monthly by categories graph', monthly_for_categories_reports_path, 'data-remote'=>true, class:'btn btn-primary btn-block'

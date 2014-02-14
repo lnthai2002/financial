@@ -1,9 +1,10 @@
 .container
-  %div{:class=>"panel panel-primary"}
-    %div{:class=>"panel-heading"}
-      ="#{@incomes["start_date"].strftime("%Y/%m/%d")} - #{@incomes["end_date"].strftime("%Y/%m/%d")}"
-    %div{:class=>"panel-body"}
-      %div{:class=>"table-responsive"}
+  .panel.panel-primary
+    .panel-heading
+      ="#{@payments["start_date"].strftime("%Y/%m/%d")} - #{@payments["end_date"].strftime("%Y/%m/%d")}"
+      =link_to 'Add', new_income_path, remote:true, class:'btn btn-success'
+    .panel-body
+      .table-responsive
         %table.table.table-striped.table-condensed
           %thead
             %tr
@@ -15,13 +16,13 @@
           %tfoot
             %tr
               %th TOTAL
-              %th= number_to_currency(@incomes['total'])
+              %th= number_to_currency(@payments['total'])
               %th{'colspan'=>3} &nbsp;
           %tbody
-            - @incomes['list'].each do |i|
+            - @payments['list'].each do |i|
               %tr
                 %td= i.pmt_date.strftime("%m/%d")
-                %td= link_to number_to_currency(i.amount), edit_income_path(i)
+                %td= link_to number_to_currency(i.amount), edit_income_path(i), remote:true
                 %td= i.payee_payer
                 %td= description_of_category(i.category_id)
-                %td= link_to i.note, edit_income_path(i)
+                %td= link_to i.note, edit_income_path(i), remote:true

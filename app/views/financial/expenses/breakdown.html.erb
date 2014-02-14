@@ -24,7 +24,7 @@
 <hr />
 <%form_tag :action=>:update_breakdown do%>
 <%=hidden_field_tag 'id', @parent_expense.id%>
-<% fields_for(@expense) do |f| %>
+<% fields_for(@payment) do |f| %>
   <%= f.error_messages %>
   <table>
   	<tr>
@@ -33,7 +33,7 @@
 	</tr>
 	<tr>
 		<th align="left">Type</th>
-		<td><%=f.select :category_id, @expense_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}%></td>
+		<td><%=f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}%></td>
 	</tr>
 	<tr>
   		<th align="left"><%=f.label :Amount%></th>

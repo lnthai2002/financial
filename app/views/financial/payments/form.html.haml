@@ -1,5 +1,5 @@
 .container
-  = form_for(@income, html:{class:'form-horizontal', 'role'=>'form'}) do |f|
+  = form_for(@payment, html:{class:'form-horizontal','role'=>'form'}) do |f|
     = f.error_messages
     .form-group
       = f.label :pmt_date, class:'col-xs-6 control-label'
@@ -8,11 +8,11 @@
     .form-group
       = f.label :category_id, class:'col-xs-6 control-label'
       .col-xs-6
-        = f.select :category_id, @income_categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}, class:'form-control'
+        = f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {include_blank: false}, class:'form-control'
     .form-group
       = f.label :amount, class:'col-xs-6 control-label'
       .col-xs-6
-        = f.number_field :amount, :step=>0.01, placeholder:'amount', class:'form-control'
+        = f.number_field :amount, step:0.01, placeholder:'amount', class:'form-control'
     .form-group
       = f.label :payee_payer, class:'col-xs-6 control-label'
       .col-xs-6
@@ -20,7 +20,7 @@
     .form-group
       = f.label :payment_type_id, class:'col-xs-6 control-label'
       .col-xs-6
-        = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}, class:'form-control'
+        = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {include_blank: false}, class:'form-control'
     .form-group
       = f.label :note, class:'col-xs-6 control-label'
       .col-xs-6

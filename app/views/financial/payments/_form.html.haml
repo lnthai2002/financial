@@ -1,0 +1,21 @@
+.modal.fade#form{'tabindex'=>'-1', 'role'=>'dialog', 'aria-hidden'=>'true'}
+  .modal-dialog
+    .modal-content
+      .modal-body
+        = form_for(@payment, html:{class:'form-horizontal', 'role'=>'form'}, remote:true) do |f|
+          = f.error_messages
+          .form-group
+            = f.date_field :pmt_date, placeholder:'date', class:'form-control'
+          .form-group
+            = f.select :category_id, @categories.collect{|t| [t['description'], t['id']] }, {:include_blank => false}, class:'form-control'
+          .form-group
+            = f.number_field :amount, step: 0.01, placeholder:'amount', class:'form-control'
+          .form-group
+            = f.text_field :payee_payer, placeholder:'payee/payer', class:'form-control'
+          .form-group
+            = f.select :payment_type_id, @payment_types.collect{|t| [t['description'], t['id']] }, {:include_blank => false}, class:'form-control'
+          .form-group
+            = f.text_area :note, placeholder:'note', rows:2, class:'form-control'
+          .form-group
+            = buttons_for_payment_form(f,true)
+  

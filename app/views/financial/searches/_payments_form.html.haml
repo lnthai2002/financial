@@ -1,8 +1,8 @@
-.modal.fade#search_form{'tabindex'=>'-1', 'role'=>'dialog', 'aria-hidden'=>'true'}
+.modal.fade#form{'tabindex'=>'-1', 'role'=>'dialog', 'aria-hidden'=>'true'}
   .modal-dialog
     .modal-content
       .modal-body
-        = form_for('search', {url: payments_search_path, html: {'role'=>'form', class: 'form-horizontal', method: :get}}) do |f|
+        = form_for('search', {url: payments_search_path, html: {'role'=>'form', class: 'form-horizontal'}}) do |f|
           = f.error_messages
           .form-group
             =f.select :type, [['Both', 'Payment'], ['Income', 'Income'],['Expense', 'Expense']], {include_blank: false}, class: 'form-control'

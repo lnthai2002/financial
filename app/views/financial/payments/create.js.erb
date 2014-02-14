@@ -1,0 +1,5 @@
+$('#dialog').html("<%= escape_javascript(render partial:'financial/payments/created') %>");
+$('#dialog #form').modal('hide');
+$('body').removeClass('modal-open');
+$('.modal-backdrop').remove();
+$('#dialog #form').modal();

@@ -15,11 +15,13 @@
             %b.caret
           %ul.dropdown-menu
             %li
-              %a{'href'=>reports_path} Balance
+              %a{'href'=>balance_by_months_reports_path} Monthly balance graph
             %li
-              %a{'href'=>by_category_reports_path} By Category
+              %a{'href'=>summaries_reports_path} Summaries
+            %li
+              %a{'href'=>monthly_for_categories_reports_path, 'data-remote'=>'true'} Monthly by categories graph
         %li
-          %a#search{'href'=>"#", 'data-toggle'=>'modal', 'data-target'=>'#search_form'} Search
+          %a{'href'=>payments_search_path, 'data-remote'=>'true'} Search
         %li
           %a{'href'=>new_expense_path} Expense
         %li
