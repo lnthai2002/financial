@@ -8,9 +8,15 @@
   .row
     .col-xs-12
       .btn-block.btn-group.btn-group-justified
-        =link_to 'Month', month_summary_reports_path, remote:true, class:'btn btn-default', 'data-toggle-target'=>'#month_summary'
-        =link_to 'Week', week_summary_reports_path, remote:true, class:'btn btn-default', 'data-toggle-target'=>'#week_summary'
-        =link_to 'Day', date_summary_reports_path, remote:true, class:'btn btn-default', 'data-toggle-target'=>'#date_summary'
+        =link_to 'Month', month_summary_reports_path,
+         remote:true, class:'btn btn-default',
+         'data-toggle-target'=>'#month_summary', 'data-toggle'=>'button'
+        =link_to 'Week', week_summary_reports_path,
+         remote:true, class:'btn btn-default',
+         'data-toggle-target'=>'#week_summary', 'data-toggle'=>'button'
+        =link_to 'Day', date_summary_reports_path,
+         remote:true, class:'btn btn-default',
+         'data-toggle-target'=>'#date_summary', 'data-toggle'=>'button'
   
   .row
     #month_summary.col-xs-12.default-hidden

@@ -12,19 +12,17 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap/transition
+//= require bootstrap/modal
+//= require bootstrap/collapse
+//= require bootstrap/dropdown
+//= require bootstrap/alert
+//= require bootstrap/button
 //= require_tree .
+
 //Show and hide panel body
-
 $(document).ready(function() {
-	$('.panel-heading.js_collapsable').click(function(e) {
-		$(e.currentTarget).nextAll('.panel-body:first').slideToggle();
-	})
 	//used in plans listing page
-	$(document).on('click', '[data-slide-target]', function(e) {
-		var target = $(e.currentTarget).data('slide-target');
-		$(target).slideToggle();
-	});
-
 	$(document).on('click', '[data-toggle-target]', function(e) {
 		var target = $(e.currentTarget).data('toggle-target');
 		$(target).toggle();

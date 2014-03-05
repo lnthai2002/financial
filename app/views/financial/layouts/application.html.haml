@@ -2,15 +2,16 @@
 
 %html
   %head
-    %title P.A.S
-    = render :partial=>'assets'
+    %title Financial
+    = stylesheet_link_tag    "financial/application"
+    = javascript_include_tag "financial/application"
+    = yield :specific_view_js
     = csrf_meta_tags
-    %meta{:name=>"viewport", :content=>"initial-scale=1, width=device-width"}
-
+    %meta{name:'viewport', content:'initial-scale=1, width=device-width'}
 %body
   .content
     #nav
-      = render :partial=>'usecases_nav'
+      = render partial: 'navigation'
     .container
       =show_flash
       #dialog
