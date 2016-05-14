@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'will_paginate'              #pagination
 
   s.add_dependency 'sass-rails'
-  s.add_dependency 'bootstrap-sass'
+  s.add_dependency 'bootstrap-sass', '~> 3.0'
   s.add_dependency 'ice_cube'
   s.add_dependency 'haml-rails'                  #shorter syntax to code layout
   s.add_dependency 'cancan'
@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'dynamic_form'
   s.add_dependency 'money-rails'
   s.add_dependency 'rubycas-client'
-  s.add_dependency "mysql2"
+  s.add_dependency "mysql2", '~> 0.3.18'
   s.add_development_dependency 'rspec-rails'
   #s.add_development_dependency 'capybara'       #not used yet
   s.add_development_dependency 'factory_girl_rails'
