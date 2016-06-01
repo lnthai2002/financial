@@ -6,6 +6,25 @@ module Financial
 
     def balance_by_months
       prepare_report
+
+      excluded_categories = []
+      params[:category].each{|cat,selected| excluded_categories << cat if selected == '1'}
+      if not excluded_categories.blank?
+        begin
+          @date = Date.parse(params[:date])
+        rescue
+          @date = Date.today
+        end
+        @category_report = CategoryReport.new(@date, excluded_categories, current_ability)
+      end
+
+    end
+
+    def exclude_from_balance_by_months
+      @categories = Category.all.sort_by{|cat| cat.description}
+      respond_to do |format|
+        format.js {render 'exclude_from_balance_by_months'}
+      end
     end
 
     def monthly_for_categories_form

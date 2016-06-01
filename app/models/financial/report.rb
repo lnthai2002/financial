@@ -1,8 +1,9 @@
 module Financial
   class Report
     attr_reader :date
+    attr_reader :excludes
 
-    def initialize(date, current_ability)
+    def initialize(date, current_ability, excludes)
       if date
         @date = date
       else
@@ -13,6 +14,11 @@ module Financial
         @current_ability = current_ability
       else
         raise Exception.new("Can not instantiate report without ability, this violate security")
+      end
+      if excludes
+        @excludes = Category.where(:description=>excludes).pluck(:id)
+      else
+        @excludes = []
       end
     end
 
@@ -25,6 +31,7 @@ module Financial
                                            MONTH(pmt_date) AS month,
                                            type,
                                            SUM(amount_cents) AS amount_cents")
+                                  .where.not(category_id: @excludes)
                                   .group("YEAR(pmt_date), MONTH(pmt_date), type")
                                   .to_a
         summary_by_month.each do |summary|
