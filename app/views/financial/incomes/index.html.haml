@@ -1,8 +1,13 @@
 .container
-  .panel.panel-primary
+  .panel.panel-default
     .panel-heading
-      ="#{@payments["start_date"].strftime("%Y/%m/%d")} - #{@payments["end_date"].strftime("%Y/%m/%d")}"
-      =link_to 'Add', new_income_path, remote:true, class:'btn btn-success'
+      =link_to incomes_path('start_date'=>@payments["start_date"].prev_month.at_beginning_of_month, 'end_date'=>@payments["start_date"].prev_month.end_of_month) do
+        %span.glyphicon.glyphicon-chevron-left
+      ="#{@payments["start_date"].strftime("%y/%m/%d")} - #{@payments["end_date"].strftime("%y/%m/%d")}"
+      =link_to incomes_path('start_date'=>@payments["start_date"].next_month.at_beginning_of_month, 'end_date'=>@payments["start_date"].next_month.end_of_month) do
+        %span.glyphicon.glyphicon-chevron-right
+      =link_to new_income_path, remote:true do
+        %span.glyphicon.glyphicon-plus.pull-right
     .panel-body
       .table-responsive
         %table.table.table-striped.table-condensed
