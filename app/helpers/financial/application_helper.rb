@@ -131,6 +131,32 @@ module Financial
       }
     end
 
+    def prev_period(start_date, end_date)
+      elapse = (end_date - start_date).to_i
+      if elapse == 0
+        return  {'start_date'=>start_date.yesterday, 'end_date'=>start_date.yesterday}
+      elsif elapse == 6
+        return  {'start_date'=>start_date.prev_week.at_beginning_of_week, 'end_date'=>start_date.prev_week.end_of_week}
+      elsif 6< elapse && elapse < 31
+        return  {'start_date'=>start_date.prev_month.at_beginning_of_month, 'end_date'=>start_date.prev_month.end_of_month}
+      elsif 31< elapse && elapse < 365
+        return  {'start_date'=>start_date.prev_year.at_beginning_of_year, 'end_date'=>start_date.prev_year.end_of_year}
+      end
+    end
+
+    def next_period(start_date, end_date)
+      elapse = (end_date - start_date).to_i
+      if elapse == 0
+        return  {'start_date'=>start_date.tomorrow, 'end_date'=>start_date.tomorrow}
+      elsif elapse == 6
+        return  {'start_date'=>start_date.next_week.at_beginning_of_week, 'end_date'=>start_date.next_week.end_of_week}
+      elsif 6< elapse && elapse < 31
+        return  {'start_date'=>start_date.next_month.at_beginning_of_month, 'end_date'=>start_date.next_month.end_of_month}
+      elsif 31< elapse && elapse < 365
+        return  {'start_date'=>start_date.next_year.at_beginning_of_year, 'end_date'=>start_date.next_year.end_of_year}
+      end
+    end
+
     private
 
     #take a FormBuilder and add a pair of button, one is submit, the other is from the block provided 
