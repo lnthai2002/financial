@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
 
-  s.add_dependency 'rails', "~> 4.0.1"
+  s.add_dependency 'rails', '~> 4.0.1'
   s.add_dependency 'jquery-rails'
   s.add_dependency 'remotipart'                 #allow submit ajax form with multipart
   s.add_dependency 'will_paginate'              #pagination
@@ -29,7 +29,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'dynamic_form'
   s.add_dependency 'money-rails'
   s.add_dependency 'rubycas-client'
-  s.add_dependency "mysql2", '~> 0.3.18'
+  s.add_dependency 'mysql2', '~> 0.3.18'
+  s.add_dependency 'bootstrap-multiselect-rails'
   s.add_development_dependency 'rspec-rails'
   #s.add_development_dependency 'capybara'       #not used yet
   s.add_development_dependency 'factory_girl_rails'
