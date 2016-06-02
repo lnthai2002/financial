@@ -10,12 +10,7 @@ module Financial
       rescue
         @date = Date.today
       end
-
-      excluded_categories = []
-      if params[:category]
-        params[:category].each{|cat,selected| excluded_categories << cat if selected == '1'}
-      end
-      @report = Report.new(@date, current_ability, excluded_categories)
+      @report = Report.new(@date, current_ability, params['category']['category_id'])
     end
 
     def exclude_from_balance_by_months
