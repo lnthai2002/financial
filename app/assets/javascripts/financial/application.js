@@ -18,6 +18,7 @@
 //= require bootstrap/dropdown
 //= require bootstrap/alert
 //= require bootstrap/button
+//= require bootstrap-multiselect
 //= require_tree .
 
 //Show and hide panel body
