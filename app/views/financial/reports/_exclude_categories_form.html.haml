@@ -1,6 +1,12 @@
 .modal.fade#form{'tabindex'=>'-1', 'role'=>'dialog', 'aria-hidden'=>'true'}
   .modal-dialog
     .modal-content
+      .modal-header
+        %button.close{'data-dismiss'=>'modal', 'aria-label'=>'Close'}
+          %span{'aria-hidden'=>'true'}
+            &times;
+        %h4.modal-title
+          Exclude the following categories
       .modal-body
         .form-horizontal
           =form_for :category, url: balance_by_months_reports_path, method: 'GET' do |f|
