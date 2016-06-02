@@ -10,7 +10,11 @@ module Financial
       rescue
         @date = Date.today
       end
-      @report = Report.new(@date, current_ability, params['category']['category_id'])
+      excluded_categories = []
+      if params['category'] && params['category']['category_id']
+        excluded_categories = params['category']['category_id']
+      end
+      @report = Report.new(@date, current_ability, excluded_categories)
     end
 
     def exclude_from_balance_by_months
