@@ -32,11 +32,11 @@
 
     drawBalanceByMonthChart();
   });
-
-.row
-  .col-xs-12
-    #balance_by_month_chart
-.row
-  .col-xs-12.center-block
-    =link_to exclude_from_balance_by_months_reports_path, remote:true do
-      %span.glyphicon.glyphicon-filter.center-block
+.container-fluid
+  .row
+    .col-xs-12.center-block
+      #balance_by_month_chart
+  .row
+    .col-xs-12.center-block
+      =link_to exclude_from_balance_by_months_reports_path, remote:true do
+        %span.glyphicon.glyphicon-filter.center-block
