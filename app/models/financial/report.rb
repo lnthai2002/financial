@@ -23,12 +23,12 @@ module Financial
         @balance_by_month = Hash.new({'Financial::Income'=>BigDecimal.new(0), 'Financial::Expense'=>BigDecimal.new(0), 'Balance'=>BigDecimal(0)})
 
         summary_by_month = Payment.accessible_by(@current_ability)
-                                  .select("YEAR(pmt_date) AS year,
+                                  .select('YEAR(pmt_date) AS year,
                                            MONTH(pmt_date) AS month,
                                            type,
-                                           SUM(amount_cents) AS amount_cents")
+                                           SUM(amount_cents) AS amount_cents')
                                   .where.not(category_id: @excludes)
-                                  .group("YEAR(pmt_date), MONTH(pmt_date), type")
+                                  .group('YEAR(pmt_date), MONTH(pmt_date), type')
                                   .to_a
         summary_by_month.each do |summary|
           @balance_by_month["#{summary.year}/#{summary.month}"] = @balance_by_month["#{summary.year}/#{summary.month}"].merge({summary.type=>summary.amount.to_d})
