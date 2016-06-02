@@ -15,7 +15,7 @@ module Financial
       else
         raise Exception.new("Can not instantiate report without ability, this violate security")
       end
-      @excludes = Category.where(:description=>excludes).pluck(:id)
+      @excludes = excludes
     end
 
     def balance_by_month
