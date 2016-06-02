@@ -5,7 +5,6 @@ module Financial
     end
 
     def balance_by_months
-      prepare_report
 
       excluded_categories = []
       params[:category].each{|cat,selected| excluded_categories << cat if selected == '1'}
