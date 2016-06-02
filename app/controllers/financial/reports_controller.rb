@@ -15,7 +15,7 @@ module Financial
         rescue
           @date = Date.today
         end
-        @category_report = CategoryReport.new(@date, excluded_categories, current_ability)
+        @report = Report.new(@date, current_ability, excluded_categories)
       end
 
     end
