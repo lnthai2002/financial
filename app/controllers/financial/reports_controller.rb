@@ -5,15 +5,15 @@ module Financial
     end
 
     def balance_by_months
+      begin
+        @date = Date.parse(params[:date])
+      rescue
+        @date = Date.today
+      end
 
       excluded_categories = []
-      params[:category].each{|cat,selected| excluded_categories << cat if selected == '1'}
-      if not excluded_categories.blank?
-        begin
-          @date = Date.parse(params[:date])
-        rescue
-          @date = Date.today
-        end
+      if params[:category]
+        params[:category].each{|cat,selected| excluded_categories << cat if selected == '1'}
       end
       @report = Report.new(@date, current_ability, excluded_categories)
     end
