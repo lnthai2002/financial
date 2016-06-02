@@ -11,13 +11,13 @@
         .form-horizontal
           =form_for :category, url: balance_by_months_reports_path, method: 'GET' do |f|
             .form-group.row
-              =f.select 'category_id', options_from_collection_for_select(@categories, 'id', 'description')
+              =f.select 'category_id', options_from_collection_for_select(@categories, 'id', 'description'),{}, {'multiple'=>true}
             .form-group.row
               =f.submit 'Apply', class:'btn btn-primary btn-block'
 
 :javascript
   $(document).ready(function() {
-      $('#category').multiselect({
+      $('#category_category_id').multiselect({
           includeSelectAllOption: true,
           enableFiltering: true
       });
