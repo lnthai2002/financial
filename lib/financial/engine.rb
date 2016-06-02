@@ -17,6 +17,7 @@ module Financial
     require 'rubygems'
     require 'cancan'
     require 'bootstrap-sass'
+    require 'bootstrap-multiselect-rails'
     config.generators do |g|
       g.test_framework      :rspec,        :fixture => false
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
