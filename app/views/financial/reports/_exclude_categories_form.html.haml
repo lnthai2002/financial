@@ -10,9 +10,15 @@
       .modal-body
         .form-horizontal
           =form_for :category, url: balance_by_months_reports_path, method: 'GET' do |f|
-            -@categories.each do |e|
-              .form-group.row
-                =f.check_box e.description
-                =f.label e.description, e.description
+            .form-group.row
+              =f.select 'category_id', options_from_collection_for_select(@categories, 'id', 'description')
             .form-group.row
               =f.submit 'Apply', class:'btn btn-primary btn-block'
+
+:javascript
+  $(document).ready(function() {
+      $('#category').multiselect({
+          includeSelectAllOption: true,
+          enableFiltering: true
+      });
+  });
