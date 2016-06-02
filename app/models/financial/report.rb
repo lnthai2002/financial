@@ -3,7 +3,7 @@ module Financial
     attr_reader :date
     attr_reader :excludes
 
-    def initialize(date, current_ability, excludes)
+    def initialize(date, current_ability, excludes=[])
       if date
         @date = date
       else
@@ -15,11 +15,7 @@ module Financial
       else
         raise Exception.new("Can not instantiate report without ability, this violate security")
       end
-      if excludes
-        @excludes = Category.where(:description=>excludes).pluck(:id)
-      else
-        @excludes = []
-      end
+      @excludes = Category.where(:description=>excludes).pluck(:id)
     end
 
     def balance_by_month
