@@ -23,6 +23,7 @@ Financial::Engine.routes.draw do
       get :summaries
       get :monthly_for_categories, :action=>:monthly_for_categories_form
       post :monthly_for_categories, :action=>:monthly_for_categories
+      get :exclude_from_balance_by_months, :action=>:exclude_from_balance_by_months
       get :date_summary
       get :month_summary
       get :week_summary
