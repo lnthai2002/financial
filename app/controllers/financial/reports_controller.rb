@@ -14,9 +14,8 @@ module Financial
         rescue
           @date = Date.today
         end
-        @report = Report.new(@date, current_ability, excluded_categories)
       end
-
+      @report = Report.new(@date, current_ability, excluded_categories)
     end
 
     def exclude_from_balance_by_months
