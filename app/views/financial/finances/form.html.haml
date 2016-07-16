@@ -1,0 +1,19 @@
+.col-xs-12.col-md-12
+  =form_for @finance, :html=>{:role=>"form"} do |f|
+    .form-horizontal
+      .form-group
+        .col-xs-12
+          = f.error_messages
+      .form-group
+        .col-xs-2
+          =f.label :net_monthly_income
+        .col-xs-2
+          =f.number_field :net_monthly_income, :step=>'any', :placeholder=>"net monthly income", :class=>'form-control'
+      .form-group
+        .col-xs-2
+          =f.label :net_monthly_expense
+        .col-xs-2
+          =f.number_field :net_monthly_expense, :step=>'any', :placeholder=>"net monthly expense", :class=>'form-control'
+      .form-group
+        .col-xs-12
+          =f.submit "Update", :class=>"btn btn-primary"
