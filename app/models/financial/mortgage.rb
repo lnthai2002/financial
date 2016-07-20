@@ -17,17 +17,32 @@ module Financial
     end
     
     #TODO: take into account interest rate change
-    def start(start_month)
+    def start(start_period, frequency) #monthly, weekly, bi-weekly
       amo = []
-      current_month = 1
-      loan_duration = loan_term * 12  #in months
+      current_period = 1
+      case frequency
+        when :monthly
+          loan_duration = loan_term * 12
+          partial_interest_rate = interest_rate / 12
+          break
+        when :bi_weekly
+          loan_duration = loan_term * 26
+          partial_interest_rate = interest_rate / 26
+          break
+        when :weekly
+          loan_duration = loan_term * 52
+          partial_interest_rate = interest_rate / 52
+          break
+        else
+          raise Exception('Unknown frquency')
+      end
       prev_balance = loan
 
-      while current_month <= loan_duration   #calculate for each month
-        global_month = start_month + current_month - 1 #month count from purchase time
+      while current_period <= loan_duration
+        global_period = start_period + current_period - 1 #count from purchase time
 
-        current_interest= (prev_balance * interest_rate)/12
-        capital_deduction= monthly_payment - current_interest
+        current_interest= prev_balance * partial_interest_rate
+        capital_deduction= periodic_payment - current_interest
         extra_payment = adjustments[global_month]
         extra_payment = extra_payment != nil ? extra_payment.amount : Money.new(0)
         current_balance = prev_balance - capital_deduction - extra_payment
