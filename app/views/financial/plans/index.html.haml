@@ -1,0 +1,281 @@
+- content_for :specific_view_js do
+  %script{:src=>'financial/accounting.min.js', :type=>'text/javascript', :charset=>'utf-8'}
+
+.container#plan-form
+  .form-horizontal#frm_mortgage
+    .form-group
+      .col-xs-4
+        %label.control-label Purchased price
+      .col-xs-4
+        =number_field_tag :purchased_price, nil, step:'any', class:'form-control'
+    .form-group
+      .col-xs-4
+        %label.control-label Down payment
+      .col-xs-4
+        =number_field_tag :down_payment, nil, step:'any', class:'form-control'
+    .form-group
+      .col-xs-4
+        %label.control-label Annual Percentage Rate
+      .col-xs-4
+        =number_field_tag :interest, nil, step:'any', class:'form-control'
+    .form-group
+      .col-xs-4
+        %label.control-label Loan term (year)
+      .col-xs-4
+        =number_field_tag :loan_term, nil, class:'form-control'
+    .form-group
+      .col-xs-4
+        %label.control-label Payment option
+      .col-xs-4
+        =select_tag :frequency, options_for_select([['Monthly', 'monthly'], ['Bi-Weekly', 'bi-weekly'], ['weekly', 'weekly']]), class:'form-control'
+    .form-group
+      .col-xs-12
+        %button.btn.btn-primary#calculate Calculate
+
+  .form-horizontal#frm_mortgage_adj{style: 'display:none'}
+    .form-group
+      .col-xs-2
+        %label.control-label Pay faster by
+      .col-xs-4
+        =select_tag :fast_pay, options_for_select([['Increase routine payment', 'routine_xtra'], ['Lump sum payment', 'one_shot']]), class:'form-control'
+      .col-xs-3
+        =text_field_tag :extra_payment, nil, class:'form-control'
+      .col-xs-1.adj_period{style: 'display:none'}
+        %label.control-label at
+      .col-xs-2.adj_period{style: 'display:none'}
+        =text_field_tag :period, nil, class:'form-control'
+    .form-group
+      .col-xs-12
+        %button.btn.btn-primary#detail Show amortization
+        %button.btn.btn-primary#adjust Adjust
+        %button.btn.btn-primary#recalculate Re-calculate
+        %button.btn.btn-primary#restart Restart plan
+
+  %hr
+
+  %table.table.table-striped.table-bordered.table-condensed#result
+    %thead
+      %tr
+        %th Loan
+        %th APR
+        %th Duration
+        %th Mandatory routine payment
+        %th Gross routine payment
+        %th Total interest
+    %tbody
+
+  %table.table.table-striped.table-bordered.table-condensed#amortization{style:'display:none'}
+    %thead
+      %tr
+        %th Period
+        %th Interest
+        %th Cap deduction
+        %th Balance
+    %tbody
+:javascript
+  var financial_planning_app = (function(){
+    var mortgage;
+
+    //apr stands for Annual Percentage Rate
+    function Mortgage(loan, apr, term, frequency) {
+      this._loan = loan;
+      this._apr = apr;
+      this._term = term;
+      this._mandatory_payment = null;
+      this._payment_increased = 0;
+      this._anual_periods = 0;
+      this._total_interest = 0;
+      switch(frequency) {
+        case 'monthly':
+          this._anual_periods = 12;
+          break;
+        case 'bi-weekly':
+          this._anual_periods =  26;
+          break;
+        case 'weekly':
+          this._anual_periods =  52;
+          break;
+        default:
+          throw "Unknown period";
+      };
+      this._amo = [{loan: this._loan, apr: this._apr, term: this._term, frequency: frequency, payment_increased: this._payment_increased}]; //first element is 0
+
+      var current_period = 1;
+      var loan_duration = this._term * this._anual_periods;
+      var partial_interest_rate = this._apr / this._anual_periods;
+      var prev_balance = this._loan;
+
+      while (current_period <= loan_duration) {
+        var current_interest = prev_balance * partial_interest_rate;
+        var capital_deduction = this.mandatory_payment() - current_interest;
+        var current_balance = prev_balance - capital_deduction;
+        var payment = {
+          period: current_period,
+          interest: current_interest,
+          cap_deduction: capital_deduction,
+          balance: current_balance
+        };
+        this._amo.push(payment);
+
+        this._total_interest = this._total_interest + current_interest;
+        if (current_balance <= 0) {
+          break;
+        }
+
+        current_period = current_period + 1;
+        prev_balance = current_balance;
+      }
+    }
+
+    Mortgage.prototype.mandatory_payment = function() {
+      if(this._mandatory_payment == null) {
+        var partial_interest_rate = this._apr/this._anual_periods;
+        this._mandatory_payment = (this._loan * partial_interest_rate / (1- Math.pow(1+partial_interest_rate, this._term*(-1*this._anual_periods)) ));
+      }
+      return this._mandatory_payment;
+    };
+
+    Mortgage.prototype.add_xtra_payment = function(period, amount) {
+      if (this._amo.length > 0) {
+        if (typeof this._amo[period] !== 'undefined' && this._amo[period] !== null) {
+          this._amo[period].extra_payment = amount;
+        }
+        else {
+          throw 'The given period is not part of the mortgage';
+        }
+      }
+      else {
+        throw 'Mortgage has not been calculated yet';
+      }
+    };
+
+    Mortgage.prototype.increase_payment = function(amount) {
+      this._payment_increased = amount;
+      this._amo[0].payment_increased = amount;
+    };
+
+    Mortgage.prototype.rebuild = function() {
+      var current_period = 1;
+      var loan_duration = this._term * this._anual_periods;
+      var partial_interest_rate = this._apr / this._anual_periods;
+      var prev_balance = this._loan;
+      this._total_interest = 0;
+
+      while (current_period <= loan_duration) {
+        var current_interest = prev_balance * partial_interest_rate;
+        var xtra_payment = 0;
+        if (typeof this._amo[current_period].extra_payment !== 'undefined' && this._amo[current_period].extra_payment !== null) {
+          xtra_payment = this._amo[current_period].extra_payment;
+        }
+        var capital_deduction = this.mandatory_payment() + this._payment_increased + xtra_payment - current_interest;
+        var current_balance = prev_balance - capital_deduction;
+        var payment = {
+          period: current_period,
+          interest: current_interest,
+          cap_deduction: capital_deduction,
+          extra_payment: xtra_payment,
+          balance: current_balance
+        };
+        this._amo[current_period] = payment;
+
+        this._total_interest = this._total_interest + current_interest;
+        if (current_balance <= 0) {
+          this._amo.splice(current_period + 1); //get rid of all payments after this
+          break;
+        }
+
+        current_period = current_period + 1;
+        prev_balance = current_balance;
+      }
+    };
+
+    Mortgage.prototype.to_array = function() {
+      return this._amo;
+    };
+
+    Mortgage.prototype.total_interest = function() {
+      return this._total_interest;
+    };
+
+    Mortgage.prototype.length = function() {
+      var l = this._amo.length - 1;
+      switch(this._amo[0].frequency) {
+        case 'monthly':
+          return accounting.formatNumber(l / 12) + ' year, ' + l % 12 + ' months';
+        case 'bi-weekly':
+          return accounting.formatNumber(l * 2 / 52) + ' year, ' + accounting.formatNumber(((l * 2) % 52) / 4) + ' months ' + accounting.formatNumber(((l * 2) % 52) % 4) + ' weeks';
+        case 'weekly':
+          return accounting.formatNumber(l / 52) + ' year, ' + accounting.formatNumber((l % 52) / 4) + ' months ' + accounting.formatNumber((l % 52) % 4) + ' weeks';
+        default:
+          throw "Unknown period";
+      };
+    };
+
+    $( document ).ready(function() {
+      $('#calculate').on('click', function() {
+        var loan = Number($('#purchased_price').val()) - Number($('#down_payment').val());
+        mortgage = new Mortgage(loan, Number($('#interest').val()) / 100, Number($('#loan_term').val()), $('#frequency option:selected').val());
+        toggleForms();
+        show_result();
+      });
+
+      $('#fast_pay').on('change', function() {
+        switch($('#fast_pay option:selected').val()){
+          case 'routine_xtra':
+            $('.adj_period').hide();
+            break;
+          case 'one_shot':
+            $('.adj_period').show();
+            break;
+        }
+      });
+
+      $('#detail').on('click', function() {
+        var amo = mortgage.to_array();
+        $('#amortization > tbody').empty();
+        for(i = 1; i < amo.length; i++) {
+          $('#amortization > tbody:last-child').append('<tr><td>'+amo[i].period+'</td><td>'+accounting.formatMoney(amo[i].interest)+'</td><td>'+accounting.formatMoney(amo[i].cap_deduction)+'</td><td>'+accounting.formatMoney(amo[i].balance)+'</td></tr>');
+        }
+        $('#amortization').toggle();
+      });
+
+      $('#adjust').on('click', function() {
+        switch($('#fast_pay option:selected').val()) {
+          case 'routine_xtra':
+            mortgage.increase_payment(Number($('#extra_payment').val()));
+            break;
+          case 'one_shot':
+            mortgage.add_xtra_payment(Number($('#period').val()), Number($('#extra_payment').val()));
+            break;
+        }
+        $('#period').val('');
+        $('#extra_payment').val('');
+      });
+
+      $('#recalculate').on('click', function() {
+        mortgage.rebuild();
+        show_result();
+      });
+
+      $('#restart').on('click', function() {
+        mortgage = null;
+        toggleForms();
+      });
+
+      function toggleForms() {
+        $('#frm_mortgage').toggle();
+        $('#frm_mortgage_adj').toggle();
+      };
+
+      function show_result() {
+        var amo = mortgage.to_array();
+        $('#result > tbody').empty();
+        $('#result > tbody:last-child').append('<tr><td>'+accounting.formatMoney(amo[0].loan)+'</td><td>'+accounting.formatNumber(amo[0].apr * 100, 2)+'</td><td>'+mortgage.length()+'</td><td>'+accounting.formatMoney(mortgage.mandatory_payment())+'</td><td>'+accounting.formatMoney(mortgage.mandatory_payment() + amo[0].payment_increased)+'</td><td>'+accounting.formatMoney(mortgage.total_interest())+'</td></tr>');
+      };
+    });
+  }());
+
+%hr
+
+#plans.container
+  =render @plans
