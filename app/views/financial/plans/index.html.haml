@@ -290,16 +290,16 @@
       this._frequent_amt = frequent_amt;
       switch (frequency) {
         case 'y':
-          this.ac = frequent_amt;
+          this._ac = frequent_amt;
           break;
         case 'm':
-          this.ac = frequent_amt * 12;
+          this._ac = frequent_amt * 12;
           break;
         case 'b':
-          this.ac = frequent_amt * 24;
+          this._ac = frequent_amt * 28;
           break;
         case 'w':
-          this.ac = frequent_amt * 56;
+          this._ac = frequent_amt * 56;
           break;
       };
     };
@@ -312,8 +312,8 @@
     };
 
     Investment.prototype.simple_value_at_mature = function() {
-      var future_value_of_principal = this._principal * this._ai * this._length;
-      var future_value_of_monthly_dep = this._ac * (1 + this._ai) * this._length * (this._length + 1) / 2
+      var future_value_of_principal = this._principal;
+      var future_value_of_monthly_dep = this._ac * this._length;
 
       return (future_value_of_monthly_dep + future_value_of_principal);
     };
