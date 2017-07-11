@@ -25,11 +25,18 @@ module Financial
                 potential_posting_date.yesterday
               }
             end
+          when 'Weekly'
+            schedule.add_recurrence_rule Rule.weekly
+            if schedule.occurs_on?(Date.today)
+              post_routine(r, Date.today){ |potential_posting_date|
+                potential_posting_date.weeks_ago(2)
+              }
+            end
           when 'Bi-weekly'
             schedule.add_recurrence_rule Rule.weekly(2) #every 2 weeks
             if schedule.occurs_on?(Date.today)
               post_routine(r, Date.today){ |potential_posting_date|
-                potential_posting_date.weeks_ago(2)
+                potential_posting_date.weeks_ago(1)
               }
             end          
           when 'Monthly'
